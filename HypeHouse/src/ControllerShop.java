@@ -12,7 +12,7 @@ public class ControllerShop {
 			Connection con=DriverManager.getConnection(  
 			"jdbc:mysql://localhost:3306/mydb","root","!abc123!");    
 			Statement stmt=con.createStatement();  
-			stmt.execute("INSERT INTO autore values ('111','luca','rossi')");  
+			stmt.execute("INSERT INTO autore values ('111','marco','rossi')");  
 			//while(rs.next())  
 			//System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
 			//con.close();  
