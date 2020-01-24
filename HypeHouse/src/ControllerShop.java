@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ControllerShop {
-
+	private Utente UtenteConnesso;
 	public static void main(String[] args) {
 	//carica il driver
 		try{  
