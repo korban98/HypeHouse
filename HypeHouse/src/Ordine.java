@@ -8,6 +8,7 @@ public class Ordine {
 		this.Controller=ctrl;
 	}
 	
+	
 	//getter and setter
 	public String getIdOrdine() {
 		return IdOrdine;
