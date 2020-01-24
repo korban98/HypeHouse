@@ -8,6 +8,7 @@ public class ControllerShop {
 	private boolean AccessoEffettuato;
 	private ArrayList<Articolo> Magazzino;
 	private ArrayList<Articolo> Carrello;
+	private Utente UtenteConnesso;
 
 	public static void main(String[] args) {
 		ControllerShop Controller = new ControllerShop();

@@ -21,7 +21,7 @@ public class Ordine {
 	public void setStato(String stato) {
 		
 		
-		
+	
 	}
 
 }
