@@ -9,9 +9,14 @@ public class ControllerShop {
 	private ArrayList<Articolo> Magazzino;
 	private ArrayList<Articolo> Carrello;
 	private Utente UtenteConnesso;
+	private LoginDialog login;
 
 	public static void main(String[] args) {
 		ControllerShop Controller = new ControllerShop();
+		
+		HomePageFrame frame = new HomePageFrame(Controller);
+		frame.setVisible(true);
+		
 		
 		//carica il driver
 		try{  
@@ -29,7 +34,12 @@ public class ControllerShop {
 	
 	public ControllerShop() {
 		
-		
+		login = new LoginDialog(this);
+//		login.setVisible(true);
 		
 	}	
+	
+	public void AccessoLoginDialog() {
+		login.setVisible(true);
+	}
 	} 
