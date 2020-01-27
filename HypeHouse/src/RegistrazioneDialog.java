@@ -108,7 +108,7 @@ public class RegistrazioneDialog extends JDialog {
 		JLabel lblRegistrazione = new JLabel("Registrazione");
 		lblRegistrazione.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblRegistrazione.setBounds(59, 140, 127, 26);
-		contentPanel.add(lblRegistrazione);
+		contentPanel.add(lblRegistrazione); 
 		
 		JLabel lblLogoRegistrazione = new JLabel("");
 		Image imglist = new ImageIcon(this.getClass().getResource("/jlist.png")).getImage();
