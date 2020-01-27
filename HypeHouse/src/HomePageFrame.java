@@ -16,6 +16,7 @@ public class HomePageFrame extends JFrame {
 	private JPanel contentPane;
 
 	public HomePageFrame(ControllerShop ctrl) {
+		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 641, 422);
 		contentPane = new JPanel();
@@ -51,6 +52,11 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(btnBambini);
 		
 		JButton btnAccedi = new JButton("Accedi");
+		btnAccedi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctrl.AccessoLoginDialog();
+			}
+		});
 		btnAccedi.setBounds(460, 62, 90, 29);
 		contentPane.add(btnAccedi);
 		
@@ -65,7 +71,11 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(btnCarrello);
 		
 		JLabel lblLogo = new JLabel("Logo");
-		lblLogo.setBounds(258, 11, 79, 54);
+//		Image imglogo = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
+//		lblLogo.setIcon(new ImageIcon(imgcarrello));
+		lblLogo.setBounds(148, 11, 302, 80);
 		contentPane.add(lblLogo);
+		
+//		this.setContentPane(HomePagePanel);
 	}
 }
