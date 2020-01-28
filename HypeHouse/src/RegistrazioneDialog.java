@@ -23,7 +23,7 @@ public class RegistrazioneDialog extends JDialog {
 	private JTextField textDataNascita;
 	private JTextField textEmail;
 
-	public RegistrazioneDialog() {
+	public RegistrazioneDialog(ControllerShop ctrl) {
 		setBounds(100, 100, 464, 586);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,6 +100,7 @@ public class RegistrazioneDialog extends JDialog {
 			contentPanel.add(cancelButton);
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					ctrl.VisibilitaRegistrazioneDialog(false);
 				}
 			});
 			cancelButton.setActionCommand("Cancel");

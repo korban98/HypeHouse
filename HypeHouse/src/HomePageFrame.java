@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 public class HomePageFrame extends JFrame {
 
 	private JPanel contentPane;
+	private JButton btnAccedi;
+	private JButton btnLogout;
 
 	public HomePageFrame(ControllerShop ctrl) {
 		setTitle("Home Page");
@@ -51,15 +53,6 @@ public class HomePageFrame extends JFrame {
 		btnBambini.setBounds(410, 102, 175, 254);
 		contentPane.add(btnBambini);
 		
-		JButton btnAccedi = new JButton("Accedi");
-		btnAccedi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ctrl.AccessoLoginDialog();
-			}
-		});
-		btnAccedi.setBounds(460, 62, 90, 29);
-		contentPane.add(btnAccedi);
-		
 		JButton btnCarrello = new JButton("");
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		btnCarrello.setIcon(new ImageIcon(imgcarrello));
@@ -73,9 +66,36 @@ public class HomePageFrame extends JFrame {
 		JLabel lblLogo = new JLabel("Logo");
 //		Image imglogo = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 //		lblLogo.setIcon(new ImageIcon(imgcarrello));
-		lblLogo.setBounds(148, 11, 302, 80);
+		lblLogo.setBounds(104, 11, 302, 80);
 		contentPane.add(lblLogo);
 		
-//		this.setContentPane(HomePagePanel);
+		btnAccedi = new JButton("Accedi");
+		btnAccedi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctrl.VisibilitaLoginDialog();
+			}
+		});
+		btnAccedi.setBounds(456, 62, 89, 29);
+		contentPane.add(btnAccedi);
+		
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setbottoneaccedi();
+			}
+		});
+		btnLogout.setBounds(456, 62, 89, 29);
+		contentPane.add(btnLogout);
+		btnLogout.setVisible(false);
+	}
+	
+	public void setbottonelogout() {
+		btnLogout.setVisible(true);
+		btnAccedi.setVisible(false);
+	}
+	
+	public void setbottoneaccedi() {
+		btnLogout.setVisible(false);
+		btnAccedi.setVisible(true);
 	}
 }

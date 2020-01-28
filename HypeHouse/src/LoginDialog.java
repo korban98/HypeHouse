@@ -26,26 +26,34 @@ public class LoginDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JButton btnNewButton = new JButton("Accedi");
-			btnNewButton.addActionListener(new ActionListener() {
+			JButton btnAccedi = new JButton("Accedi");
+			btnAccedi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(gettext()==true) {
+						Controller.VisibilitaMagazzinoAdmin();
+					}
+					else {
+						Controller.TipoUtenteLoggato();
+					}
+					//controllo se nelle textfield ci sono valori corrispondenti al db
 				}
 			});
-			btnNewButton.setBounds(66, 229, 102, 23);
-			contentPanel.add(btnNewButton);
+			btnAccedi.setBounds(66, 229, 102, 23);
+			contentPanel.add(btnAccedi);
 		}
 		{
-			JButton btnNewButton_1 = new JButton("Registrati");
-			btnNewButton_1.addActionListener(new ActionListener() {
+			JButton btnRegistrati = new JButton("Registrati");
+			btnRegistrati.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Controller.VisibilitaRegistrazioneDialog(true);
 				}
 			});
-			btnNewButton_1.setBounds(228, 229, 102, 23);
-			contentPanel.add(btnNewButton_1);
+			btnRegistrati.setBounds(228, 229, 102, 23);
+			contentPanel.add(btnRegistrati);
 		}
 		
 		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setBounds(185, 54, 46, 14);
+		lblLogo.setBounds(185, 52, 46, 14);
 		contentPanel.add(lblLogo);
 		
 		JLabel lblLogoPass = new JLabel("");
@@ -59,7 +67,7 @@ public class LoginDialog extends JDialog {
 		contentPanel.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(122, 158, 46, 14);
+		lblPassword.setBounds(122, 158, 109, 14);
 		contentPanel.add(lblPassword);
 		
 		textField = new JTextField();
@@ -76,5 +84,16 @@ public class LoginDialog extends JDialog {
 		lblLogoUser.setIcon(new ImageIcon(imglogouser));
 		lblLogoUser.setBounds(82, 110, 30, 37);
 		contentPanel.add(lblLogoUser);
+	}
+	
+	private boolean gettext() {
+		boolean flag=false;
+		if(textField.getText().equals("Admin")) {
+			flag=true;
+			return flag;
+		}
+		else {
+			return flag;
+		}
 	}
 }
