@@ -3,6 +3,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -13,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AggiungiArticoloDialog extends JDialog {
-
+ 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_codice;
 	private JTextField textField_genere;
@@ -27,6 +28,7 @@ public class AggiungiArticoloDialog extends JDialog {
 	
 	public AggiungiArticoloDialog(ControllerShop controller) {
 		setBounds(100, 100, 438, 573);
+		setTitle("Aggiungi Articolo");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
