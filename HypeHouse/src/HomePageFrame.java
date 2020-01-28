@@ -29,7 +29,8 @@ public class HomePageFrame extends JFrame {
 		btnDonna.setIcon(new ImageIcon(imgdonna));
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				ChiudiHome();
+				ctrl.NegozioDialog();
 			}
 		});
 		btnDonna.setBounds(51, 102, 175, 254);
@@ -40,12 +41,23 @@ public class HomePageFrame extends JFrame {
 		btnUomo.setIcon(new ImageIcon(imguomo));
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ChiudiHome();
+				ctrl.NegozioDialog();
+				
+				
+				
 			}
 		});
 		btnUomo.setBounds(231, 102, 175, 254);
 		contentPane.add(btnUomo);
 		
 		JButton btnBambini = new JButton("");
+		btnBambini.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChiudiHome();
+				ctrl.NegozioDialog();
+			}
+		});
 		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinibtn.png")).getImage();
 		btnBambini.setIcon(new ImageIcon(imgbambini));
 		btnBambini.setBounds(410, 102, 175, 254);
@@ -77,5 +89,8 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(lblLogo);
 		
 //		this.setContentPane(HomePagePanel);
+	}
+	public void ChiudiHome() {
+		setVisible(false);
 	}
 }

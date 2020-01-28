@@ -2,17 +2,17 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class Articolo {
-	private int CodiceBarre;
+	private String CodiceBarre;
 	private String Genere;
 	private String Categoria;
 	private String Nome;
 	private String Colore;
 	private String Taglia;
-	private double Prezzo;
+	private Double Prezzo;
 	private int Quantita;
 	private ArrayList<ImageIcon> FotoArticolo;
 	
-	public Articolo(int codbarre, String genere, String cat, String nome, String colore, String tag, double prezzo, int qnt, ArrayList<ImageIcon> foto) {
+	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag, Double prezzo, int qnt, ArrayList<ImageIcon> foto) {
 		this.setCodiceBarre(codbarre);
 		this.setGenere(genere);
 		this.setCategoria(cat);
@@ -24,13 +24,12 @@ public class Articolo {
 		this.setFotoArticolo(foto);
 	}
 	
-	//getter and setter
-	public int getCodiceBarre() {
+	public String getCodiceBarre() {
 		return CodiceBarre;
 	}
 	
-	public void setCodiceBarre(int codiceBarre) {
-		CodiceBarre = codiceBarre;
+	public void setCodiceBarre(String codbarre) {
+		this.CodiceBarre = codbarre;
 	}
 	
 	public String getGenere() {
@@ -38,7 +37,7 @@ public class Articolo {
 	}
 	
 	public void setGenere(String genere) {
-		Genere = genere;
+		this.Genere = genere;
 	}
 	
 	public String getCategoria() {
@@ -46,7 +45,7 @@ public class Articolo {
 	}
 	
 	public void setCategoria(String categoria) {
-		Categoria = categoria;
+		this.Categoria = categoria;
 	}
 	
 	public String getNome() {
@@ -54,7 +53,7 @@ public class Articolo {
 	}
 	
 	public void setNome(String nome) {
-		Nome = nome;
+		this.Nome = nome;
 	}
 	
 	public String getColore() {
@@ -62,7 +61,7 @@ public class Articolo {
 	}
 	
 	public void setColore(String colore) {
-		Colore = colore;
+		this.Colore = colore;
 	}
 	
 	public String getTaglia() {
@@ -70,15 +69,15 @@ public class Articolo {
 	}
 	
 	public void setTaglia(String taglia) {
-		Taglia = taglia;
+		this.Taglia = taglia;
 	}
 	
-	public double getPrezzo() {
+	public Double getPrezzo() {
 		return Prezzo;
 	}
 	
-	public void setPrezzo(double prezzo) {
-		Prezzo = prezzo;
+	public void setPrezzo(Double prezzo) {
+		this.Prezzo = prezzo;
 	}
 	
 	public int getQuantita() {
@@ -86,7 +85,7 @@ public class Articolo {
 	}
 	
 	public void setQuantita(int quantita) {
-		Quantita = quantita;
+		this.Quantita = quantita;
 	}
 	
 	public ArrayList<ImageIcon> getFotoArticolo() {

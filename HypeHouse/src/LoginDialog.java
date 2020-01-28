@@ -29,6 +29,7 @@ public class LoginDialog extends JDialog {
 			JButton btnNewButton = new JButton("Accedi");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 				}
 			});
 			btnNewButton.setBounds(66, 229, 102, 23);
