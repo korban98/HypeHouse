@@ -49,9 +49,7 @@ public class ControllerShop {
 
 	
 	
-	public void AccessoLoginDialog() {
 
-	}
 	public void VisibilitaLoginDialog() {
 
 		login.setVisible(true);

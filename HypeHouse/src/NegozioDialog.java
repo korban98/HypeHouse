@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import javax.swing.JList;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class NegozioDialog extends JFrame {
 	
@@ -26,13 +28,17 @@ public class NegozioDialog extends JFrame {
 		setTitle("Negozio");
 		setBounds(100, 100, 872, 676);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setForeground(new Color(255, 255, 255));
+		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblLogo = new JLabel("                       Logo");
-		lblLogo.setBounds(308, 13, 214, 117);
-		contentPanel.add(lblLogo);
+		JLabel lbllogo = new JLabel("");
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		lbllogo.setIcon(new ImageIcon(imglogo));
+		lbllogo.setBounds(334, 13, 170, 89);
+		contentPanel.add(lbllogo);
 		
 		JLabel LabelHome = new JLabel("");
 		LabelHome.addMouseListener(new MouseAdapter() {
@@ -81,6 +87,19 @@ public class NegozioDialog extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_1.setBounds(51, 435, 56, 16);
 		contentPanel.add(lblNewLabel_1);
+		
+		JLabel label = new JLabel("");
+		Image imglinee = new ImageIcon(this.getClass().getResource("/linea.png")).getImage();
+		label.setIcon(new ImageIcon(imglinee));
+		label.setBounds(169, 220, 56, 280);
+		contentPanel.add(label);
+		
+		JLabel labelcarrello = new JLabel("");
+		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
+		labelcarrello.setIcon(new ImageIcon(imgcarrello));
+		labelcarrello.setBounds(744, 129, 30, 39);
+		contentPanel.add(labelcarrello);
+		
 	}
 	private void ChiudiNegozio() {
 		setVisible(false);
