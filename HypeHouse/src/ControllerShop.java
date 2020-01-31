@@ -38,9 +38,10 @@ public class ControllerShop {
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 			Connection con=DriverManager.getConnection(  
-			"jdbc:mysql://localhost:3306/mydb","root","!abc123!");    
+			"jdbc:mysql://www.db4free.net:3306/hypehousedb","korban98","!abc123!");
+//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"  
 			Statement stmt=con.createStatement();  
-//			stmt.execute("INSERT INTO autore values ('111','marco','rossi')");  
+//			stmt.execute("INSERT INTO Utente values ('0','0','Admin','0','0','0')");  
 			//while(rs.next())  
 			//System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
 			//con.close();  
@@ -54,7 +55,6 @@ public class ControllerShop {
 	public void AggiungiArticoloDialog() {
 		addarticolodialog.setVisible(true);
 	}
-	
 	
 	public void NegozioDialog() {
 		
