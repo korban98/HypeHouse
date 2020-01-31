@@ -20,8 +20,12 @@ public class ControllerShop {
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
+<<<<<<< HEAD
 	private static Connection con;
 	private ResultSet rs;
+=======
+	private CarrelloDialog carrellodialog;
+>>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -31,6 +35,7 @@ public class ControllerShop {
 		homeframe.setVisible(true);
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		negoziodialog=new NegozioDialog(this);
+		carrellodialog=new CarrelloDialog(this);
 	}
 
 	public static void main(String[] args) {
@@ -69,7 +74,17 @@ public class ControllerShop {
 		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
 		Magazzino.add(art);
 	}
+<<<<<<< HEAD
 
+=======
+
+	public void VisualizzaCarrelloDialog() {
+		
+		carrellodialog.setVisible(true);
+	}
+	
+	
+>>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
 		registrazione.setVisible(flag);
 	}
@@ -86,6 +101,7 @@ public class ControllerShop {
 		    homeframe.repaint();
 	}
 	
+<<<<<<< HEAD
 	public boolean VerificaUtenteRegistrato(String username, String password) {
 		boolean flag=false;
 		try {
@@ -105,4 +121,8 @@ public class ControllerShop {
 		}catch(Exception e){ System.out.println(e);}
 		return temp;
 	}
+=======
+	
+
+>>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
 	} 
