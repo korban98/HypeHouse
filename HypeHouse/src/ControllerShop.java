@@ -51,8 +51,6 @@ public class ControllerShop {
 		login.setVisible(true);
 	}
 	
-
-	
 	public void AggiungiArticoloDialog() {
 		addarticolodialog.setVisible(true);
 	}
