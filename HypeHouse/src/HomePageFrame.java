@@ -69,7 +69,7 @@ public class HomePageFrame extends JFrame {
 		btnCarrello.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.VisualizzaCarrelloDialog();
+				ctrl.VisualizzaCarrelloDialog(); 
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();

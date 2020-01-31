@@ -31,7 +31,7 @@ public class OrdineCompletatoDialog extends JDialog {
 		lblLogo.setIcon(new ImageIcon(imglogo));
 		lblLogo.setBounds(151, 13, 170, 82);
 		contentPanel.add(lblLogo);
-		
+		 
 		JLabel lblCongratulazioneIlTuo = new JLabel("Congratulazione il tuo ordine \u00E8 stato ricevuto");
 		lblCongratulazioneIlTuo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCongratulazioneIlTuo.setBounds(88, 118, 295, 16);

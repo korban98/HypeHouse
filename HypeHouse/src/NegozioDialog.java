@@ -99,7 +99,7 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ctrl.VisualizzaCarrelloDialog();
-				ChiudiNegozio();
+				ChiudiNegozio(); 
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();

@@ -39,7 +39,7 @@ public class CarrelloDialog extends JDialog {
 		label.setIcon(new ImageIcon(imghome));
 		getContentPane().add(label);
 		
-		
+		 
 		
 	}
 	private void chiudicarrello() {
