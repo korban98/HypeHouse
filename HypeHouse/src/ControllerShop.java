@@ -34,7 +34,6 @@ public class ControllerShop {
 	public static void main(String[] args) {
 		ControllerShop Controller = new ControllerShop();
 		
-		
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 			Connection con=DriverManager.getConnection(  
@@ -42,8 +41,6 @@ public class ControllerShop {
 //			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"  
 			Statement stmt=con.createStatement();  
 //			stmt.execute("INSERT INTO Utente values ('0','0','Admin','0','0','0')");  
-			//while(rs.next())  
-			//System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
 			//con.close();  
 			}catch(Exception e){ System.out.println(e);}  
 			}
@@ -57,25 +54,19 @@ public class ControllerShop {
 	}
 	
 	public void NegozioDialog() {
-		
 		negoziodialog.setVisible(true);
-		
 	}
 	
 	public void RitornaAllaHome() {
 		homeframe.setVisible(true);
-		
-	}
-		
+	}	
 		
 	public void AggiungiArticolo(String codbarre, String genere, String cat, String nome,String colore,String tag,String prezzo,String qnt) {
 		this.price = new Double(prezzo);
 		this.quantitaMagazzino = new Integer(qnt);
 		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
 		Magazzino.add(art);
-	
 	}
-
 
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
 		registrazione.setVisible(flag);
@@ -93,4 +84,7 @@ public class ControllerShop {
 		    homeframe.repaint();
 	}
 
+	private boolean ControlloAccessoAdminGuest() {
+		
+	}
 	} 
