@@ -20,6 +20,7 @@ public class ControllerShop {
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
+	private CarrelloDialog carrellodialog;
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -29,6 +30,7 @@ public class ControllerShop {
 		homeframe.setVisible(true);
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		negoziodialog=new NegozioDialog(this);
+		carrellodialog=new CarrelloDialog(this);
 	}
 
 	public static void main(String[] args) {
@@ -76,7 +78,12 @@ public class ControllerShop {
 	
 	}
 
-
+	public void VisualizzaCarrelloDialog() {
+		
+		carrellodialog.setVisible(true);
+	}
+	
+	
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
 		registrazione.setVisible(flag);
 	}
@@ -92,5 +99,7 @@ public class ControllerShop {
 		    homeframe.revalidate();
 		    homeframe.repaint();
 	}
+	
+	
 
 	} 

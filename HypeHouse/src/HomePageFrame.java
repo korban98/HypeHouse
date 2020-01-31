@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class HomePageFrame extends JFrame {
 
@@ -64,6 +66,12 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(btnBambini);
 		
 		JButton btnCarrello = new JButton("");
+		btnCarrello.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ctrl.VisualizzaCarrelloDialog();
+			}
+		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		btnCarrello.setIcon(new ImageIcon(imgcarrello));
 		btnCarrello.addActionListener(new ActionListener() {

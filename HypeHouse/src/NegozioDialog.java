@@ -95,6 +95,13 @@ public class NegozioDialog extends JFrame {
 		contentPanel.add(label);
 		
 		JLabel labelcarrello = new JLabel("");
+		labelcarrello.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ctrl.VisualizzaCarrelloDialog();
+				ChiudiNegozio();
+			}
+		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		labelcarrello.setIcon(new ImageIcon(imgcarrello));
 		labelcarrello.setBounds(744, 129, 30, 39);
