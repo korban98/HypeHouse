@@ -30,7 +30,7 @@ public class LoginDialog extends JDialog {
 			JButton btnAccedi = new JButton("Accedi");
 			btnAccedi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(gettext()==true){
+					if(getcredenzialiAccedi()==true){
 						Controller.VisibilitaMagazzinoAdmin();
 					}
 					else {
@@ -89,7 +89,7 @@ public class LoginDialog extends JDialog {
 		contentPanel.add(lblLogoUser);
 	}
 	
-	private boolean gettext() {
+	private boolean getcredenzialiAccedi() {
 		boolean flag=false;
 		if(textField.getText().equals("Admin")) {
 			flag=true;

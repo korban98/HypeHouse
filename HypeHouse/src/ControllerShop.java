@@ -47,13 +47,7 @@ public class ControllerShop {
 			}catch(Exception e){ System.out.println(e);}  
 			}
 
-	
-	
-	public void AccessoLoginDialog() {
-
-	}
 	public void VisibilitaLoginDialog() {
-
 		login.setVisible(true);
 	}
 	
