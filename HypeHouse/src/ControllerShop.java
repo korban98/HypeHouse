@@ -1,6 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-//import java.sql.ResultSet;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ public class ControllerShop {
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
+	private static Connection con;
+	private ResultSet rs;
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -36,10 +38,10 @@ public class ControllerShop {
 		
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
-			Connection con=DriverManager.getConnection(  
+			con=DriverManager.getConnection(  
 			"jdbc:mysql://www.db4free.net:3306/hypehousedb","korban98","!abc123!");
 //			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"  
-			Statement stmt=con.createStatement();  
+//			Statement stmt=con.createStatement();  
 //			stmt.execute("INSERT INTO Utente values ('0','0','Admin','0','0','0')");  
 			//con.close();  
 			}catch(Exception e){ System.out.println(e);}  
@@ -77,14 +79,30 @@ public class ControllerShop {
 	    login.setVisible(false);
 	}
 	
-	public void TipoUtenteLoggato() {
+	public void VisibilitaNegozioGuest() {
 		    login.setVisible(false);
 		    homeframe.setbottonelogout();
 		    homeframe.revalidate();
 		    homeframe.repaint();
 	}
+	
+	public boolean VerificaUtenteRegistrato(String username, String password) {
+		boolean flag=false;
+		try {
+			Statement stmt = con.createStatement();
+			flag = stmt.execute("SELECT Username, Password FROM Utente WHERE Username = '"+username+"' && Password = '"+password+"'");
+			}catch(Exception e){ System.out.println(e);}
+		return flag;
+	}
 
-	private boolean ControlloAccessoAdminGuest() {
-		
+	public String ControlloTipoUser(String username) {
+		String temp = null;
+		try {
+		Statement stmt = con.createStatement();
+		rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"'");
+		rs.next();
+		temp = rs.getString(1);
+		}catch(Exception e){ System.out.println(e);}
+		return temp;
 	}
 	} 

@@ -1,15 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
@@ -17,9 +19,11 @@ public class LoginDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField UsernameField;
 	private JPasswordField passwordField;
-
+	private ControllerShop ctrl;
+	private ResultSet rs;
 	
 	public LoginDialog(ControllerShop Controller) {
+		ctrl=Controller;
 		setTitle("Log-in");
 		setBounds(100, 100, 426, 328);
 		getContentPane().setLayout(new BorderLayout());
@@ -30,12 +34,7 @@ public class LoginDialog extends JDialog {
 			JButton btnAccedi = new JButton("Accedi");
 			btnAccedi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(getcredenzialiAccedi()==true){
-						Controller.VisibilitaMagazzinoAdmin();
-					}
-					else {
-						Controller.TipoUtenteLoggato();
-					}
+					ControlloCorrettezzaInserimento();
 					//controllo se nelle textfield ci sono valori corrispondenti al db
 
 				}
@@ -89,18 +88,51 @@ public class LoginDialog extends JDialog {
 		contentPanel.add(lblLogoUser);
 	}
 	
-	@SuppressWarnings("deprecation")
-	private boolean getcredenzialiAccedi() {
+
+	private boolean ControlloTipoUtenteInAccesso() {
 		boolean flag=false;
+		String temp = null;
+		temp = ctrl.ControlloTipoUser(UsernameField.getText());
+		if(temp!=null) 
+			flag = ControlloAccessoAdminGuest(temp);
+		return flag;
+		}
+	
+	@SuppressWarnings("deprecation")
+	private void ControlloCorrettezzaInserimento() {
 		if((UsernameField.getText().length()>0)&&(passwordField.getText().length()>0)) {
-//		if(UsernameField.getText().equals("Admin")) {
-			flag=true;
-			return flag;
+			boolean flag = ctrl.VerificaUtenteRegistrato(UsernameField.getText(),passwordField.getText());
+			if(flag==true) {
+				boolean temp = ControlloTipoUtenteInAccesso();
+				System.out.println(temp);
+				if(temp==true) {
+					ctrl.VisibilitaMagazzinoAdmin();
+				}
+				else {
+					ctrl.VisibilitaNegozioGuest();
+				}
+			}
+			UsernameField.setText("");
+			passwordField.setText("");
 		}
-		else {
-			return flag;
-		}
+		else{
+			JOptionPane.showMessageDialog(new JFrame(), "Inserire Valori", "Errore Inserimento",
+			        JOptionPane.ERROR_MESSAGE);
+			}
 	}
-	
-	
-}
+		
+		private boolean ControlloAccessoAdminGuest(String tipoutente) {
+			if(tipoutente.equals("Admin")) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+//		if(UsernameField.getText().equals("Admin")) {
+//			flag=true;
+//			return flag;
+//		}
+//		else {
+//			return flag;
+		}
