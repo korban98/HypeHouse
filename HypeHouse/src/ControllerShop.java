@@ -20,12 +20,9 @@ public class ControllerShop {
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
-<<<<<<< HEAD
 	private static Connection con;
 	private ResultSet rs;
-=======
 	private CarrelloDialog carrellodialog;
->>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -40,17 +37,13 @@ public class ControllerShop {
 
 	public static void main(String[] args) {
 		ControllerShop Controller = new ControllerShop();
-		
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 			con=DriverManager.getConnection(  
 			"jdbc:mysql://www.db4free.net:3306/hypehousedb","korban98","!abc123!");
-//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"  
-//			Statement stmt=con.createStatement();  
-//			stmt.execute("INSERT INTO Utente values ('0','0','Admin','0','0','0')");  
-			//con.close();  
+//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"    
 			}catch(Exception e){ System.out.println(e);}  
-			}
+	}
 
 	public void VisibilitaLoginDialog() {
 		login.setVisible(true);
@@ -74,55 +67,49 @@ public class ControllerShop {
 		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
 		Magazzino.add(art);
 	}
-<<<<<<< HEAD
-
-=======
 
 	public void VisualizzaCarrelloDialog() {
-		
 		carrellodialog.setVisible(true);
 	}
-	
-	
->>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
+
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
 		registrazione.setVisible(flag);
 	}
 	
-	public void VisibilitaMagazzinoAdmin() {
+	public void VisibilitaMagazzinoAdmin(String nomeadmin) {
+		magazframe.SetLabelNomeAdmin(nomeadmin);
 		magazframe.setVisible(true);
 	    login.setVisible(false);
 	}
 	
 	public void VisibilitaNegozioGuest() {
-		    login.setVisible(false);
-		    homeframe.setbottonelogout();
-		    homeframe.revalidate();
-		    homeframe.repaint();
+		login.setVisible(false);
+		homeframe.setbottonelogout();
+		homeframe.revalidate();
+		homeframe.repaint();
 	}
 	
-<<<<<<< HEAD
-	public boolean VerificaUtenteRegistrato(String username, String password) {
-		boolean flag=false;
+	public void ChiudiMagazzino() {
+		magazframe.setVisible(false);
+	}
+	
+	public boolean ControlloUtenteRegistrato(String username, String password) {
+		boolean utenteregistrato = false;
 		try {
 			Statement stmt = con.createStatement();
-			flag = stmt.execute("SELECT Username, Password FROM Utente WHERE Username = '"+username+"' && Password = '"+password+"'");
-			}catch(Exception e){ System.out.println(e);}
-		return flag;
+			utenteregistrato = stmt.execute("SELECT Username, Password FROM Utente WHERE (Username = '"+username+"' AND Password = '"+password+"')" );
+		}catch(Exception e) {System.out.println(e);}
+		return utenteregistrato;
 	}
-
-	public String ControlloTipoUser(String username) {
+	
+	public String ControlloTipoUtente(String username) {
 		String temp = null;
 		try {
-		Statement stmt = con.createStatement();
-		rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"'");
-		rs.next();
-		temp = rs.getString(1);
-		}catch(Exception e){ System.out.println(e);}
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"'");
+			rs.next();
+			temp = rs.getString(1);
+		}catch(Exception e) {System.out.println(e);}
 		return temp;
 	}
-=======
-	
-
->>>>>>> branch 'master' of https://github.com/korban98/HypeHouse.git
-	} 
+} 

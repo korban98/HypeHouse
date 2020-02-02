@@ -34,9 +34,8 @@ public class LoginDialog extends JDialog {
 			JButton btnAccedi = new JButton("Accedi");
 			btnAccedi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ControlloCorrettezzaInserimento();
-					//controllo se nelle textfield ci sono valori corrispondenti al db
-
+					ControlloCredenziali();
+//					ControlloCorrettezzaInserimento();
 				}
 			});
 			btnAccedi.setBounds(66, 229, 102, 23);
@@ -88,51 +87,43 @@ public class LoginDialog extends JDialog {
 		contentPanel.add(lblLogoUser);
 	}
 	
-
-	private boolean ControlloTipoUtenteInAccesso() {
-		boolean flag=false;
-		String temp = null;
-		temp = ctrl.ControlloTipoUser(UsernameField.getText());
-		if(temp!=null) 
-			flag = ControlloAccessoAdminGuest(temp);
-		return flag;
+	private void SvuotaTextField() {
+		UsernameField.setText("");
+		passwordField.setText("");
+	}
+	
+	private void EffettuaAccesso(String tipoutente, String username) {
+		if(tipoutente.equals("Admin")) {
+			ctrl.VisibilitaMagazzinoAdmin(username);
 		}
+		else if(tipoutente.equals("Guest")) {
+			ctrl.VisibilitaNegozioGuest();
+		}
+	}
 	
 	@SuppressWarnings("deprecation")
-	private void ControlloCorrettezzaInserimento() {
+	private void ControlloCredenziali() {
+		String tipoutente = null;
+		boolean utenteregistrato = false;
 		if((UsernameField.getText().length()>0)&&(passwordField.getText().length()>0)) {
-			boolean flag = ctrl.VerificaUtenteRegistrato(UsernameField.getText(),passwordField.getText());
-			if(flag==true) {
-				boolean temp = ControlloTipoUtenteInAccesso();
-				System.out.println(temp);
-				if(temp==true) {
-					ctrl.VisibilitaMagazzinoAdmin();
-				}
-				else {
-					ctrl.VisibilitaNegozioGuest();
-				}
-			}
-			UsernameField.setText("");
-			passwordField.setText("");
-		}
-		else{
-			JOptionPane.showMessageDialog(new JFrame(), "Inserire Valori", "Errore Inserimento",
-			        JOptionPane.ERROR_MESSAGE);
-			}
-	}
-		
-		private boolean ControlloAccessoAdminGuest(String tipoutente) {
-			if(tipoutente.equals("Admin")) {
-				return true;
+			utenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
+			tipoutente = ctrl.ControlloTipoUtente(UsernameField.getText());
+			if((utenteregistrato==true)&&(tipoutente!=null)) {
+				EffettuaAccesso(tipoutente, UsernameField.getText());	
 			}
 			else {
-				return false;
+				ErroreDialog("Utente non registrato.", "Errore");
 			}
+			SvuotaTextField();
 		}
-//		if(UsernameField.getText().equals("Admin")) {
-//			flag=true;
-//			return flag;
-//		}
-//		else {
-//			return flag;
+		else {
+			SvuotaTextField();
+			ErroreDialog("Inserire Username e Password.", "Errore Inserimento");
 		}
+	}
+	
+	private void ErroreDialog(String messaggio, String titolo) {
+		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,
+		        JOptionPane.ERROR_MESSAGE);
+	}
+}
