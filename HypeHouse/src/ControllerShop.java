@@ -21,6 +21,7 @@ public class ControllerShop {
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
 	private CarrelloDialog carrellodialog;
+	private Integer IndexMag;
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -100,6 +101,12 @@ public class ControllerShop {
 		    homeframe.repaint();
 	}
 	
+	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
+		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
+		quantitaMagazzino += qnt;
+		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino);
+	}
+
 	
 
 	} 

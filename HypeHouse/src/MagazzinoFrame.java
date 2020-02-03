@@ -1,9 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -12,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import java.awt.Color;
 
 public class MagazzinoFrame extends JFrame {
 
@@ -22,6 +25,7 @@ public class MagazzinoFrame extends JFrame {
 	public MagazzinoFrame(ControllerShop ctrl) {
 		setBounds(100, 100, 858, 483);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -73,6 +77,7 @@ public class MagazzinoFrame extends JFrame {
 		JButton btnNewButton_1 = new JButton("Aggiungi");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ctrl.AggiungiArticoloDialog();
 			}
 		});
 		btnNewButton_1.setBounds(127, 397, 108, 23);
@@ -86,8 +91,11 @@ public class MagazzinoFrame extends JFrame {
 		btnSvuota.setBounds(615, 397, 108, 23);
 		contentPane.add(btnSvuota);
 		
-		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setBounds(320, 11, 233, 79);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(336, 13, 170, 79);
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		getContentPane().setLayout(null);
+		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPane.add(lblLogo);
 	}
 }
