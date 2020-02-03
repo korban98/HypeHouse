@@ -89,9 +89,6 @@ public class ControllerShop {
 	public void ChiudiMagazzino() {
 		magazframe.setVisible(false);
 	}
-	public void ChiudiMagazzino() {
-		magazframe.setVisible(false);
-	}
 	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
 		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
 		quantitaMagazzino += qnt;
