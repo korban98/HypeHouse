@@ -89,10 +89,22 @@ public class ControllerShop {
 	public void ChiudiMagazzino() {
 		magazframe.setVisible(false);
 	}
+
 	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
 		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
 		quantitaMagazzino += qnt;
-		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino);
+		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino); 
+	}
+
+	
+	public boolean ControlloUtenteRegistrato(String username, String password) {
+		boolean utenteregistrato = false;
+		try {
+			Statement stmt = con.createStatement();
+			utenteregistrato = stmt.execute("SELECT Username, Password FROM Utente WHERE (Username = '"+username+"' AND Password = '"+password+"')" );
+		}catch(Exception e) {System.out.println(e);}
+		return utenteregistrato;
+		
 	}
 
 	
