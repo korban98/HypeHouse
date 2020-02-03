@@ -100,6 +100,7 @@ public class ControllerShop {
 			utenteregistrato = stmt.execute("SELECT Username, Password FROM Utente WHERE (Username = '"+username+"' AND Password = '"+password+"')" );
 		}catch(Exception e) {System.out.println(e);}
 		return utenteregistrato;
+		
 	}
 	
 	public String ControlloTipoUtente(String username) {
