@@ -1,6 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-//import java.sql.ResultSet;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -20,8 +20,9 @@ public class ControllerShop {
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
+	private static Connection con;
+	private ResultSet rs;
 	private CarrelloDialog carrellodialog;
-	private Integer IndexMag;
 
 	public ControllerShop() {
 		homeframe = new HomePageFrame(this);
@@ -36,20 +37,13 @@ public class ControllerShop {
 
 	public static void main(String[] args) {
 		ControllerShop Controller = new ControllerShop();
-		
-		
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
-			Connection con=DriverManager.getConnection(  
+			con=DriverManager.getConnection(  
 			"jdbc:mysql://www.db4free.net:3306/hypehousedb","korban98","!abc123!");
-//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"  
-			Statement stmt=con.createStatement();  
-//			stmt.execute("INSERT INTO Utente values ('0','0','Admin','0','0','0')");  
-			//while(rs.next())  
-			//System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
-			//con.close();  
+//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"    
 			}catch(Exception e){ System.out.println(e);}  
-			}
+	}
 
 	public void VisibilitaLoginDialog() {
 		login.setVisible(true);
@@ -59,48 +53,45 @@ public class ControllerShop {
 		addarticolodialog.setVisible(true);
 	}
 	
-	public void NegozioDialog() {
-		
-		negoziodialog.setVisible(true);
-		
-	}
+	public void NegozioDialog() {		negoziodialog.setVisible(true);	}
 	
 	public void RitornaAllaHome() {
 		homeframe.setVisible(true);
-		
-	}
-		
+	}	
 		
 	public void AggiungiArticolo(String codbarre, String genere, String cat, String nome,String colore,String tag,String prezzo,String qnt) {
 		this.price = new Double(prezzo);
 		this.quantitaMagazzino = new Integer(qnt);
 		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
-		Magazzino.add(art);
-	
-	}
+		Magazzino.add(art);	}
 
 	public void VisualizzaCarrelloDialog() {
-		
 		carrellodialog.setVisible(true);
 	}
-	
-	
+
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
 		registrazione.setVisible(flag);
 	}
 	
-	public void VisibilitaMagazzinoAdmin() {
+	public void VisibilitaMagazzinoAdmin(String nomeadmin) {
+		magazframe.SetLabelNomeAdmin(nomeadmin);
 		magazframe.setVisible(true);
 	    login.setVisible(false);
 	}
 	
-	public void TipoUtenteLoggato() {
-		    login.setVisible(false);
-		    homeframe.setbottonelogout();
-		    homeframe.revalidate();
-		    homeframe.repaint();
+	public void VisibilitaNegozioGuest() {
+		login.setVisible(false);
+		homeframe.setbottonelogout();
+		homeframe.revalidate();
+		homeframe.repaint();
 	}
 	
+	public void ChiudiMagazzino() {
+		magazframe.setVisible(false);
+	}
+	public void ChiudiMagazzino() {
+		magazframe.setVisible(false);
+	}
 	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
 		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
 		quantitaMagazzino += qnt;
@@ -108,5 +99,14 @@ public class ControllerShop {
 	}
 
 	
-
-	} 
+	public String ControlloTipoUtente(String username) {
+		String temp = null;
+		try {
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"'");
+			rs.next();
+			temp = rs.getString(1);
+		}catch(Exception e) {System.out.println(e);}
+		return temp;
+	}
+} 

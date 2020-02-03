@@ -20,9 +20,10 @@ public class MagazzinoFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private JLabel lblNomeAdmin;
 	
 	public MagazzinoFrame(ControllerShop ctrl) {
+		setTitle("Magazzino");
 		setBounds(100, 100, 858, 483);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -33,14 +34,15 @@ public class MagazzinoFrame extends JFrame {
 		JButton btnNewButton = new JButton("Esci");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ctrl.ChiudiMagazzino();
 			}
 		});
 		btnNewButton.setBounds(743, 90, 89, 23);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Nome_Admin");
-		lblNewLabel.setBounds(655, 94, 78, 14);
-		contentPane.add(lblNewLabel);
+		lblNomeAdmin = new JLabel("");
+		lblNomeAdmin.setBounds(655, 94, 78, 14);
+		contentPane.add(lblNomeAdmin);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 121, 822, 251);
@@ -70,10 +72,7 @@ public class MagazzinoFrame extends JFrame {
 			}
 		});
 		scrollPane.setViewportView(table);
-	
-//		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
-//		scrollPane.setRowHeaderView(chckbxNewCheckBox);
-		
+			
 		JButton btnNewButton_1 = new JButton("Aggiungi");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -97,5 +96,9 @@ public class MagazzinoFrame extends JFrame {
 		getContentPane().setLayout(null);
 		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPane.add(lblLogo);
+	}
+	
+	public void SetLabelNomeAdmin(String nomeadmin) {
+		lblNomeAdmin.setText(nomeadmin);
 	}
 }
