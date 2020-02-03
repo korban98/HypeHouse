@@ -40,7 +40,7 @@ public class ControllerShop {
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 			con=DriverManager.getConnection(  
-			"jdbc:mysql://www.db4free.net:3306/hypehousedb","korban98","!abc123!");
+			"jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!");
 //			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"    
 			}catch(Exception e){ System.out.println(e);}  
 	}
