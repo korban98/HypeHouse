@@ -27,11 +27,14 @@ public class RegistrazioneDialog extends JDialog {
 		setBounds(100, 100, 464, 586);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		
-		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setBounds(165, 54, 70, 26);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(135, 13, 170, 82);
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		getContentPane().setLayout(null);
+		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPanel.add(lblLogo);
 		
 		JLabel lblU = new JLabel("Username");

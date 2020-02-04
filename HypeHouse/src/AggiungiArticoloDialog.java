@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -29,9 +31,9 @@ public class AggiungiArticoloDialog extends JDialog {
 	public AggiungiArticoloDialog(ControllerShop controller) {
 		setBounds(100, 100, 438, 573);
 		setTitle("Aggiungi Articolo");
-		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(null);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		{
 			JButton okButton = new JButton("Aggiungi");
@@ -57,8 +59,11 @@ public class AggiungiArticoloDialog extends JDialog {
 			cancelButton.setActionCommand("Cancel");
 		}
 		{
-			JLabel lblLogo = new JLabel("logo");
-			lblLogo.setBounds(175, 42, 71, 25);
+			JLabel lblLogo = new JLabel("");
+			lblLogo.setBounds(123, 13, 167, 64);
+			Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+			getContentPane().setLayout(null);
+			lblLogo.setIcon(new ImageIcon(imglogo));
 			contentPanel.add(lblLogo);
 		}
 		{

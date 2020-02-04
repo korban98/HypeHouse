@@ -18,12 +18,14 @@ import javax.swing.JScrollBar;
 
 public class CarrelloDialog extends JDialog {
 	private JTable table;
+	private final JPanel contentPanel = new JPanel();
 	
 
 	public CarrelloDialog(ControllerShop Controller) {
 		setTitle("Carrello");
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 880, 610);
+		setContentPane(contentPanel);
 		
 		JLabel lbllogo = new JLabel("");
 		lbllogo.setBounds(355, 13, 170, 94);

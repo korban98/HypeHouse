@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 
 public class LoginDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
+
 	private JTextField UsernameField;
 	private JPasswordField passwordField;
 	private ControllerShop ctrl;
@@ -26,9 +27,8 @@ public class LoginDialog extends JDialog {
 		ctrl=Controller;
 		setTitle("Log-in");
 		setBounds(100, 100, 426, 328);
-		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		{
 			JButton btnAccedi = new JButton("Accedi");
@@ -53,8 +53,11 @@ public class LoginDialog extends JDialog {
 			contentPanel.add(btnRegistrati);
 		}
 		
-		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setBounds(185, 52, 46, 14);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(137, 13, 170, 84);
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		getContentPane().setLayout(null);
+		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPanel.add(lblLogo);
 		
 		JLabel lblLogoPass = new JLabel("");

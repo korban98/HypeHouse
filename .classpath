@@ -3,5 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="HypeHouse/src"/>
 	<classpathentry kind="src" path="HypeHouse/img"/>
+	<classpathentry kind="lib" path="C:/Users/super/Desktop/BD_OO/mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
