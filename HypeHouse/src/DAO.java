@@ -21,7 +21,7 @@ public class DAO {
 	public boolean Update(String qry) {
 		try {
 			stmt= con.createStatement();
-			stmt.executeQuery(qry);
+			stmt.execute(qry);
 			return true;
 		} catch (SQLException e) {return false;}
 	}

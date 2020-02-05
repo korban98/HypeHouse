@@ -27,11 +27,9 @@ public class AggiungiArticoloDialog extends JDialog {
 	private JTextField TagliaField;
 	private JTextField PrezzoField;
 	private JTextField QuantitaField;
-
 	private ControllerShop ctrl;
 	
 	public AggiungiArticoloDialog(ControllerShop controller) {
-
 		ctrl = controller;
 		setBounds(100, 100, 438, 573);
 		setTitle("Aggiungi Articolo");
@@ -174,12 +172,10 @@ public class AggiungiArticoloDialog extends JDialog {
 		}
 	}
 
-	
-	
 	private void ControlloCorrettezzaInserimento() {
-
 		if((CodiceField.getText().length()>0)&&(GenereField.getText().length()>0)&&(CategoriaField.getText().length()>0)&&(NomeField.getText().length()>0)&&(ColoreField.getText().length()>0)&&(TagliaField.getText().length()>0)&&(PrezzoField.getText().length()>0)&&(QuantitaField.getText().length()>0)){
-			ctrl.AggiungiArticolo(CodiceField.getText(), GenereField.getText(), CategoriaField.getText(),NomeField.getText(),ColoreField.getText(),TagliaField.getText(),PrezzoField.getText(),QuantitaField.getText());
+//		    ctrl.AggiungiArticoloMagazzino(CodiceField.getText(), GenereField.getText(), CategoriaField.getText(), NomeField.getText(), ColoreField.getText(), TagliaField.getText(), PrezzoField.getText(), QuantitaField.getText());
+		    ctrl.AggiungiArticoloDatabase(CodiceField.getText(), GenereField.getText(), CategoriaField.getText(), NomeField.getText(), ColoreField.getText(), TagliaField.getText(), PrezzoField.getText(), QuantitaField.getText());
 			CodiceField.setText("");
 			GenereField.setText("");
 			CategoriaField.setText("");
@@ -191,8 +187,7 @@ public class AggiungiArticoloDialog extends JDialog {
 
 		}
 		else
-			JOptionPane.showMessageDialog(new JPanel(), "Inserire Valori", "Errore Inserimento",
-			        JOptionPane.ERROR_MESSAGE);
+			ctrl.ErroreDialog("Inserire correttamente i valori.", "Errore Inserimento");
 	}
 }
 
