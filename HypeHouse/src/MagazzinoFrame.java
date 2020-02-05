@@ -76,18 +76,18 @@ public class MagazzinoFrame extends JFrame {
 		});
 		scrollPane.setViewportView(table);
 			
-		JButton btnNewButton_1 = new JButton("Aggiungi");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnAggiungi = new JButton("Aggiungi");
+		btnAggiungi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctrl.AggiungiArticoloDialog(true);
 			}
 		});
-		btnNewButton_1.setBounds(127, 397, 108, 23);
-		contentPane.add(btnNewButton_1);
+		btnAggiungi.setBounds(127, 397, 108, 23);
+		contentPane.add(btnAggiungi);
 		
-		JButton btnNewButton_2 = new JButton("Modifica");
-		btnNewButton_2.setBounds(274, 397, 108, 23);
-		contentPane.add(btnNewButton_2);
+		JButton btnModifica = new JButton("Modifica");
+		btnModifica.setBounds(274, 397, 108, 23);
+		contentPane.add(btnModifica);
 		
 		JButton btnSvuota = new JButton("Svuota");
 		btnSvuota.setBounds(615, 397, 108, 23);
