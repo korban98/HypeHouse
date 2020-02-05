@@ -106,13 +106,11 @@ public class LoginDialog extends JDialog {
 	
 	@SuppressWarnings("deprecation")
 	private void ControlloCredenziali() {
-		String tipoutente = null;
-		boolean utenteregistrato = false;
+		String tipoutenteregistrato = null;
 		if((UsernameField.getText().length()>0)&&(passwordField.getText().length()>0)) {
-			utenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
-			tipoutente = ctrl.ControlloTipoUtente(UsernameField.getText());
-			if((utenteregistrato==true)&&(tipoutente!=null)) {
-				EffettuaAccesso(tipoutente, UsernameField.getText());	
+			tipoutenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
+			if(tipoutenteregistrato!=null) {
+				EffettuaAccesso(tipoutenteregistrato, UsernameField.getText());	
 			}
 			else {
 				ErroreDialog("Utente non registrato.", "Errore");

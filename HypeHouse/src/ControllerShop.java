@@ -53,7 +53,9 @@ public class ControllerShop {
 		addarticolodialog.setVisible(true);
 	}
 	
-	public void NegozioDialog() {		negoziodialog.setVisible(true);	}
+	public void NegozioDialog() {		
+		negoziodialog.setVisible(true);	
+	}
 	
 	public void RitornaAllaHome() {
 		homeframe.setVisible(true);
@@ -97,25 +99,14 @@ public class ControllerShop {
 	}
 
 	
-	public boolean ControlloUtenteRegistrato(String username, String password) {
-		boolean utenteregistrato = false;
+	public String ControlloUtenteRegistrato(String username, String password) {
+		String tipoutente = null;
 		try {
 			Statement stmt = con.createStatement();
-			utenteregistrato = stmt.execute("SELECT Username, Password FROM Utente WHERE (Username = '"+username+"' AND Password = '"+password+"')" );
-		}catch(Exception e) {System.out.println(e);}
-		return utenteregistrato;
-		
-	}
-
-	
-	public String ControlloTipoUtente(String username) {
-		String temp = null;
-		try {
-			Statement stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"'");
+			rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'" );
 			rs.next();
-			temp = rs.getString(1);
+			tipoutente = rs.getString(1);
 		}catch(Exception e) {System.out.println(e);}
-		return temp;
+		return tipoutente;
 	}
 } 
