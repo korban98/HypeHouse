@@ -18,17 +18,18 @@ import java.awt.event.ActionEvent;
 public class AggiungiArticoloDialog extends JDialog {
  
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField_codice;
-	private JTextField textField_genere;
-	private JTextField textField_categoria;
-	private JTextField textField_nome;
-	private JTextField textField_colore;
-	private JTextField textField_taglia;
-	private JTextField textField_prezzo;
-	private JTextField textField_quantita;
-	private ControllerShop controller;
+	private JTextField CodiceField;
+	private JTextField GenereField;
+	private JTextField CategoriaField;
+	private JTextField NomeField;
+	private JTextField ColoreField;
+	private JTextField TagliaField;
+	private JTextField PrezzoField;
+	private JTextField QuantitaField;
+	private ControllerShop ctrl;
 	
 	public AggiungiArticoloDialog(ControllerShop controller) {
+		ctrl = controller;
 		setBounds(100, 100, 438, 573);
 		setTitle("Aggiungi Articolo");
 		getContentPane().setLayout(null);
@@ -73,10 +74,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblCodice);
 		}
 		{
-			textField_codice = new JTextField();
-			textField_codice.setBounds(93, 138, 179, 22);
-			contentPanel.add(textField_codice);
-			textField_codice.setColumns(10);
+			CodiceField = new JTextField();
+			CodiceField.setBounds(93, 138, 179, 22);
+			contentPanel.add(CodiceField);
+			CodiceField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Genere");
@@ -85,10 +86,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 		{
-			textField_genere = new JTextField();
-			textField_genere.setBounds(93, 172, 179, 22);
-			contentPanel.add(textField_genere);
-			textField_genere.setColumns(10);
+			GenereField = new JTextField();
+			GenereField.setBounds(93, 172, 179, 22);
+			contentPanel.add(GenereField);
+			GenereField.setColumns(10);
 		}
 		{
 			JLabel lblCategoria = new JLabel("Categoria");
@@ -97,10 +98,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblCategoria);
 		}
 		{
-			textField_categoria = new JTextField();
-			textField_categoria.setBounds(93, 207, 179, 22);
-			contentPanel.add(textField_categoria);
-			textField_categoria.setColumns(10);
+			CategoriaField = new JTextField();
+			CategoriaField.setBounds(93, 207, 179, 22);
+			contentPanel.add(CategoriaField);
+			CategoriaField.setColumns(10);
 		}
 		{
 			JLabel lblNome = new JLabel("Nome");
@@ -109,10 +110,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblNome);
 		}
 		{
-			textField_nome = new JTextField();
-			textField_nome.setBounds(93, 239, 179, 22);
-			contentPanel.add(textField_nome);
-			textField_nome.setColumns(10);
+			NomeField = new JTextField();
+			NomeField.setBounds(93, 239, 179, 22);
+			contentPanel.add(NomeField);
+			NomeField.setColumns(10);
 		}
 		{
 			JLabel lblColore = new JLabel("Colore");
@@ -121,10 +122,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblColore);
 		}
 		{
-			textField_colore = new JTextField();
-			textField_colore.setBounds(93, 274, 179, 22);
-			contentPanel.add(textField_colore);
-			textField_colore.setColumns(10);
+			ColoreField = new JTextField();
+			ColoreField.setBounds(93, 274, 179, 22);
+			contentPanel.add(ColoreField);
+			ColoreField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Taglia");
@@ -133,10 +134,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblNewLabel_1);
 		}
 		{
-			textField_taglia = new JTextField();
-			textField_taglia.setBounds(93, 305, 101, 22);
-			contentPanel.add(textField_taglia);
-			textField_taglia.setColumns(10);
+			TagliaField = new JTextField();
+			TagliaField.setBounds(93, 305, 101, 22);
+			contentPanel.add(TagliaField);
+			TagliaField.setColumns(10);
 		}
 		{
 			JLabel lblPrezzo = new JLabel("Prezzo");
@@ -145,10 +146,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblPrezzo);
 		}
 		{
-			textField_prezzo = new JTextField();
-			textField_prezzo.setBounds(93, 338, 101, 22);
-			contentPanel.add(textField_prezzo);
-			textField_prezzo.setColumns(10);
+			PrezzoField = new JTextField();
+			PrezzoField.setBounds(93, 338, 101, 22);
+			contentPanel.add(PrezzoField);
+			PrezzoField.setColumns(10);
 		}
 		{
 			JLabel lblQuantit = new JLabel("Quantit\u00E0");
@@ -157,10 +158,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblQuantit);
 		}
 		{
-			textField_quantita = new JTextField();
-			textField_quantita.setBounds(93, 371, 101, 22);
-			contentPanel.add(textField_quantita);
-			textField_quantita.setColumns(10);
+			QuantitaField = new JTextField();
+			QuantitaField.setBounds(93, 371, 101, 22);
+			contentPanel.add(QuantitaField);
+			QuantitaField.setColumns(10);
 		}
 		{
 			JLabel lblInserireArticoloDa = new JLabel("Inserire articolo da aggiungere al magazzino");
@@ -176,16 +177,16 @@ public class AggiungiArticoloDialog extends JDialog {
 	}
 	
 	private void ControlloCorrettezzaInserimento() {
-		if((textField_codice.getText().length()>0)&&(textField_genere.getText().length()>0)&&(textField_categoria.getText().length()>0)&&(textField_nome.getText().length()>0)&&(textField_colore.getText().length()>0)&&(textField_taglia.getText().length()>0)&&(textField_prezzo.getText().length()>0)&&(textField_quantita.getText().length()>0)){
-			controller.AggiungiArticolo(textField_codice.getText(), textField_genere.getText(), textField_categoria.getText(),textField_nome.getText(),textField_colore.getText(),textField_taglia.getText(),textField_prezzo.getText(),textField_quantita.getText());
-			textField_codice.setText("");
-			textField_genere.setText("");
-			textField_categoria.setText("");
-			textField_nome.setText("");
-			textField_colore.setText("");
-			textField_taglia.setText("");
-			textField_prezzo.setText("");
-			textField_quantita.setText("");
+		if((CodiceField.getText().length()>0)&&(GenereField.getText().length()>0)&&(CategoriaField.getText().length()>0)&&(NomeField.getText().length()>0)&&(ColoreField.getText().length()>0)&&(TagliaField.getText().length()>0)&&(PrezzoField.getText().length()>0)&&(QuantitaField.getText().length()>0)){
+			ctrl.AggiungiArticolo(CodiceField.getText(), GenereField.getText(), CategoriaField.getText(),NomeField.getText(),ColoreField.getText(),TagliaField.getText(),PrezzoField.getText(),QuantitaField.getText());
+			CodiceField.setText("");
+			GenereField.setText("");
+			CategoriaField.setText("");
+			NomeField.setText("");
+			ColoreField.setText("");
+			TagliaField.setText("");
+			PrezzoField.setText("");
+			QuantitaField.setText("");
 		}
 		else
 			JOptionPane.showMessageDialog(new JPanel(), "Inserire Valori", "Errore Inserimento",

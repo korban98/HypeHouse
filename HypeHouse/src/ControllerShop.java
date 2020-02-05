@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ControllerShop {
+	private DAO dao;
 	private boolean AccessoEffettuato;
 	private ArrayList<Articolo> Magazzino;
 	private boolean AccessoAdminEffettuato;
@@ -25,6 +26,7 @@ public class ControllerShop {
 	private CarrelloDialog carrellodialog;
 
 	public ControllerShop() {
+		dao = new DAO(this);
 		homeframe = new HomePageFrame(this);
 		login = new LoginDialog(this);
 		registrazione = new RegistrazioneDialog(this);
@@ -36,13 +38,7 @@ public class ControllerShop {
 	}
 
 	public static void main(String[] args) {
-		ControllerShop Controller = new ControllerShop();
-		try{  
-			Class.forName("com.mysql.cj.jdbc.Driver");  
-			con=DriverManager.getConnection(  
-			"jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!");
-//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"    
-			}catch(Exception e){ System.out.println(e);}  
+		ControllerShop Controller = new ControllerShop();  
 	}
 
 	public void VisibilitaLoginDialog() {
@@ -76,6 +72,7 @@ public class ControllerShop {
 	}
 	
 	public void VisibilitaMagazzinoAdmin(String nomeadmin) {
+		homeframe.setVisible(false);
 		magazframe.SetLabelNomeAdmin(nomeadmin);
 		magazframe.setVisible(true);
 	    login.setVisible(false);
@@ -89,6 +86,7 @@ public class ControllerShop {
 	}
 	
 	public void ChiudiMagazzino() {
+		homeframe.setVisible(true);
 		magazframe.setVisible(false);
 	}
 
@@ -98,15 +96,15 @@ public class ControllerShop {
 		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino); 
 	}
 
-	
 	public String ControlloUtenteRegistrato(String username, String password) {
 		String tipoutente = null;
 		try {
-			Statement stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'" );
+			String qry= "SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
+			rs= dao.Select(qry);
 			rs.next();
 			tipoutente = rs.getString(1);
 		}catch(Exception e) {System.out.println(e);}
 		return tipoutente;
 	}
+	
 } 
