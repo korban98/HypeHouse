@@ -35,6 +35,8 @@ public class LoginDialog extends JDialog {
 			btnAccedi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ControlloCredenziali();
+					ctrl.VisibilitaLoginDialog(false);
+					ctrl.VisibilitaHome(false);
 //					ControlloCorrettezzaInserimento();
 				}
 			});

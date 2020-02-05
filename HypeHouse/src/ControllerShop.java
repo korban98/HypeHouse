@@ -45,21 +45,24 @@ public class ControllerShop {
 			}catch(Exception e){ System.out.println(e);}  
 	}
 
-	public void VisibilitaLoginDialog() {
-		login.setVisible(true);
+	public void VisibilitaLoginDialog(boolean flag) {
+		login.setVisible(flag);
 	}
 	
-	public void AggiungiArticoloDialog() {
-		addarticolodialog.setVisible(true);
+	public void AggiungiArticoloDialog(boolean flag) {
+		addarticolodialog.setVisible(flag);
 	}
 	
-	public void NegozioDialog() {		
-		negoziodialog.setVisible(true);	
+	public void NegozioDialog(boolean flag) {		
+		negoziodialog.setVisible(flag);	
 	}
-	
+	public void VisibilitaHome(boolean flag) {
+		homeframe.setVisible(flag);
+	}
 	public void RitornaAllaHome() {
 		homeframe.setVisible(true);
-	}	
+		
+	}
 		
 	public void AggiungiArticolo(String codbarre, String genere, String cat, String nome,String colore,String tag,String prezzo,String qnt) {
 		this.price = new Double(prezzo);
@@ -67,8 +70,8 @@ public class ControllerShop {
 		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
 		Magazzino.add(art);	}
 
-	public void VisualizzaCarrelloDialog() {
-		carrellodialog.setVisible(true);
+	public void VisualizzaCarrelloDialog(boolean flag) {
+		carrellodialog.setVisible(flag);
 	}
 
 	public void VisibilitaRegistrazioneDialog(boolean flag) {
@@ -83,9 +86,11 @@ public class ControllerShop {
 	
 	public void VisibilitaNegozioGuest() {
 		login.setVisible(false);
+		this.NegozioDialog(true);
 		homeframe.setbottonelogout();
 		homeframe.revalidate();
 		homeframe.repaint();
+		
 	}
 	
 	public void ChiudiMagazzino() {

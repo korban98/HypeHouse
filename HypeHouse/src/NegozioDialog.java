@@ -23,8 +23,10 @@ import javax.swing.Box;
 public class NegozioDialog extends JFrame {
 	
 	private final JPanel contentPanel = new JPanel();
+	private ControllerShop ctrl;
 	
-	public NegozioDialog(ControllerShop ctrl) {
+	public NegozioDialog(ControllerShop controller) {
+		ctrl=controller;
 		setTitle("Negozio");
 		setBounds(100, 100, 872, 676);
 		getContentPane().setLayout(new BorderLayout());
@@ -45,7 +47,7 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.RitornaAllaHome();
-				ChiudiNegozio();
+				ctrl.NegozioDialog(false);
 			}
 		});
 		LabelHome.setBounds(51, 129, 45, 50);
@@ -98,8 +100,8 @@ public class NegozioDialog extends JFrame {
 		labelcarrello.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.VisualizzaCarrelloDialog();
-				ChiudiNegozio(); 
+				ctrl.NegozioDialog(false);
+				 ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
@@ -108,7 +110,5 @@ public class NegozioDialog extends JFrame {
 		contentPanel.add(labelcarrello);
 		
 	}
-	private void ChiudiNegozio() {
-		setVisible(false);
-	}
+
 }

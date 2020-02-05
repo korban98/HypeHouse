@@ -18,8 +18,10 @@ public class HomePageFrame extends JFrame {
 	private JPanel contentPane;
 	private JButton btnAccedi;
 	private JButton btnLogout;
+	private ControllerShop ctrl;
 
-	public HomePageFrame(ControllerShop ctrl) {
+	public HomePageFrame(ControllerShop controller) {
+		ctrl=controller;
 		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 641, 422);
@@ -34,7 +36,8 @@ public class HomePageFrame extends JFrame {
 		btnDonna.setIcon(new ImageIcon(imgdonna));
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrl.NegozioDialog();
+				ctrl.NegozioDialog(true);
+				ctrl.VisibilitaHome(false);
 			}
 		});
 		btnDonna.setBounds(51, 102, 175, 254);
@@ -45,10 +48,8 @@ public class HomePageFrame extends JFrame {
 		btnUomo.setIcon(new ImageIcon(imguomo));
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.NegozioDialog();
-				
-				
-				
+				ctrl.NegozioDialog(true);
+				ctrl.VisibilitaHome(false);
 			}
 		});
 		btnUomo.setBounds(231, 102, 175, 254);
@@ -57,7 +58,8 @@ public class HomePageFrame extends JFrame {
 		JButton btnBambini = new JButton("");
 		btnBambini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.NegozioDialog();
+				ctrl.NegozioDialog(true);
+				ctrl.VisibilitaHome(false);
 			}
 		});
 		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinibtn.png")).getImage();
@@ -69,13 +71,15 @@ public class HomePageFrame extends JFrame {
 		btnCarrello.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.VisualizzaCarrelloDialog(); 
+				ctrl.VisualizzaCarrelloDialog(true); 
+				
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		btnCarrello.setIcon(new ImageIcon(imgcarrello));
 		btnCarrello.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
 		btnCarrello.setBounds(555, 62, 30, 29);
@@ -90,7 +94,7 @@ public class HomePageFrame extends JFrame {
 		btnAccedi = new JButton("Accedi");
 		btnAccedi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrl.VisibilitaLoginDialog();
+				ctrl.VisibilitaLoginDialog(true);
 			}
 		});
 		btnAccedi.setBounds(456, 62, 89, 29);
@@ -116,7 +120,5 @@ public class HomePageFrame extends JFrame {
 		btnLogout.setVisible(false);
 		btnAccedi.setVisible(true);
 	}
-	private void ChiudiHome() {
-		setVisible(false);
-	}
+
 }

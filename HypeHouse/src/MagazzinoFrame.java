@@ -21,8 +21,10 @@ public class MagazzinoFrame extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JLabel lblNomeAdmin;
+	private ControllerShop ctrl;
 	
-	public MagazzinoFrame(ControllerShop ctrl) {
+	public MagazzinoFrame(ControllerShop controller) {
+		ctrl=controller;
 		setTitle("Magazzino");
 		setBounds(100, 100, 858, 483);
 		contentPane = new JPanel();
@@ -34,6 +36,7 @@ public class MagazzinoFrame extends JFrame {
 		JButton btnNewButton = new JButton("Esci");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ctrl.VisibilitaHome(true);
 				ctrl.ChiudiMagazzino();
 			}
 		});
@@ -76,7 +79,7 @@ public class MagazzinoFrame extends JFrame {
 		JButton btnNewButton_1 = new JButton("Aggiungi");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrl.AggiungiArticoloDialog();
+				ctrl.AggiungiArticoloDialog(true);
 			}
 		});
 		btnNewButton_1.setBounds(127, 397, 108, 23);

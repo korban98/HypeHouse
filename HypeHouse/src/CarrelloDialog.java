@@ -19,9 +19,10 @@ import javax.swing.JScrollBar;
 public class CarrelloDialog extends JDialog {
 	private JTable table;
 	private final JPanel contentPanel = new JPanel();
-	
+	private ControllerShop ctrl;
 
-	public CarrelloDialog(ControllerShop Controller) {
+	public CarrelloDialog(ControllerShop controller) {
+		ctrl=controller;
 		setTitle("Carrello");
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 880, 610);
@@ -34,18 +35,19 @@ public class CarrelloDialog extends JDialog {
 		lbllogo.setIcon(new ImageIcon(imglogo));
 		getContentPane().add(lbllogo);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(57, 127, 45, 45);
-		label.addMouseListener(new MouseAdapter() {
+		JLabel lblhome = new JLabel("");
+		lblhome.setBounds(57, 127, 45, 45);
+		lblhome.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
-				Controller.RitornaAllaHome();
-				chiudicarrello();
+				ctrl.VisualizzaCarrelloDialog(false);
+				ctrl.VisibilitaHome(true);
+				
 				
 			}
 		});
 		Image imghome = new ImageIcon(this.getClass().getResource("/homeLabel.png")).getImage();
-		label.setIcon(new ImageIcon(imghome));
-		getContentPane().add(label);
+		lblhome.setIcon(new ImageIcon(imghome));
+		getContentPane().add(lblhome);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(98, 185, 607, 284);
@@ -73,15 +75,5 @@ public class CarrelloDialog extends JDialog {
 				}
 				});
 		scrollPane.setViewportView(table);
-		
-
-	
-		
-	
-		 
-		
-	}
-	private void chiudicarrello() {
-		this.setVisible(false);
 	}
 }

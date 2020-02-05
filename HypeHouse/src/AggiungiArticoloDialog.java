@@ -26,9 +26,10 @@ public class AggiungiArticoloDialog extends JDialog {
 	private JTextField textField_taglia;
 	private JTextField textField_prezzo;
 	private JTextField textField_quantita;
-	private ControllerShop controller;
+	private ControllerShop ctrl;
 	
 	public AggiungiArticoloDialog(ControllerShop controller) {
+		ctrl=controller;
 		setBounds(100, 100, 438, 573);
 		setTitle("Aggiungi Articolo");
 		getContentPane().setLayout(null);
@@ -51,7 +52,7 @@ public class AggiungiArticoloDialog extends JDialog {
 			JButton cancelButton = new JButton("Chiudi");
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ChiudiAddArtDialog();
+					ctrl.AggiungiArticoloDialog(false);
 				}
 			});
 			cancelButton.setBounds(241, 443, 101, 46);
@@ -170,14 +171,11 @@ public class AggiungiArticoloDialog extends JDialog {
 		}
 	}
 
-	private void ChiudiAddArtDialog() {
-		
-		setVisible(false);
-	}
+	
 	
 	private void ControlloCorrettezzaInserimento() {
 		if((textField_codice.getText().length()>0)&&(textField_genere.getText().length()>0)&&(textField_categoria.getText().length()>0)&&(textField_nome.getText().length()>0)&&(textField_colore.getText().length()>0)&&(textField_taglia.getText().length()>0)&&(textField_prezzo.getText().length()>0)&&(textField_quantita.getText().length()>0)){
-			controller.AggiungiArticolo(textField_codice.getText(), textField_genere.getText(), textField_categoria.getText(),textField_nome.getText(),textField_colore.getText(),textField_taglia.getText(),textField_prezzo.getText(),textField_quantita.getText());
+			ctrl.AggiungiArticolo(textField_codice.getText(), textField_genere.getText(), textField_categoria.getText(),textField_nome.getText(),textField_colore.getText(),textField_taglia.getText(),textField_prezzo.getText(),textField_quantita.getText());
 			textField_codice.setText("");
 			textField_genere.setText("");
 			textField_categoria.setText("");
