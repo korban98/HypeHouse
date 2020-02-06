@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
 
 public class HomePageFrame extends JFrame {
 
@@ -24,15 +25,15 @@ public class HomePageFrame extends JFrame {
 		ctrl=controller;
 		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 641, 422);
+		setBounds(100, 100, 886, 667);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		Image imgdonna = new ImageIcon(this.getClass().getResource("/JDonnabtnmax.png")).getImage();
 		
 		JButton btnDonna = new JButton("");
-		Image imgdonna = new ImageIcon(this.getClass().getResource("/JDonnabtn.png")).getImage();
 		btnDonna.setIcon(new ImageIcon(imgdonna));
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -40,11 +41,11 @@ public class HomePageFrame extends JFrame {
 				ctrl.VisibilitaHome(false);
 			}
 		});
-		btnDonna.setBounds(51, 102, 175, 254);
+		btnDonna.setBounds(322, 165, 235, 391);
 		contentPane.add(btnDonna);
 		
 		JButton btnUomo = new JButton("");
-		Image imguomo = new ImageIcon(this.getClass().getResource("/JUomobtn.png")).getImage();
+		Image imguomo = new ImageIcon(this.getClass().getResource("/JUomobtnmax.png")).getImage();
 		btnUomo.setIcon(new ImageIcon(imguomo));
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -52,7 +53,7 @@ public class HomePageFrame extends JFrame {
 				ctrl.VisibilitaHome(false);
 			}
 		});
-		btnUomo.setBounds(231, 102, 175, 254);
+		btnUomo.setBounds(75, 165, 249, 391);
 		contentPane.add(btnUomo);
 		
 		JButton btnBambini = new JButton("");
@@ -62,9 +63,9 @@ public class HomePageFrame extends JFrame {
 				ctrl.VisibilitaHome(false);
 			}
 		});
-		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinibtn.png")).getImage();
+		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinimax.png")).getImage();
 		btnBambini.setIcon(new ImageIcon(imgbambini));
-		btnBambini.setBounds(410, 102, 175, 254);
+		btnBambini.setBounds(555, 165, 235, 391);
 		contentPane.add(btnBambini);
 		
 		JButton btnCarrello = new JButton("");
@@ -82,13 +83,13 @@ public class HomePageFrame extends JFrame {
 				ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
-		btnCarrello.setBounds(555, 62, 30, 29);
+		btnCarrello.setBounds(760, 108, 30, 29);
 		contentPane.add(btnCarrello);
 		
 		JLabel lblLogo = new JLabel("");
-		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();
 		lblLogo.setIcon(new ImageIcon(imglogo));
-		lblLogo.setBounds(236, 9, 170, 80);
+		lblLogo.setBounds(336, 13, 199, 95);
 		contentPane.add(lblLogo);
 		
 		btnAccedi = new JButton("Accedi");
@@ -97,7 +98,7 @@ public class HomePageFrame extends JFrame {
 				ctrl.VisibilitaLoginDialog(true);
 			}
 		});
-		btnAccedi.setBounds(456, 62, 89, 29);
+		btnAccedi.setBounds(653, 108, 89, 29);
 		contentPane.add(btnAccedi);
 		
 		btnLogout = new JButton("Logout");
@@ -106,7 +107,7 @@ public class HomePageFrame extends JFrame {
 				setbottoneaccedi();
 			}
 		});
-		btnLogout.setBounds(456, 62, 89, 29);
+		btnLogout.setBounds(653, 108, 89, 29);
 		contentPane.add(btnLogout);
 		btnLogout.setVisible(false);
 	}
@@ -120,5 +121,4 @@ public class HomePageFrame extends JFrame {
 		btnLogout.setVisible(false);
 		btnAccedi.setVisible(true);
 	}
-
 }

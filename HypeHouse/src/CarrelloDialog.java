@@ -15,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CarrelloDialog extends JDialog {
 	private JTable table;
@@ -25,18 +27,18 @@ public class CarrelloDialog extends JDialog {
 		ctrl=controller;
 		setTitle("Carrello");
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 880, 610);
+		setBounds(100, 100, 880, 657);
 		setContentPane(contentPanel);
 		
 		JLabel lbllogo = new JLabel("");
-		lbllogo.setBounds(355, 13, 170, 94);
-		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
+		lbllogo.setBounds(325, 13, 210, 108);
+		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();
 		getContentPane().setLayout(null);
 		lbllogo.setIcon(new ImageIcon(imglogo));
 		getContentPane().add(lbllogo);
 		
 		JLabel lblhome = new JLabel("");
-		lblhome.setBounds(57, 127, 45, 45);
+		lblhome.setBounds(62, 124, 45, 45);
 		lblhome.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisualizzaCarrelloDialog(false);
@@ -50,7 +52,7 @@ public class CarrelloDialog extends JDialog {
 		getContentPane().add(lblhome);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(98, 185, 607, 284);
+		scrollPane.setBounds(121, 176, 607, 284);
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -75,5 +77,33 @@ public class CarrelloDialog extends JDialog {
 				}
 				});
 		scrollPane.setViewportView(table);
+		
+		JLabel lblTotale = new JLabel("Totale:");
+		lblTotale.setBounds(661, 479, 45, 16);
+		contentPanel.add(lblTotale);
+		
+		JLabel labelotalepagamento = new JLabel("");
+		labelotalepagamento.setBounds(701, 479, 56, 16);
+		contentPanel.add(labelotalepagamento);
+		
+		JButton btnSvuotaCarrello = new JButton("Svuota carrello");
+		btnSvuotaCarrello.setBounds(140, 510, 127, 52);
+		contentPanel.add(btnSvuotaCarrello);
+		
+		JButton btnEliminaArticoloSelezionato = new JButton("Elimina articolo \r\n");
+		btnEliminaArticoloSelezionato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnEliminaArticoloSelezionato.setBounds(325, 510, 127, 52);
+		contentPanel.add(btnEliminaArticoloSelezionato);
+		
+		JButton btnNewButton = new JButton("Completa ordine");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(514, 511, 127, 50);
+		contentPanel.add(btnNewButton);
 	}
 }

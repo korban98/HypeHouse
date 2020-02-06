@@ -64,7 +64,7 @@ public class AggiungiArticoloDialog extends JDialog {
 		}
 		{
 			JLabel lblLogo = new JLabel("");
-			lblLogo.setBounds(123, 13, 167, 64);
+			lblLogo.setBounds(123, 13, 170, 64);
 			Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
 			getContentPane().setLayout(null);
 			lblLogo.setIcon(new ImageIcon(imglogo));
