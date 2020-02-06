@@ -26,10 +26,11 @@ public class MagazzinoFrame extends JFrame {
 	public MagazzinoFrame(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Magazzino");
-		setBounds(100, 100, 858, 483);
+		setBounds(100, 100, 858, 616);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setResizable(false);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -48,7 +49,7 @@ public class MagazzinoFrame extends JFrame {
 		contentPane.add(lblNomeAdmin);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 121, 822, 251);
+		scrollPane.setBounds(12, 126, 822, 333);
 		contentPane.add(scrollPane);
 		
 		tableMagazzino = new JTable();
@@ -82,15 +83,15 @@ public class MagazzinoFrame extends JFrame {
 				ctrl.AggiungiArticoloDialog(true);
 			}
 		});
-		btnAggiungi.setBounds(127, 397, 108, 23);
+		btnAggiungi.setBounds(118, 500, 108, 23);
 		contentPane.add(btnAggiungi);
 		
 		JButton btnModifica = new JButton("Modifica");
-		btnModifica.setBounds(274, 397, 108, 23);
+		btnModifica.setBounds(275, 500, 108, 23);
 		contentPane.add(btnModifica);
 		
 		JButton btnSvuota = new JButton("Svuota");
-		btnSvuota.setBounds(615, 397, 108, 23);
+		btnSvuota.setBounds(617, 500, 108, 23);
 		contentPane.add(btnSvuota);
 		
 		JLabel lblLogo = new JLabel("");

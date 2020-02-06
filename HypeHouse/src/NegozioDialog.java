@@ -28,18 +28,19 @@ public class NegozioDialog extends JFrame {
 	public NegozioDialog(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Negozio");
-		setBounds(100, 100, 948, 725);
+		setBounds(100, 100, 976, 755);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setForeground(new Color(255, 255, 255));
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setResizable(false);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JLabel lbllogo = new JLabel("");
 		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();
 		lbllogo.setIcon(new ImageIcon(imglogo));
-		lbllogo.setBounds(334, 13, 220, 110);
+		lbllogo.setBounds(367, 13, 220, 110);
 		contentPanel.add(lbllogo);
 		
 		JLabel LabelHome = new JLabel("");
@@ -106,7 +107,7 @@ public class NegozioDialog extends JFrame {
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		labelcarrello.setIcon(new ImageIcon(imgcarrello));
-		labelcarrello.setBounds(824, 129, 30, 39);
+		labelcarrello.setBounds(868, 129, 30, 39);
 		contentPanel.add(labelcarrello);
 		
 	}

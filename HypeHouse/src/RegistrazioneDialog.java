@@ -28,6 +28,7 @@ public class RegistrazioneDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPanel);
+		this.setResizable(false);
 		contentPanel.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");

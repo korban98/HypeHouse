@@ -31,6 +31,7 @@ public class HomePageFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setResizable(false);
 		Image imgdonna = new ImageIcon(this.getClass().getResource("/JDonnabtnmax.png")).getImage();
 		
 		JButton btnDonna = new JButton("");

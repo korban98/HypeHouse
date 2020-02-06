@@ -29,7 +29,7 @@ public class CarrelloDialog extends JDialog {
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 880, 657);
 		setContentPane(contentPanel);
-		
+		this.setResizable(false);
 		JLabel lbllogo = new JLabel("");
 		lbllogo.setBounds(325, 13, 210, 108);
 		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();

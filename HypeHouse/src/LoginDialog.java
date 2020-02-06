@@ -29,6 +29,7 @@ public class LoginDialog extends JDialog {
 		setBounds(100, 100, 426, 328);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPanel);
+		this.setResizable(false);
 		contentPanel.setLayout(null);
 		{
 			JButton btnAccedi = new JButton("Accedi");
