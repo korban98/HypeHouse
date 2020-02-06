@@ -99,6 +99,7 @@ public class LoginDialog extends JDialog {
 	
 	private void EffettuaAccesso(String tipoutente, String username) {
 		if(tipoutente.equals("Admin")) {
+			ctrl.AggiornaTabellaMagazzino();
 			ctrl.VisibilitaMagazzinoAdmin(username);
 		}
 		else if(tipoutente.equals("Guest")) {

@@ -1,9 +1,12 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -19,14 +22,13 @@ public class ControllerShop {
 	private LoginDialog login;
 	private AggiungiArticoloDialog addarticolodialog;
 	private NegozioDialog negoziodialog;
-	private Double price;
-	private Integer quantitaMagazzino;
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
 	private static Connection con;
 	private ResultSet rs;
 	private CarrelloDialog carrellodialog;
+	public ModificaArticoloMagazFrame modificamagaz;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -38,6 +40,7 @@ public class ControllerShop {
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		negoziodialog=new NegozioDialog(this);
 		carrellodialog=new CarrelloDialog(this);
+		
 		Magazzino = new ArrayList<Articolo>();
 	}
 
@@ -87,16 +90,21 @@ public class ControllerShop {
 		
 	}
 	
+	public void RefreshMagazzino() {
+		magazframe.setVisible(false);
+		magazframe.setVisible(true);
+	}
+	
 	public void ChiudiMagazzino() {
 		homeframe.setVisible(true);
 		magazframe.setVisible(false);
 	}
 
-	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
-		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
-		quantitaMagazzino += qnt;
-		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino); 
-	}
+//	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
+//		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
+//		quantitaMagazzino += qnt;
+//		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino); 
+//	}
 
 	public String ControlloUtenteRegistrato(String username, String password) {
 		String tipoutente = null;
@@ -111,10 +119,18 @@ public class ControllerShop {
 	
 	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, String taglia, String prezzo, String quantita) {
 		boolean success = false;
+		boolean articolopresente = false;
 		try {
-			String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"','"+taglia+"','"+prezzo+"','"+quantita+"')";
-			success = dao.Update(qry);
-			ControlloArticoloAggiunto(success);
+			String qry0 = "SELECT CodiceBarre FROM Articolo WHERE CodiceBarre = '"+codice+"'";
+			articolopresente = dao.Update(qry0);
+			if(articolopresente==false) {
+				String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"','"+taglia+"','"+prezzo+"','"+quantita+"')";
+				success = dao.Update(qry);
+				ControlloArticoloAggiunto(success);
+			}
+			else {
+				ErroreDialog("Articolo già presente nel Database.", "Errore");
+			}
 		} catch (Exception e) {System.out.println(e);}
 	}
 	
@@ -133,10 +149,37 @@ public class ControllerShop {
 		}
 	}
 
-//	public void AggiungiArticoloMagazzino(String codbarre, String genere, String cat, String nome, String colore, String tag, String prezzo, String qnt) {
-//		this.price = new Double(prezzo);
-//		this.quantitaMagazzino = new Integer(qnt);
-//		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino);
-//		Magazzino.add(art);	
-//	}
+	public void AggiornaTabellaMagazzino(){
+		try {
+			String qry = "SELECT * FROM Articolo";
+			rs = dao.Select(qry);
+			while(rs.next()) {
+				Double prezzo = new Double(rs.getString("Prezzo"));
+				Integer quantita = new Integer(rs.getString("Quantità")) ;
+				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), rs.getString("Nome"),
+					rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
+				magazframe.AggiungiArticoloaTableMagazzino(art);
+			}
+		} catch (SQLException e) {System.out.println(e);}
+	}
+
+	public void SvuotaTabellaMgazzino() {
+		DefaultTableModel dtm = (DefaultTableModel) magazframe.tableMagazzino.getModel();
+		dtm.setRowCount(0);
+	}
+
+	public void ModificaArticoloMagazzino(String codbarre) {
+		modificamagaz = new ModificaArticoloMagazFrame(this,codbarre);
+		modificamagaz.setVisible(true);
+//		modificamagaz.quantitaField.setText(codbarre);
+	}
+
+	public boolean RimuoviArticoloMagazzino(String codbarre) {
+		boolean eliminato = false;
+		try {
+			String qry = "DELETE FROM Articolo WHERE CodiceBarre = '"+codbarre+"'";
+			eliminato = dao.Update(qry);
+			return eliminato;
+		} catch (Exception e) {return eliminato;}
+	}
 } 

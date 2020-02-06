@@ -53,6 +53,8 @@ public class AggiungiArticoloDialog extends JDialog {
 			JButton cancelButton = new JButton("Chiudi");
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					ctrl.SvuotaTabellaMgazzino();
+					ctrl.AggiornaTabellaMagazzino();
 					ctrl.AggiungiArticoloDialog(false);
 				}
 			});

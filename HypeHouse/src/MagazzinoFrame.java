@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +20,9 @@ import java.awt.Color;
 public class MagazzinoFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTable tableMagazzino;
+	public JTable tableMagazzino;
 	private JLabel lblNomeAdmin;
+	private JLabel lblErroreSelezione;
 	private ControllerShop ctrl;
 	
 	public MagazzinoFrame(ControllerShop controller) {
@@ -86,6 +88,23 @@ public class MagazzinoFrame extends JFrame {
 		contentPane.add(btnAggiungi);
 		
 		JButton btnModifica = new JButton("Modifica");
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int checkselezionata = ControllaCheckSelezionate();
+				if(checkselezionata==1) {
+					lblErroreSelezione.setText("");
+					//modifica quantita.
+					ctrl.ModificaArticoloMagazzino(ArticoloDaModificare());
+				}
+				else if(checkselezionata>1) {
+					ctrl.SvuotaTabellaMgazzino();
+					ctrl.AggiornaTabellaMagazzino();
+					lblErroreSelezione.setText("Selezionare un solo articolo.");
+				}
+				else
+					lblErroreSelezione.setText("Nessun articolo selezionato.");
+			}
+		});
 		btnModifica.setBounds(274, 397, 108, 23);
 		contentPane.add(btnModifica);
 		
@@ -99,11 +118,36 @@ public class MagazzinoFrame extends JFrame {
 		getContentPane().setLayout(null);
 		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPane.add(lblLogo);
+		
+		lblErroreSelezione = new JLabel("");
+		lblErroreSelezione.setForeground(Color.red);
+		lblErroreSelezione.setBounds(392, 401, 196, 14);
+		contentPane.add(lblErroreSelezione);
+	}
+	
+	private String ArticoloDaModificare() {
+		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
+		String nome=null;
+		for(int i=0; i<dtm.getRowCount(); i++) {
+			if((Boolean)dtm.getValueAt(i, 0)==true)
+				nome = (String)dtm.getValueAt(i, 1);
+		}
+		return nome;
+	}
+	
+	private int ControllaCheckSelezionate() {
+		int selezionati = 0;
+		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
+		for(int i=0; i<dtm.getRowCount(); i++) {
+			if((Boolean)dtm.getValueAt(i, 0)==true)
+				selezionati++;
+		}
+		return selezionati;
 	}
 	
 	public void AggiungiArticoloaTableMagazzino(Articolo a) {
 		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
-		dtm.addRow(new Object[] {a.getCodiceBarre(), a.getGenere(), a.getCategoria(), a.getNome(), a.getColore(), a.getTaglia(), a.getPrezzo(), a.getQuantita()});
+		dtm.addRow(new Object[] {false, a.getCodiceBarre(), a.getGenere(), a.getCategoria(), a.getNome(), a.getColore(), a.getTaglia(), a.getPrezzo(), a.getQuantita()});
 	}
 	
 	public void SetLabelNomeAdmin(String nomeadmin) {
