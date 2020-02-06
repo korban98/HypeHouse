@@ -159,6 +159,7 @@ public class ControllerShop {
 				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), rs.getString("Nome"),
 					rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
 				magazframe.AggiungiArticoloaTableMagazzino(art);
+				
 			}
 		} catch (SQLException e) {System.out.println(e);}
 	}

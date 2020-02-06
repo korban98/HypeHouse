@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +14,11 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
 
 public class AggiungiArticoloDialog extends JDialog {
@@ -31,10 +37,11 @@ public class AggiungiArticoloDialog extends JDialog {
 	
 	public AggiungiArticoloDialog(ControllerShop controller) {
 		ctrl = controller;
-		setBounds(100, 100, 438, 573);
+		setBounds(100, 100, 439, 605);
 		setTitle("Aggiungi Articolo");
 		getContentPane().setLayout(null);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setResizable(false);
 		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		{
@@ -44,7 +51,7 @@ public class AggiungiArticoloDialog extends JDialog {
 					ControlloCorrettezzaInserimento();
 				}
 			});
-			okButton.setBounds(73, 443, 101, 46);
+			okButton.setBounds(93, 486, 101, 46);
 			contentPanel.add(okButton);
 			okButton.setActionCommand("OK");
 			getRootPane().setDefaultButton(okButton);
@@ -58,13 +65,13 @@ public class AggiungiArticoloDialog extends JDialog {
 					ctrl.AggiungiArticoloDialog(false);
 				}
 			});
-			cancelButton.setBounds(241, 443, 101, 46);
+			cancelButton.setBounds(267, 486, 101, 46);
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
 		}
 		{
 			JLabel lblLogo = new JLabel("");
-			lblLogo.setBounds(123, 13, 167, 64);
+			lblLogo.setBounds(123, 13, 170, 64);
 			Image imglogo = new ImageIcon(this.getClass().getResource("/logofinals.jpeg")).getImage();
 			getContentPane().setLayout(null);
 			lblLogo.setIcon(new ImageIcon(imglogo));
@@ -172,6 +179,15 @@ public class AggiungiArticoloDialog extends JDialog {
 			lblInserireArticoloDa.setBounds(22, 90, 319, 25);
 			contentPanel.add(lblInserireArticoloDa);
 		}
+		
+		JButton btnSeleFoto = new JButton("Carica foto");
+		btnSeleFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				instanziaFileChooser();
+			}
+		});
+		btnSeleFoto.setBounds(93, 410, 101, 25);
+		contentPanel.add(btnSeleFoto);
 	}
 
 	private void ControlloCorrettezzaInserimento() {
@@ -191,5 +207,30 @@ public class AggiungiArticoloDialog extends JDialog {
 		else
 			ctrl.ErroreDialog("Inserire correttamente i valori.", "Errore Inserimento");
 	}
-}
+	public void instanziaFileChooser() {
+		JFileChooser fc = new JFileChooser();
+		fc.setMultiSelectionEnabled(true);
+		int returnVal = fc.showOpenDialog(null);
+		
+			if (returnVal == JFileChooser.APPROVE_OPTION) { 
+			  File[] file = fc.getSelectedFiles(); //This is where a real application would open the
+			  System.out.println(file[1].getAbsolutePath());
+			  	try {
+			  		Class.forName("com.mysql.cj.jdbc.Driver");
+			  		Connection con = DriverManager.getConnection("jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!"); 
+			  			for(File cont : file) {
+			  				try { 
+			  					String updateSQL ="INSERT INTO fotoarticolo (IdFoto,CodiceBarre,Foto) VALUES " + "('1','1',?)";
+			  					PreparedStatement pstmt = con.prepareStatement(updateSQL); // read the file
+			  					FileInputStream input = new FileInputStream(cont); // set parameters
+			  					pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
+			  					}
+			  				catch(Exception ex){ ex.printStackTrace();}
+		    
+			  								  }
+			         } 
+			  	catch (Exception e1) {}
+															}
+										}
+		}
 

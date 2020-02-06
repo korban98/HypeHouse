@@ -34,6 +34,7 @@ public class ModificaArticoloMagazFrame extends JDialog {
 					ctrl.SvuotaTabellaMgazzino();
 					ctrl.AggiornaTabellaMagazzino();
 					ctrl.modificamagaz.setVisible(false);
+					
 				}
 				else {
 					ctrl.ErroreDialog("Articolo non rimosso correttamente.", "Errore");

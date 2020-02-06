@@ -26,6 +26,17 @@ public class DAO {
 		} catch (SQLException e) {return false;}
 	}
 	
+	public boolean updateQuery(String qry) {
+		try {
+			stmt= con.createStatement();
+			stmt.execute(qry);
+			
+			return true;
+		}catch(SQLException e) {
+			return false;
+		}	
+	}
+	
 	public ResultSet Select(String qry) {
 		try {
 			stmt= con.createStatement();
