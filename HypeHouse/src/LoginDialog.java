@@ -115,18 +115,14 @@ public class LoginDialog extends JDialog {
 				EffettuaAccesso(tipoutenteregistrato, UsernameField.getText());	
 			}
 			else {
-				ErroreDialog("Utente non registrato.", "Errore");
+				ctrl.ErroreDialog("Utente non registrato.", "Errore");
 			}
 			SvuotaTextField();
 		}
 		else {
 			SvuotaTextField();
-			ErroreDialog("Inserire Username e Password.", "Errore Inserimento");
+			ctrl.ErroreDialog("Inserire Username e Password.", "Errore Inserimento");
 		}
 	}
 	
-	private void ErroreDialog(String messaggio, String titolo) {
-		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,
-		        JOptionPane.ERROR_MESSAGE);
-	}
 }

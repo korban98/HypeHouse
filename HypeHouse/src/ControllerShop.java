@@ -2,6 +2,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -35,6 +38,7 @@ public class ControllerShop {
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		negoziodialog=new NegozioDialog(this);
 		carrellodialog=new CarrelloDialog(this);
+		Magazzino = new ArrayList<Articolo>();
 	}
 
 	public static void main(String[] args) {
@@ -57,14 +61,7 @@ public class ControllerShop {
 	}
 	public void RitornaAllaHome() {
 		homeframe.setVisible(true);
-		
 	}
-		
-	public void AggiungiArticolo(String codbarre, String genere, String cat, String nome,String colore,String tag,String prezzo,String qnt) {
-		this.price = new Double(prezzo);
-		this.quantitaMagazzino = new Integer(qnt);
-		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino,null);
-		Magazzino.add(art);	}
 
 	public void VisualizzaCarrelloDialog(boolean flag) {
 		carrellodialog.setVisible(flag);
@@ -112,4 +109,34 @@ public class ControllerShop {
 		return tipoutente;
 	}
 	
+	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, String taglia, String prezzo, String quantita) {
+		boolean success = false;
+		try {
+			String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"','"+taglia+"','"+prezzo+"','"+quantita+"')";
+			success = dao.Update(qry);
+			ControlloArticoloAggiunto(success);
+		} catch (Exception e) {System.out.println(e);}
+	}
+	
+	public void ErroreDialog(String messaggio, String titolo) {
+		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,
+		        JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void ControlloArticoloAggiunto(boolean success) {
+		if(success==true) {
+			JOptionPane.showMessageDialog(new JFrame(), "Articolo Aggiunto Correttamente al Database.", "",
+			        JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			ErroreDialog("Articolo non aggiunto correttamente.", "Errore");
+		}
+	}
+
+//	public void AggiungiArticoloMagazzino(String codbarre, String genere, String cat, String nome, String colore, String tag, String prezzo, String qnt) {
+//		this.price = new Double(prezzo);
+//		this.quantitaMagazzino = new Integer(qnt);
+//		this.art = new Articolo(codbarre, genere, cat, nome,colore,tag,price,quantitaMagazzino);
+//		Magazzino.add(art);	
+//	}
 } 

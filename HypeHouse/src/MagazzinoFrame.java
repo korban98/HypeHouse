@@ -19,7 +19,7 @@ import java.awt.Color;
 public class MagazzinoFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	private JTable tableMagazzino;
 	private JLabel lblNomeAdmin;
 	private ControllerShop ctrl;
 	
@@ -51,9 +51,9 @@ public class MagazzinoFrame extends JFrame {
 		scrollPane.setBounds(10, 121, 822, 251);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
-		table.setColumnSelectionAllowed(true);
-		table.setModel(new DefaultTableModel(
+		tableMagazzino = new JTable();
+		tableMagazzino.setColumnSelectionAllowed(true);
+		tableMagazzino.setModel(new DefaultTableModel(
 			new Object[][] {
 				,
 			},
@@ -74,7 +74,7 @@ public class MagazzinoFrame extends JFrame {
 				return columnEditables[column];
 			}
 		});
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(tableMagazzino);
 			
 		JButton btnAggiungi = new JButton("Aggiungi");
 		btnAggiungi.addActionListener(new ActionListener() {
@@ -99,6 +99,11 @@ public class MagazzinoFrame extends JFrame {
 		getContentPane().setLayout(null);
 		lblLogo.setIcon(new ImageIcon(imglogo));
 		contentPane.add(lblLogo);
+	}
+	
+	public void AggiungiArticoloaTableMagazzino(Articolo a) {
+		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
+		dtm.addRow(new Object[] {a.getCodiceBarre(), a.getGenere(), a.getCategoria(), a.getNome(), a.getColore(), a.getTaglia(), a.getPrezzo(), a.getQuantita()});
 	}
 	
 	public void SetLabelNomeAdmin(String nomeadmin) {
