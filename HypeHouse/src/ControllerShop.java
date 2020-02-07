@@ -117,13 +117,23 @@ public class ControllerShop {
 		return tipoutente;
 	}
 	
+	private String ControlloPresenzaArticoloDatabase(String codice) {
+		String articolopresente = null;
+		try {
+			String qry0 = "SELECT Nome FROM Articolo WHERE CodiceBarre = '"+codice+"'";
+			rs = dao.Select(qry0);
+			rs.next();
+			articolopresente = rs.getString(1);
+			return articolopresente;
+		} catch (SQLException e) {return articolopresente;}	
+	}
+	
 	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, String taglia, String prezzo, String quantita) {
 		boolean success = false;
-		boolean articolopresente = false;
+		String articolopresente = null;
 		try {
-			String qry0 = "SELECT CodiceBarre FROM Articolo WHERE CodiceBarre = '"+codice+"'";
-			articolopresente = dao.Update(qry0);
-			if(articolopresente==false) {
+			articolopresente = ControlloPresenzaArticoloDatabase(codice);
+			if(articolopresente==null) {
 				String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"','"+taglia+"','"+prezzo+"','"+quantita+"')";
 				success = dao.Update(qry);
 				ControlloArticoloAggiunto(success);

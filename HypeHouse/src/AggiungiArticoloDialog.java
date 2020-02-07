@@ -180,14 +180,14 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblInserireArticoloDa);
 		}
 		
-		JButton btnSeleFoto = new JButton("Carica foto");
-		btnSeleFoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				instanziaFileChooser();
-			}
-		});
-		btnSeleFoto.setBounds(93, 410, 101, 25);
-		contentPanel.add(btnSeleFoto);
+//		JButton btnSeleFoto = new JButton("Carica foto");
+//		btnSeleFoto.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				instanziaFileChooser();
+//			}
+//		});
+//		btnSeleFoto.setBounds(93, 410, 101, 25);
+//		contentPanel.add(btnSeleFoto);
 	}
 
 	private void ControlloCorrettezzaInserimento() {
@@ -207,30 +207,30 @@ public class AggiungiArticoloDialog extends JDialog {
 		else
 			ctrl.ErroreDialog("Inserire correttamente i valori.", "Errore Inserimento");
 	}
-	public void instanziaFileChooser() {
-		JFileChooser fc = new JFileChooser();
-		fc.setMultiSelectionEnabled(true);
-		int returnVal = fc.showOpenDialog(null);
-		
-			if (returnVal == JFileChooser.APPROVE_OPTION) { 
-			  File[] file = fc.getSelectedFiles(); //This is where a real application would open the
-			  System.out.println(file[1].getAbsolutePath());
-			  	try {
-			  		Class.forName("com.mysql.cj.jdbc.Driver");
-			  		Connection con = DriverManager.getConnection("jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!"); 
-			  			for(File cont : file) {
-			  				try { 
-			  					String updateSQL ="INSERT INTO fotoarticolo (IdFoto,CodiceBarre,Foto) VALUES " + "('1','1',?)";
-			  					PreparedStatement pstmt = con.prepareStatement(updateSQL); // read the file
-			  					FileInputStream input = new FileInputStream(cont); // set parameters
-			  					pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
-			  					}
-			  				catch(Exception ex){ ex.printStackTrace();}
-		    
-			  								  }
-			         } 
-			  	catch (Exception e1) {}
-															}
-										}
+//	public void instanziaFileChooser() {
+//		JFileChooser fc = new JFileChooser();
+//		fc.setMultiSelectionEnabled(true);
+//		int returnVal = fc.showOpenDialog(null);
+//		
+//			if (returnVal == JFileChooser.APPROVE_OPTION) { 
+//			  File[] file = fc.getSelectedFiles(); //This is where a real application would open the
+//			  System.out.println(file[1].getAbsolutePath());
+//			  	try {
+//			  		Class.forName("com.mysql.cj.jdbc.Driver");
+//			  		Connection con = DriverManager.getConnection("jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!"); 
+//			  			for(File cont : file) {
+//			  				try { 
+//			  					String updateSQL ="INSERT INTO fotoarticolo (IdFoto,CodiceBarre,Foto) VALUES " + "('1','1',?)";
+//			  					PreparedStatement pstmt = con.prepareStatement(updateSQL); // read the file
+//			  					FileInputStream input = new FileInputStream(cont); // set parameters
+//			  					pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
+//			  					}
+//			  				catch(Exception ex){ ex.printStackTrace();}
+//		    
+//			  								  }
+//			         } 
+//			  	catch (Exception e1) {}
+//															}
+//										}
 		}
 

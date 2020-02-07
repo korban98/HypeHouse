@@ -27,13 +27,14 @@ public class DAO {
 	}
 	
 	public boolean updateQuery(String qry) {
+		boolean flag=false;
 		try {
 			stmt= con.createStatement();
-			stmt.execute(qry);
+			flag = stmt.execute(qry);
 			
-			return true;
+			return flag;
 		}catch(SQLException e) {
-			return false;
+			return flag;
 		}	
 	}
 	
