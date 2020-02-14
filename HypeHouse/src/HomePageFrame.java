@@ -25,7 +25,7 @@ public class HomePageFrame extends JFrame {
 		ctrl=controller;
 		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 886, 667);
+		setBounds(100, 20, 886, 667);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

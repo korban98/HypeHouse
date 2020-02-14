@@ -38,7 +38,6 @@ public class LoginDialog extends JDialog {
 					ControlloCredenziali();
 					ctrl.VisibilitaLoginDialog(false);
 					ctrl.VisibilitaHome(false);
-//					ControlloCorrettezzaInserimento();
 				}
 			});
 			btnAccedi.setBounds(66, 229, 102, 23);

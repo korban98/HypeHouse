@@ -26,18 +26,6 @@ public class DAO {
 		} catch (SQLException e) {return false;}
 	}
 	
-	public boolean updateQuery(String qry) {
-		boolean flag=false;
-		try {
-			stmt= con.createStatement();
-			flag = stmt.execute(qry);
-			
-			return flag;
-		}catch(SQLException e) {
-			return flag;
-		}	
-	}
-	
 	public ResultSet Select(String qry) {
 		try {
 			stmt= con.createStatement();

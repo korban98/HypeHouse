@@ -45,7 +45,7 @@ public class ControllerShop {
 	}
 
 	public static void main(String[] args) {
-		ControllerShop Controller = new ControllerShop();  
+		ControllerShop Controller = new ControllerShop(); 
 	}
 
 	public void VisibilitaLoginDialog(boolean flag) {
@@ -110,11 +110,25 @@ public class ControllerShop {
 		String tipoutente = null;
 		try {
 			String qry= "SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
-			rs= dao.Select(qry);
+			rs = dao.Select(qry);
 			rs.next();
 			tipoutente = rs.getString(1);
 		}catch(Exception e) {System.out.println(e);}
 		return tipoutente;
+	}
+	
+	//il metodo restituisce la quantità nel database dell'articolo precedentemente selezionato
+	public Integer getQuantitaArticoloDatabase(String codBarre) {
+		String qnt = null;
+		Integer quantita = new Integer(0);
+		try {
+			String qry = "SELECT Quantità FROM Articolo WHERE CodiceBarre = '"+codBarre+"'";
+			rs = dao.Select(qry);
+			rs.next();
+			qnt = rs.getString(1);
+			quantita = new Integer(qnt);
+			return quantita;
+		}catch(Exception e) {return quantita;}
 	}
 	
 	private String ControlloPresenzaArticoloDatabase(String codice) {
@@ -128,13 +142,16 @@ public class ControllerShop {
 		} catch (SQLException e) {return articolopresente;}	
 	}
 	
-	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, String taglia, String prezzo, String quantita) {
+	//il metodo aggiunge un nuovo articolo al database controllando prima se l'articolo è già presente al suo interno
+	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, 
+			String taglia, String prezzo, String quantita) {
 		boolean success = false;
 		String articolopresente = null;
 		try {
 			articolopresente = ControlloPresenzaArticoloDatabase(codice);
 			if(articolopresente==null) {
-				String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"','"+taglia+"','"+prezzo+"','"+quantita+"')";
+				String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"',"
+						+ "'"+taglia+"','"+prezzo+"','"+quantita+"')";
 				success = dao.Update(qry);
 				ControlloArticoloAggiunto(success);
 			}
@@ -142,6 +159,28 @@ public class ControllerShop {
 				ErroreDialog("Articolo già presente nel Database.", "Errore");
 			}
 		} catch (Exception e) {System.out.println(e);}
+	}
+	
+	//il metodo modifica la quantità dell'articolo precedentemente selezionato nel database
+	public boolean ModificaQuantitaArticoloDatabase(String quantita, String codbarre) {
+		boolean modificaok = false;
+		try{
+			String qry = "UPDATE Articolo SET Quantità = '"+quantita+"' WHERE CodiceBarre = '"+codbarre+"'";
+			modificaok = dao.Update(qry);
+			return modificaok;
+		}catch(Exception e) {System.out.println(e);}
+		return modificaok;
+	}
+	
+	//il metodo svuota completamente il database
+	public boolean SvuotaMagazzinoDatabase() {
+		boolean svuota = false;
+		try{
+			String qry = "DELETE FROM Articolo";
+			svuota = dao.Update(qry);
+			return svuota;
+		}catch(Exception e) {System.out.println(e);}
+		return svuota;
 	}
 	
 	public void ErroreDialog(String messaggio, String titolo) {
@@ -166,8 +205,8 @@ public class ControllerShop {
 			while(rs.next()) {
 				Double prezzo = new Double(rs.getString("Prezzo"));
 				Integer quantita = new Integer(rs.getString("Quantità")) ;
-				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), rs.getString("Nome"),
-					rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
+				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
+						rs.getString("Nome"), rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
 				magazframe.AggiungiArticoloaTableMagazzino(art);
 				
 			}
@@ -182,7 +221,6 @@ public class ControllerShop {
 	public void ModificaArticoloMagazzino(String codbarre) {
 		modificamagaz = new ModificaArticoloMagazFrame(this,codbarre);
 		modificamagaz.setVisible(true);
-//		modificamagaz.quantitaField.setText(codbarre);
 	}
 
 	public boolean RimuoviArticoloMagazzino(String codbarre) {
