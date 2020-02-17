@@ -10,16 +10,18 @@ public class Articolo {
 	private String Taglia;
 	private Double Prezzo;
 	private int Quantita;
-	private ArrayList<ImageIcon> FotoArticolo;
+//	private ArrayList<ImageIcon> FotoArticolo;
 	
 	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag, Double prezzo, int qnt) {
-		this.setCodiceBarre(codbarre);
-		this.setCategoria(cat);
-		this.setNome(nome);
-		this.setColore(colore);
-		this.setTaglia(tag);
-		this.setQuantita(qnt);
-//		this.setFotoArticolo(foto);
+
+		setCodiceBarre(codbarre);
+		setGenere(genere);;
+		setCategoria(cat);;
+		setNome(nome);
+		setColore(colore);
+		setTaglia(tag);
+		setPrezzo(prezzo);
+		setQuantita(qnt);
 	}
 	
 	public String getCodiceBarre() {
@@ -86,13 +88,5 @@ public class Articolo {
 		this.Quantita = quantita;
 	}
 	
-//	public ArrayList<ImageIcon> getFotoArticolo() {
-//		return FotoArticolo;
-//	}
-//	
-//	public void setFotoArticolo(ArrayList<ImageIcon> foto) {
-//		
-//		this.FotoArticolo=foto;
-//		
-//	}
+
 }

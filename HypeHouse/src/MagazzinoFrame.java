@@ -95,7 +95,6 @@ public class MagazzinoFrame extends JFrame {
 				int checkselezionata = ControllaCheckSelezionate();
 				if(checkselezionata==1) {
 					lblErroreSelezione.setText("");
-					//modifica quantita.
 					ctrl.ModificaArticoloMagazzino(ArticoloDaModificare());
 				}
 				else if(checkselezionata>1) {
@@ -111,6 +110,18 @@ public class MagazzinoFrame extends JFrame {
 		contentPane.add(btnModifica);
 		
 		JButton btnSvuota = new JButton("Svuota");
+		btnSvuota.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int input = JOptionPane.showConfirmDialog(null,"Sicuro di voler svuotare il magazzino?", "Attenzione", JOptionPane.YES_NO_OPTION);
+				if(input==0) {
+					boolean svuota = ctrl.SvuotaMagazzinoDatabase();
+					if(svuota==true) {
+						ctrl.SvuotaTabellaMgazzino();
+						ctrl.AggiornaTabellaMagazzino();
+					}
+				}
+			}
+		});
 		btnSvuota.setBounds(617, 500, 108, 23);
 		contentPane.add(btnSvuota);
 		
@@ -123,7 +134,7 @@ public class MagazzinoFrame extends JFrame {
 		
 		lblErroreSelezione = new JLabel("");
 		lblErroreSelezione.setForeground(Color.red);
-		lblErroreSelezione.setBounds(392, 401, 196, 14);
+		lblErroreSelezione.setBounds(393, 504, 196, 14);
 		contentPane.add(lblErroreSelezione);
 	}
 	

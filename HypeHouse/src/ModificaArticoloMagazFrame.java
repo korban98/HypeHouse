@@ -1,29 +1,32 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.Dimension;
+import javax.swing.JSeparator;
 
 public class ModificaArticoloMagazFrame extends JDialog {
-	public JTextField quantitaField;
 	private ControllerShop ctrl;
+	private JSpinner spinner;
+	private String codBarre;
 
 	public ModificaArticoloMagazFrame(ControllerShop controller, String CodiceBarre) {
 		ctrl = controller;
-		setBounds(100, 100, 468, 203);
+		codBarre = CodiceBarre;
+		setTitle("Modifica magazzino");
+		setBounds(100, 100, 468, 241);
 		getContentPane().setLayout(null);
 		
 		JLabel lblRimuoviArticoloDal = new JLabel("Rimuovi articolo dal Magazzino");
 		lblRimuoviArticoloDal.setForeground(Color.RED);
-		lblRimuoviArticoloDal.setBounds(59, 100, 200, 22);
+		lblRimuoviArticoloDal.setBounds(77, 133, 200, 22);
 		getContentPane().add(lblRimuoviArticoloDal);
 		
 		JButton btnRimuovi = new JButton("Rimuovi");
@@ -33,32 +36,47 @@ public class ModificaArticoloMagazFrame extends JDialog {
 				if(eliminato==true) {
 					ctrl.SvuotaTabellaMgazzino();
 					ctrl.AggiornaTabellaMagazzino();
-					ctrl.modificamagaz.setVisible(false);
-					
+					setVisible(false);
 				}
 				else {
 					ctrl.ErroreDialog("Articolo non rimosso correttamente.", "Errore");
 				}
 			}
 		});
-		btnRimuovi.setBounds(269, 100, 104, 23);
+		btnRimuovi.setBounds(275, 133, 104, 23);
 		getContentPane().add(btnRimuovi);
 		
-		quantitaField = new JTextField();
-		quantitaField.setBounds(323, 36, 50, 20);
-		getContentPane().add(quantitaField);
-		quantitaField.setColumns(10);
-		
 		JLabel lblAggiungidiminuisciQuantitIn = new JLabel("Aggiungi/Diminuisci quantit\u00E0 in Magazzino");
-		lblAggiungidiminuisciQuantitIn.setBounds(24, 31, 238, 31);
+		lblAggiungidiminuisciQuantitIn.setBounds(30, 34, 247, 31);
 		getContentPane().add(lblAggiungidiminuisciQuantitIn);
+		 
+		int qntiniziale= ctrl.getQuantitaArticoloDatabase(codBarre); 
+		SpinnerNumberModel modelSpinner = new SpinnerNumberModel(qntiniziale, 1, 99999, 1);
+		spinner = new JSpinner(modelSpinner);
+		spinner.setBounds(273, 36, 54, 26);
+		getContentPane().add(spinner);
 		
-		JButton btnNewButton = new JButton("-");
-		btnNewButton.setBounds(269, 35, 41, 23);
+		JButton btnNewButton = new JButton("Conferma");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean modificaok = ctrl.ModificaQuantitaArticoloDatabase(spinner.getValue().toString(), codBarre);
+				if(modificaok==true) {
+					ctrl.SvuotaTabellaMgazzino();
+					ctrl.AggiornaTabellaMagazzino();
+					setVisible(false);
+				}
+				else {
+					ctrl.ErroreDialog("Modifica non effettuata correttamente.", "Errore");
+				}
+			}
+		});
+		btnNewButton.setBounds(337, 38, 91, 23);
 		getContentPane().add(btnNewButton);
 		
-		JButton button = new JButton("+");
-		button.setBounds(383, 35, 41, 23);
-		getContentPane().add(button);
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.BLACK);
+		separator.setBackground(Color.BLACK);
+		separator.setBounds(10, 110, 420, 8);
+		getContentPane().add(separator);
 	}
 }
