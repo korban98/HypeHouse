@@ -12,16 +12,14 @@ public class Articolo {
 	private int Quantita;
 	private ArrayList<ImageIcon> FotoArticolo;
 	
-	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag, Double prezzo, int qnt,ArrayList<ImageIcon> foto) {
-		CodiceBarre=codbarre;
-		Genere=genere;
-		Categoria=cat;
-		Nome=nome;
-		Colore=colore;
-		Taglia=tag;
-		Prezzo=prezzo;
-		Quantita=qnt;
-		FotoArticolo=foto;
+	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag, Double prezzo, int qnt) {
+		this.setCodiceBarre(codbarre);
+		this.setCategoria(cat);
+		this.setNome(nome);
+		this.setColore(colore);
+		this.setTaglia(tag);
+		this.setQuantita(qnt);
+//		this.setFotoArticolo(foto);
 	}
 	
 	public String getCodiceBarre() {
@@ -88,13 +86,13 @@ public class Articolo {
 		this.Quantita = quantita;
 	}
 	
-	public ArrayList<ImageIcon> getFotoArticolo() {
-		return FotoArticolo;
-	}
-	
-	public void setFotoArticolo(ArrayList<ImageIcon> foto) {
-		
-		this.FotoArticolo=foto;
-		
-	}
+//	public ArrayList<ImageIcon> getFotoArticolo() {
+//		return FotoArticolo;
+//	}
+//	
+//	public void setFotoArticolo(ArrayList<ImageIcon> foto) {
+//		
+//		this.FotoArticolo=foto;
+//		
+//	}
 }

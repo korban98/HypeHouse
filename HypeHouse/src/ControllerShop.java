@@ -29,6 +29,7 @@ public class ControllerShop {
 	private ResultSet rs;
 	private CarrelloDialog carrellodialog;
 	public ModificaArticoloMagazFrame modificamagaz;
+	private ArticoloDialog articolodialog;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -40,6 +41,7 @@ public class ControllerShop {
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		negoziodialog=new NegozioDialog(this);
 		carrellodialog=new CarrelloDialog(this);
+		articolodialog=new ArticoloDialog(this);
 		
 		Magazzino = new ArrayList<Articolo>();
 	}
@@ -135,8 +137,7 @@ public class ControllerShop {
 	}
 	
 	public void ErroreDialog(String messaggio, String titolo) {
-		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,
-		        JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private void ControlloArticoloAggiunto(boolean success) {
@@ -156,8 +157,7 @@ public class ControllerShop {
 			while(rs.next()) {
 				Double prezzo = new Double(rs.getString("Prezzo"));
 				Integer quantita = new Integer(rs.getString("Quantità")) ;
-				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), rs.getString("Nome"),
-					rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
+				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), rs.getString("Nome"),rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
 				magazframe.AggiungiArticoloaTableMagazzino(art);
 				
 			}
@@ -183,4 +183,13 @@ public class ControllerShop {
 			return eliminato;
 		} catch (Exception e) {return eliminato;}
 	}
+	
+	
+	public void VisibilitaArticoloDialog(boolean flag) {
+		articolodialog.setVisible(flag);
+		
+	}
+	
+	
+	
 } 

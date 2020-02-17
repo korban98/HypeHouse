@@ -22,20 +22,22 @@ import javax.swing.Box;
 
 public class NegozioDialog extends JFrame {
 	
-	private final JPanel contentPanel = new JPanel();
+	private JPanel contentPanel;
+	private JButton btnLogout;
 	private ControllerShop ctrl;
 	
 	public NegozioDialog(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Negozio");
 		setBounds(100, 100, 976, 755);
-		getContentPane().setLayout(new BorderLayout());
+		contentPanel = new JPanel();
 		contentPanel.setForeground(new Color(255, 255, 255));
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setResizable(false);
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
+		this.setResizable(false);
+		
 		
 		JLabel lbllogo = new JLabel("");
 		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();
@@ -107,8 +109,9 @@ public class NegozioDialog extends JFrame {
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		labelcarrello.setIcon(new ImageIcon(imgcarrello));
-		labelcarrello.setBounds(868, 129, 30, 39);
+		labelcarrello.setBounds(869, 129, 30, 39);
 		contentPanel.add(labelcarrello);
+		
 		
 	}
 

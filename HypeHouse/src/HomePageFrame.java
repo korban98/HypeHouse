@@ -32,6 +32,8 @@ public class HomePageFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.setResizable(false);
+		
+		
 		Image imgdonna = new ImageIcon(this.getClass().getResource("/JDonnabtnmax.png")).getImage();
 		
 		JButton btnDonna = new JButton("");
@@ -70,13 +72,6 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(btnBambini);
 		
 		JButton btnCarrello = new JButton("");
-		btnCarrello.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ctrl.VisualizzaCarrelloDialog(true); 
-				
-			}
-		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		btnCarrello.setIcon(new ImageIcon(imgcarrello));
 		btnCarrello.addActionListener(new ActionListener() {
