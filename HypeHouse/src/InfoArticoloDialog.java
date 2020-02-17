@@ -12,13 +12,13 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ArticoloDialog extends JDialog {
+public class InfoArticoloDialog extends JDialog {
 
 	private JPanel contentPanel;
 	private ControllerShop ctrl;
 	
-	
-	public ArticoloDialog(ControllerShop controller) {
+	  
+	public InfoArticoloDialog(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Descrizione articolo");
 		setBounds(100, 100, 886, 667);

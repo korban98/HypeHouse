@@ -25,7 +25,7 @@ public class CompletaOrdineDialog extends JDialog {
 		this.setResizable(false);
 		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
-		
+		 
 		
 		JLabel lbllogo = new JLabel("");
 		lbllogo.setBounds(348, 13, 170, 90);
