@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
-
 public class Articolo {
 	private String CodiceBarre;
 	private String Genere;
@@ -10,9 +7,9 @@ public class Articolo {
 	private String Taglia;
 	private Double Prezzo;
 	private int Quantita;
-//	private ArrayList<ImageIcon> FotoArticolo;
 	
-	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag, Double prezzo, int qnt) {
+	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag,
+			Double prezzo, int qnt) {
 		setCodiceBarre(codbarre);
 		setGenere(genere);;
 		setCategoria(cat);;
@@ -21,7 +18,6 @@ public class Articolo {
 		setTaglia(tag);
 		setPrezzo(prezzo);
 		setQuantita(qnt);
-//		FotoArticolo=foto;
 	}
 	
 	public String getCodiceBarre() {
@@ -87,14 +83,4 @@ public class Articolo {
 	public void setQuantita(int quantita) {
 		this.Quantita = quantita;
 	}
-	
-//	public ArrayList<ImageIcon> getFotoArticolo() {
-//		return FotoArticolo;
-//	}
-//	
-//	public void setFotoArticolo(ArrayList<ImageIcon> foto) {
-//		
-//		this.FotoArticolo=foto;
-//		
-//	}
 }

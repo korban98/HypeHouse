@@ -99,13 +99,8 @@ public class ControllerShop {
 		homeframe.setVisible(true);
 		magazframe.setVisible(false);
 	}
-
-//	public void UpdateQuantitaMagazzinoAgg(int indexmagaz, int qnt) {
-//		Integer quantitaMagazzino = this.Magazzino.get(indexmagaz).getQuantita();
-//		quantitaMagazzino += qnt;
-//		this.Magazzino.get(indexmagaz).setQuantita(quantitaMagazzino); 
-//	}
-
+	
+	//il metodo controlla se l'utente inserito è salvato nel database
 	public String ControlloUtenteRegistrato(String username, String password) {
 		String tipoutente = null;
 		try {
