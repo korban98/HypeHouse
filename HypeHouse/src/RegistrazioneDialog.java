@@ -20,10 +20,12 @@ public class RegistrazioneDialog extends JDialog {
 	private JTextField textPassword;
 	private JTextField textNome;
 	private JTextField textCognome;
-	private JTextField textDataNascita;
 	private JTextField textEmail;
+	private ControllerShop ctrl;
+	private JTextField textCodiceAdmin;
 
-	public RegistrazioneDialog(ControllerShop ctrl) {
+	public RegistrazioneDialog(ControllerShop controller) {
+		ctrl = controller;
 		setBounds(100, 100, 464, 586);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,25 +76,21 @@ public class RegistrazioneDialog extends JDialog {
 		contentPanel.add(textCognome);
 		textCognome.setColumns(10);
 		
-		JLabel lblDataDiNascita = new JLabel("Data di nascita");
-		lblDataDiNascita.setBounds(30, 408, 101, 16);
-		contentPanel.add(lblDataDiNascita);
-		
-		textDataNascita = new JTextField();
-		textDataNascita.setBounds(30, 424, 145, 22);
-		contentPanel.add(textDataNascita);
-		textDataNascita.setColumns(10);
-		
 		JLabel lblNewLabel = new JLabel("Email");
-		lblNewLabel.setBounds(30, 453, 56, 16);
+		lblNewLabel.setBounds(30, 412, 56, 16);
 		contentPanel.add(lblNewLabel);
 		
 		textEmail = new JTextField();
-		textEmail.setBounds(30, 466, 145, 22);
+		textEmail.setBounds(30, 426, 145, 22);
 		contentPanel.add(textEmail);
 		textEmail.setColumns(10);
 		{
 			JButton okButton = new JButton("Conferma");
+			okButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ControlloCorrettezzaInserimento();
+				}
+			});
 			okButton.setBounds(280, 379, 127, 37);
 			contentPanel.add(okButton);
 			okButton.setActionCommand("OK");
@@ -121,5 +119,43 @@ public class RegistrazioneDialog extends JDialog {
 		lblLogoRegistrazione.setBounds(30, 126, 36, 37);
 		contentPanel.add(lblLogoRegistrazione);
 		
+		textCodiceAdmin = new JTextField();
+		textCodiceAdmin.setColumns(10);
+		textCodiceAdmin.setBounds(30, 478, 145, 22);
+		contentPanel.add(textCodiceAdmin);
+		
+		JLabel lblCodiceAdminopzionale = new JLabel("Codice Admin (opzionale)");
+		lblCodiceAdminopzionale.setBounds(30, 463, 145, 16);
+		contentPanel.add(lblCodiceAdminopzionale);
+		
+	}
+	
+	private void ControlloCorrettezzaInserimento() {
+		if((textUsername.getText().length()>0)&&(textPassword.getText().length()>0)&&(textNome.getText().length()>0)&&
+				(textCognome.getText().length()>0)&&(textEmail.getText().length()>0)){
+			if((textCodiceAdmin.getText().equals("!abc123!"))) {
+				ctrl.AggiungiUtenteDatabase(textUsername.getText(), textPassword.getText(), "Admin", textNome.getText(), textCognome.getText(),
+						 textEmail.getText());
+				SvuotaField();
+			}	
+			else if(textCodiceAdmin.getText().length()==0) {
+				ctrl.AggiungiUtenteDatabase(textUsername.getText(), textPassword.getText(), "Guest", textNome.getText(), textCognome.getText(),
+						 textEmail.getText());
+				SvuotaField();
+			}
+			else
+				ctrl.ErroreDialog("Codice Admin non corretto.", "Errore Inserimento");
+		}
+		else
+			ctrl.ErroreDialog("Riempire correttamente tutti i campi.", "Errore Inserimento");
+	}
+	
+	private void SvuotaField() {
+		textUsername.setText("");
+		textPassword.setText("");
+		textNome.setText("");
+		textCognome.setText("");
+		textEmail.setText("");
+		textCodiceAdmin.setText("");
 	}
 }

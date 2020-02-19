@@ -1,31 +1,19 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import java.sql.Statement;
-import java.util.ArrayList;
-
 public class ControllerShop {
 	private DAO dao;
-	private boolean AccessoEffettuato;
-	private ArrayList<Articolo> Magazzino;
-	private boolean AccessoAdminEffettuato;
 	private MagazzinoFrame magazframe;
-	private ArrayList<Articolo> Carrello;
-	private Utente UtenteConnesso;
 	private LoginDialog login;
 	private AggiungiArticoloDialog addarticolodialog;
 	private NegozioDialog negoziodialog;
 	private Articolo art;
 	private RegistrazioneDialog registrazione;
 	private HomePageFrame homeframe;
-	private static Connection con;
 	private ResultSet rs;
 	private CarrelloDialog carrellodialog;
 	public ModificaArticoloMagazFrame modificamagaz;
@@ -42,8 +30,6 @@ public class ControllerShop {
 		negoziodialog=new NegozioDialog(this);
 		carrellodialog=new CarrelloDialog(this);
 		articolodialog=new InfoArticoloDialog(this);
-		
-		Magazzino = new ArrayList<Articolo>();
 	}
 
 	public static void main(String[] args) {
@@ -102,7 +88,7 @@ public class ControllerShop {
 		magazframe.setVisible(false);
 	}
 	
-	//il metodo controlla se l'utente inserito è salvato nel database
+	//il metodo controlla se l'utente inserito è salvato nel database e ritorna il suo tipo
 	public String ControlloUtenteRegistrato(String username, String password) {
 		String tipoutente = null;
 		try {
@@ -141,8 +127,9 @@ public class ControllerShop {
 	
 	//il metodo aggiunge un nuovo articolo al database controllando prima se l'articolo è già presente al suo interno
 	public void AggiungiArticoloDatabase(String codice, String genere, String categoria, String nome, String colore, 
-			String taglia, String prezzo, String quantita) {
+			String taglia, String prezzo, String quantita, File[] file) {
 		boolean success = false;
+		boolean successfoto = false;
 		String articolopresente = null;
 		try {
 			articolopresente = ControlloPresenzaArticoloDatabase(codice);
@@ -150,14 +137,18 @@ public class ControllerShop {
 				String qry = "INSERT INTO Articolo VALUES ('"+codice+"','"+genere+"','"+categoria+"','"+nome+"','"+colore+"',"
 						+ "'"+taglia+"','"+prezzo+"','"+quantita+"')";
 				success = dao.Update(qry);
-				ControlloArticoloAggiunto(success);
+				if(success==true) {
+					String qry1 = "INSERT INTO fotoarticolo (CodiceBarre,Foto) VALUES ('"+codice+"',?)";
+					successfoto = dao.InsertImmagineDatabase(file, qry1);
+				}
+				ControlloArticoloAggiunto(success,successfoto);
 			}
 			else {
 				ErroreDialog("Articolo già presente nel Database.", "Errore");
 			}
 		} catch (Exception e) {System.out.println(e);}
 	}
-	
+
 	//il metodo modifica la quantità dell'articolo precedentemente selezionato nel database
 	public boolean ModificaQuantitaArticoloDatabase(String quantita, String codbarre) {
 		boolean modificaok = false;
@@ -180,13 +171,22 @@ public class ControllerShop {
 		return svuota;
 	}
 	
+	public File[] instanziaFileChooser() {
+		File[] file = null;
+		try{
+			file = dao.PrelevaFileImage();
+			return file;
+		}catch (Exception e1) {return file;}
+	}								
+	
+	//Dialog generica di errore
 	public void ErroreDialog(String messaggio, String titolo) {
 		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,JOptionPane.ERROR_MESSAGE);
 	}
 	
-	private void ControlloArticoloAggiunto(boolean success) {
-		if(success==true) {
-			JOptionPane.showMessageDialog(new JFrame(), "Articolo Aggiunto Correttamente al Database.", "",
+	private void ControlloArticoloAggiunto(boolean success, boolean successfoto) {
+		if((success==true)&&(successfoto==true)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Articolo aggiunto correttamente al Database.", "",
 			        JOptionPane.INFORMATION_MESSAGE);
 		}
 		else {
@@ -229,12 +229,28 @@ public class ControllerShop {
 		} catch (Exception e) {return eliminato;}
 	}
 	
-	
-	public void VisibilitaArticoloDialog(boolean flag) {
-		articolodialog.setVisible(flag);
-		
+	//Registrazione nuovo utente se non è già registrato
+	public void AggiungiUtenteDatabase(String username, String password, String tipo, String nome, String cognome, String email) {
+		boolean success = false;
+		String utenteregistrato = ControlloUtenteRegistrato(username, password);
+		if(utenteregistrato == null) {
+			String qry = "INSERT INTO Utente VALUES ('"+username+"','"+password+"','"+tipo+"','"+nome+"','"+cognome+"','"+email+"')";
+			success = dao.Update(qry);
+		}
+		ControlloUtenteAggiunto(success,tipo);
 	}
 	
+	private void ControlloUtenteAggiunto(boolean success, String tipo) {
+		if((success==true)) {
+			JOptionPane.showMessageDialog(new JFrame(), tipo+" registrato correttamente al Database.", "",
+			        JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			ErroreDialog("Utente non registrato correttamente.", "Errore");
+		}
+	}
 	
-	
+	public void VisibilitaArticoloDialog(boolean flag) {
+		articolodialog.setVisible(flag);	
+	}
 } 

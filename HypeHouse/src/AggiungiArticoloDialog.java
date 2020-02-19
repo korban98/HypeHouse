@@ -1,30 +1,21 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
 
 public class AggiungiArticoloDialog extends JDialog {
  
 	private final JPanel contentPanel = new JPanel();
 
+	private File[] file = null;
 	private JTextField CodiceField;
 	private JTextField GenereField;
 	private JTextField CategoriaField;
@@ -90,10 +81,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			CodiceField.setColumns(10);
 		}
 		{
-			JLabel lblNewLabel = new JLabel("Genere");
-			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNewLabel.setBounds(22, 174, 56, 16);
-			contentPanel.add(lblNewLabel);
+			JLabel lblGenere = new JLabel("Genere");
+			lblGenere.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblGenere.setBounds(22, 174, 56, 16);
+			contentPanel.add(lblGenere);
 		}
 		{
 			GenereField = new JTextField();
@@ -180,11 +171,10 @@ public class AggiungiArticoloDialog extends JDialog {
 			contentPanel.add(lblInserireArticoloDa);
 		}
 		
-
 		JButton btnSeleFoto = new JButton("Carica foto");
 		btnSeleFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				instanziaFileChooser();
+				file = ctrl.instanziaFileChooser();
 			}
 		});
 		btnSeleFoto.setBounds(93, 410, 101, 25);
@@ -196,10 +186,10 @@ public class AggiungiArticoloDialog extends JDialog {
 		if((CodiceField.getText().length()>0)&&(GenereField.getText().length()>0)&&
 				(CategoriaField.getText().length()>0)&&(NomeField.getText().length()>0)&&
 				(ColoreField.getText().length()>0)&&(TagliaField.getText().length()>0)&&
-				(PrezzoField.getText().length()>0)&&(QuantitaField.getText().length()>0)){
+				(PrezzoField.getText().length()>0)&&(QuantitaField.getText().length()>0)&&(file!=null)){
 		    ctrl.AggiungiArticoloDatabase(CodiceField.getText(), GenereField.getText(), CategoriaField.getText(), 
 		    		NomeField.getText(), ColoreField.getText(), TagliaField.getText(), PrezzoField.getText(), 
-		    		QuantitaField.getText());
+		    		QuantitaField.getText(), file);
 			CodiceField.setText("");
 			GenereField.setText("");
 			CategoriaField.setText("");
@@ -212,28 +202,6 @@ public class AggiungiArticoloDialog extends JDialog {
 		}
 		else
 			ctrl.ErroreDialog("Inserire correttamente i valori.", "Errore Inserimento");
-	}
-
-	public void instanziaFileChooser() {
-		JFileChooser fc = new JFileChooser();
-		fc.setMultiSelectionEnabled(true);
-		int returnVal = fc.showOpenDialog(null);
-		if(returnVal == JFileChooser.APPROVE_OPTION) { 
-			  File[] file = fc.getSelectedFiles(); //This is where a real application would open the
-			  System.out.println(file[1].getAbsolutePath());
-			  try {
-				  Class.forName("com.mysql.cj.jdbc.Driver");
-				  Connection con = DriverManager.getConnection("jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!"); 
-				  for(File cont : file) {
-					  try { 
-			  				String updateSQL ="INSERT INTO fotoarticolo (IdFoto,CodiceBarre,Foto) VALUES " + "('1','1',?)";
-			  				PreparedStatement pstmt = con.prepareStatement(updateSQL); // read the file
-			  				FileInputStream input = new FileInputStream(cont); // set parameters
-			  				pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
-					  }catch(Exception ex){System.out.println(ex);}
-				  }
-			  } catch (Exception e1) {System.out.println(e1);}
-		}								
 	}
 }
 

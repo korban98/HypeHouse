@@ -1,8 +1,13 @@
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JFileChooser;
 
 public class DAO {
 	private static Connection con;
@@ -24,6 +29,35 @@ public class DAO {
 			stmt.execute(qry);
 			return true;
 		} catch (SQLException e) {return false;}
+	}
+	
+	public File[] PrelevaFileImage() {
+		try {
+			File[] file=null;
+			JFileChooser fc = new JFileChooser();
+			fc.setMultiSelectionEnabled(true);
+			int returnVal = fc.showOpenDialog(null);
+			if(returnVal == JFileChooser.APPROVE_OPTION) { 
+				  file = fc.getSelectedFiles(); //Array dove vengono salvate le foto selezionate
+				  return file;
+			}
+			else return null;
+			} catch (Exception e) {return null;}
+	}
+	
+	public boolean InsertImmagineDatabase(File[] file, String qry) {
+		boolean flag = false;
+		try {
+			  stmt= con.createStatement();
+			  for(File cont : file) {
+				  	System.out.println("ciao");
+		  			PreparedStatement pstmt = con.prepareStatement(qry); // lettura del file
+		  			FileInputStream input = new FileInputStream(cont); // set parametri file
+		  			pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
+		  			flag=true;
+			  }
+			  return flag;
+		  } catch (Exception e1) {return flag;}
 	}
 	
 	public ResultSet Select(String qry) {
