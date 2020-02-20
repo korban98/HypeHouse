@@ -18,18 +18,33 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import javax.swing.JList;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import java.awt.CardLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.ScrollPane;
 
 public class NegozioDialog extends JFrame {
 	
 	private JPanel contentPanel;
 	private JButton btnLogout;
 	private ControllerShop ctrl;
+	private GridBagConstraints constraint;
+	private JScrollPane scrollPane;
+	private JPanel panel;
 	
 	public NegozioDialog(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Negozio");
-		setBounds(100, 100, 976, 755);
+		setBounds(100, 10, 986, 750);
 		contentPanel = new JPanel();
 		contentPanel.setForeground(new Color(255, 255, 255));
 		contentPanel.setBackground(new Color(255, 255, 255));
@@ -49,7 +64,7 @@ public class NegozioDialog extends JFrame {
 		LabelHome.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				ctrl.RitornaAllaHome();
+				ctrl.VisibilitaHome(true);
 				ctrl.NegozioDialog(false);
 			}
 		});
@@ -112,7 +127,58 @@ public class NegozioDialog extends JFrame {
 		labelcarrello.setBounds(869, 129, 30, 39);
 		contentPanel.add(labelcarrello);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(225, 195, 735, 520);
+		contentPanel.add(scrollPane);
 		
+		panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		scrollPane.setViewportView(panel);
+	    
+		//VINCOLI SUL LAYOUT GRIDBAG
+	    constraint = new GridBagConstraints();
+	    constraint.anchor = GridBagConstraints.CENTER;
+	    constraint.fill = GridBagConstraints.NONE;
+	    constraint.gridy = GridBagConstraints.RELATIVE;
+	    constraint.weightx = 1.0f;
+	    constraint.weighty = 1.0f;
+	    setLayoutGrid();
+	    
+	    scrollPane.setViewportView(panel);	
 	}
-
+	
+	private void CreaLabelPerArticolo(int j, int i) {
+		JLabel lbl = new JLabel();
+		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
+		lbl.setIcon(new ImageIcon(imgcarrello));
+		lbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		JLabel lbl1 = new JLabel("ciao");
+	    constraint.gridx = j;
+	    panel.add(lbl, constraint);
+	    constraint.gridx = j;
+	    panel.add(lbl1, constraint);
+	}
+	
+	//Il metodo setta il numero di label da applicare sul panel per ogni articolo presente nel Database
+	private void setLayoutGrid() {
+		 String numerolabel = ctrl.ContaArticoliInDatabase();
+		 if(numerolabel!=null) {
+		    	Integer nlabel = new Integer(numerolabel);
+		    	for(int i = 0; i < nlabel; i++) {
+		    		for(int j=0; (j<3)&& (i < nlabel); j++) {
+		    			i++;
+		    			CreaLabelPerArticolo(j, i);
+		    		}
+		    		i--;
+		    	}
+		}
+		else {
+				ctrl.ErroreDialog("errore", "errore");
+		    }
+	}
 }

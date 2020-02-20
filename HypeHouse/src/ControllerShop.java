@@ -18,6 +18,7 @@ public class ControllerShop {
 	private CarrelloDialog carrellodialog;
 	public ModificaArticoloMagazFrame modificamagaz;
 	private InfoArticoloDialog articolodialog;
+	public static ControllerShop Controller;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -33,11 +34,15 @@ public class ControllerShop {
 	}
 
 	public static void main(String[] args) {
-		ControllerShop Controller = new ControllerShop(); 
+		Controller = new ControllerShop(); 
 	}
 
 	public void VisibilitaLoginDialog(boolean flag) {
 		login.setVisible(flag);
+	}
+	
+	public void RicaricaTutto() {
+		Controller = new ControllerShop();
 	}
 	
 	public void AggiungiArticoloDialog(boolean flag) {
@@ -50,8 +55,10 @@ public class ControllerShop {
 	public void VisibilitaHome(boolean flag) {
 		homeframe.setVisible(flag);
 	}
-	public void RitornaAllaHome() {
-		homeframe.setVisible(true);
+	
+	public void RicaricaMagazzinoFrame() {
+		magazframe.setVisible(false);
+		magazframe.setVisible(true);
 	}
 
 	public void VisualizzaCarrelloDialog(boolean flag) {
@@ -84,7 +91,7 @@ public class ControllerShop {
 	}
 	
 	public void ChiudiMagazzino() {
-		homeframe.setVisible(true);
+//		homeframe.setVisible(true);
 		magazframe.setVisible(false);
 	}
 	
@@ -114,6 +121,7 @@ public class ControllerShop {
 		}catch(Exception e) {return quantita;}
 	}
 	
+	//il metodo controlla se l'articolo è presente nel Database e ne restituisce il nome 
 	private String ControlloPresenzaArticoloDatabase(String codice) {
 		String articolopresente = null;
 		try {
@@ -248,6 +256,18 @@ public class ControllerShop {
 		else {
 			ErroreDialog("Utente non registrato correttamente.", "Errore");
 		}
+	}
+	
+	//Il metodo conta quanti articoli sono presenti nel Database per ogni Codice a Barre e restituisce il risultato in formato String
+	public String ContaArticoliInDatabase() {
+		String numeroarticoli = null;
+		try {
+			String qry = "SELECT COUNT(CodiceBarre) AS NumeroArticoli FROM Articolo";
+			rs = dao.Select(qry);
+			rs.next();
+			numeroarticoli = rs.getString("NumeroArticoli");
+			return numeroarticoli;
+		} catch (SQLException e) {return numeroarticoli;}
 	}
 	
 	public void VisibilitaArticoloDialog(boolean flag) {

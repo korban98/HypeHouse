@@ -39,7 +39,7 @@ public class InfoArticoloDialog extends JDialog {
 		lblhome.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				ctrl.RitornaAllaHome();
+				ctrl.VisibilitaHome(true);;
 			}
 		});
 		lblhome.setBounds(38, 118, 46, 45);

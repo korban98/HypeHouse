@@ -37,15 +37,15 @@ public class MagazzinoFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Esci");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnEsci = new JButton("Esci");
+		btnEsci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.VisibilitaHome(true);
 				ctrl.ChiudiMagazzino();
+				ctrl.RicaricaTutto();
 			}
 		});
-		btnNewButton.setBounds(743, 90, 89, 23);
-		contentPane.add(btnNewButton);
+		btnEsci.setBounds(743, 90, 89, 23);
+		contentPane.add(btnEsci);
 		
 		lblNomeAdmin = new JLabel("");
 		lblNomeAdmin.setBounds(655, 94, 78, 14);

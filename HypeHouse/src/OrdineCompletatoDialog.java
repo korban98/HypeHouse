@@ -55,7 +55,7 @@ public class OrdineCompletatoDialog extends JDialog {
 		JButton btnTornaAllaHome = new JButton("Torna alla Home");
 		btnTornaAllaHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Controller.RitornaAllaHome();
+				Controller.VisibilitaHome(true);;
 			}
 		});
 		btnTornaAllaHome.setBounds(172, 227, 127, 25);
