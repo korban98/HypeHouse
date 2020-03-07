@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 
 public class HomePageFrame extends JFrame {
@@ -32,15 +34,15 @@ public class HomePageFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.setResizable(false);
-		
-		
+				
 		Image imgdonna = new ImageIcon(this.getClass().getResource("/JDonnabtnmax.png")).getImage();
 		
 		JButton btnDonna = new JButton("");
 		btnDonna.setIcon(new ImageIcon(imgdonna));
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrl.NegozioDialog(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl,"Donna");
+				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaHome(false);
 			}
 		});
@@ -52,7 +54,8 @@ public class HomePageFrame extends JFrame {
 		btnUomo.setIcon(new ImageIcon(imguomo));
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.NegozioDialog(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl, "Uomo");
+				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaHome(false);
 			}
 		});
@@ -60,14 +63,15 @@ public class HomePageFrame extends JFrame {
 		contentPane.add(btnUomo);
 		
 		JButton btnBambini = new JButton("");
+		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinimax.png")).getImage();
+		btnBambini.setIcon(new ImageIcon(imgbambini));
 		btnBambini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.NegozioDialog(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl, "Bambini");
+				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaHome(false);
 			}
 		});
-		Image imgbambini = new ImageIcon(this.getClass().getResource("/JBambinimax.png")).getImage();
-		btnBambini.setIcon(new ImageIcon(imgbambini));
 		btnBambini.setBounds(555, 165, 235, 391);
 		contentPane.add(btnBambini);
 		

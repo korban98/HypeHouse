@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.Font;
 import javax.swing.JList;
 import java.awt.Component;
@@ -40,11 +41,17 @@ public class NegozioDialog extends JFrame {
 	private GridBagConstraints constraint;
 	private JScrollPane scrollPane;
 	private JPanel panel;
+	private ArrayList<FotoExstendsArticolo> listaarticoli;
+	private ArrayList<FotoExstendsArticolo> articolipergenere;
 	
-	public NegozioDialog(ControllerShop controller) {
+	public NegozioDialog(ControllerShop controller, String genere) {
 		ctrl=controller;
+		listaarticoli = new ArrayList<FotoExstendsArticolo>();
+		listaarticoli = ctrl.getArrayArticoli();
+		articolipergenere = new ArrayList<FotoExstendsArticolo>();
+		
 		setTitle("Negozio");
-		setBounds(100, 10, 986, 750);
+		setBounds(100, 10, 886, 650);
 		contentPanel = new JPanel();
 		contentPanel.setForeground(new Color(255, 255, 255));
 		contentPanel.setBackground(new Color(255, 255, 255));
@@ -52,7 +59,6 @@ public class NegozioDialog extends JFrame {
 		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		this.setResizable(false);
-		
 		
 		JLabel lbllogo = new JLabel("");
 		Image imglogo = new ImageIcon(this.getClass().getResource("/logofinalsmax.jpeg")).getImage();
@@ -65,7 +71,7 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisibilitaHome(true);
-				ctrl.NegozioDialog(false);
+				ctrl.VisibilitaNegozioDialog(false);
 			}
 		});
 		LabelHome.setBounds(51, 129, 45, 50);
@@ -73,68 +79,33 @@ public class NegozioDialog extends JFrame {
 		Image imghome = new ImageIcon(this.getClass().getResource("/homeLabel.png")).getImage();
 		LabelHome.setIcon(new ImageIcon(imghome));
 		
-		JLabel lblNewLabel = new JLabel("Maglie");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(51, 238, 45, 17);
-		contentPanel.add(lblNewLabel);
-		
-		JLabel lblFelpe = new JLabel("Felpe");
-		lblFelpe.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFelpe.setBounds(51, 270, 45, 16);
-		contentPanel.add(lblFelpe);
-		
-		JLabel lblGiubbinicappotti = new JLabel("Giubbini&Cappotti");
-		lblGiubbinicappotti.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblGiubbinicappotti.setBounds(51, 301, 126, 16);
-		contentPanel.add(lblGiubbinicappotti);
-		
-		JLabel lblCinture = new JLabel("Cinture");
-		lblCinture.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCinture.setBounds(51, 330, 56, 16);
-		contentPanel.add(lblCinture);
-		
-		JLabel lblPantaloni = new JLabel("Pantaloni");
-		lblPantaloni.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPantaloni.setBounds(51, 362, 66, 16);
-		contentPanel.add(lblPantaloni);
-		
-		JLabel lblCalzini = new JLabel("Calzini");
-		lblCalzini.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCalzini.setBounds(51, 399, 45, 16);
-		contentPanel.add(lblCalzini);
-		
-		JLabel lblNewLabel_1 = new JLabel("Scarpe");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(51, 435, 56, 16);
-		contentPanel.add(lblNewLabel_1);
-		
 		JLabel label = new JLabel("");
 		Image imglinee = new ImageIcon(this.getClass().getResource("/linea.png")).getImage();
 		label.setIcon(new ImageIcon(imglinee));
-		label.setBounds(169, 220, 56, 280);
+		label.setBounds(10, 187, 38, 405);
 		contentPanel.add(label);
 		
 		JLabel labelcarrello = new JLabel("");
 		labelcarrello.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.NegozioDialog(false);
+				ctrl.VisibilitaNegozioDialog(false);
 				 ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		labelcarrello.setIcon(new ImageIcon(imgcarrello));
-		labelcarrello.setBounds(869, 129, 30, 39);
+		labelcarrello.setBounds(807, 137, 45, 42);
 		contentPanel.add(labelcarrello);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(225, 195, 735, 520);
+		scrollPane.setBounds(51, 187, 801, 405);
 		contentPanel.add(scrollPane);
 		
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		scrollPane.setViewportView(panel);
-	    
+    
 		//VINCOLI SUL LAYOUT GRIDBAG
 	    constraint = new GridBagConstraints();
 	    constraint.anchor = GridBagConstraints.CENTER;
@@ -142,43 +113,56 @@ public class NegozioDialog extends JFrame {
 	    constraint.gridy = GridBagConstraints.RELATIVE;
 	    constraint.weightx = 1.0f;
 	    constraint.weighty = 1.0f;
-	    setLayoutGrid();
+	    setLayoutGrid(genere);
 	    
-	    scrollPane.setViewportView(panel);	
+//	    scrollPane.setColumnHeaderView(panel);	
 	}
 	
 	private void CreaLabelPerArticolo(int j, int i) {
-		JLabel lbl = new JLabel();
-		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
-		lbl.setIcon(new ImageIcon(imgcarrello));
-		lbl.addMouseListener(new MouseAdapter() {
+		JLabel lblfoto = new JLabel();
+		lblfoto.setIcon(articolipergenere.get(i).getPrimaFotoArticolo());
+		lblfoto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				ctrl.setInfoArtDialog(articolipergenere.get(i));
+//				InfoArticoloDialog infoarticolo = new InfoArticoloDialog(ctrl, articolipergenere.get(i));
+//				infoarticolo.setVisible(true);
 			}
 		});
-		JLabel lbl1 = new JLabel("ciao");
+		JLabel lblnome = new JLabel(articolipergenere.get(i).getNome());
+		JLabel lblprezzo = new JLabel("€ "+articolipergenere.get(i).getPrezzo().toString());
 	    constraint.gridx = j;
-	    panel.add(lbl, constraint);
+	    panel.add(lblfoto, constraint);
 	    constraint.gridx = j;
-	    panel.add(lbl1, constraint);
+	    panel.add(lblnome, constraint);
+	    constraint.gridx = j;
+	    panel.add(lblprezzo, constraint);
 	}
 	
 	//Il metodo setta il numero di label da applicare sul panel per ogni articolo presente nel Database
-	private void setLayoutGrid() {
-		 String numerolabel = ctrl.ContaArticoliInDatabase();
+	private void setLayoutGrid(String genere) {
+		 String numerolabel = ctrl.ContaArticoliInDatabase(genere);
+		 articolipergenere = getArrayArticoliPerGenere(genere);
 		 if(numerolabel!=null) {
 		    	Integer nlabel = new Integer(numerolabel);
 		    	for(int i = 0; i < nlabel; i++) {
-		    		for(int j=0; (j<3)&& (i < nlabel); j++) {
-		    			i++;
+		    		for(int j=0; (j<3) && (i < nlabel); j++) {
 		    			CreaLabelPerArticolo(j, i);
+		    			i++;
 		    		}
 		    		i--;
 		    	}
 		}
 		else {
-				ctrl.ErroreDialog("errore", "errore");
-		    }
+				ctrl.ErroreDialog("Sold Out", "Errore");
+		}
+	}
+	
+	private ArrayList<FotoExstendsArticolo> getArrayArticoliPerGenere(String genere) {
+		for(FotoExstendsArticolo art : listaarticoli) {
+			if(art.getGenere().equals(genere))
+				articolipergenere.add(art);
+		}
+		return articolipergenere;
 	}
 }

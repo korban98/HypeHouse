@@ -1,6 +1,9 @@
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -10,15 +13,18 @@ public class ControllerShop {
 	private MagazzinoFrame magazframe;
 	private LoginDialog login;
 	private AggiungiArticoloDialog addarticolodialog;
-	private NegozioDialog negoziodialog;
-	private Articolo art;
+	public NegozioDialog negoziodialog;
+	private Articolo articolo;
+//	private FotoExstendsArticolo articolocompleto;
 	private RegistrazioneDialog registrazione;
-	private HomePageFrame homeframe;
+	public HomePageFrame homeframe;
 	private ResultSet rs;
 	private CarrelloDialog carrellodialog;
 	public ModificaArticoloMagazFrame modificamagaz;
 	private InfoArticoloDialog articolodialog;
 	public static ControllerShop Controller;
+	public ArrayList<FotoExstendsArticolo> ListaArticoli;
+//	public ArrayList<ImageIcon> FotoArticoli;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -28,9 +34,12 @@ public class ControllerShop {
 		magazframe = new MagazzinoFrame(this);	
 		homeframe.setVisible(true);
 		addarticolodialog = new AggiungiArticoloDialog(this);
-		negoziodialog=new NegozioDialog(this);
 		carrellodialog=new CarrelloDialog(this);
-		articolodialog=new InfoArticoloDialog(this);
+//		articolodialog=new InfoArticoloDialog(this);
+//		ListaArticoli = new ArrayList<FotoExstendsArticolo>();
+//		FotoArticoli = new ArrayList<ImageIcon>();
+//		negoziodialog=new NegozioDialog(this);
+//		System.out.println(ListaArticoli);
 	}
 
 	public static void main(String[] args) {
@@ -49,7 +58,8 @@ public class ControllerShop {
 		addarticolodialog.setVisible(flag);
 	}
 	
-	public void NegozioDialog(boolean flag) {		
+	public void VisibilitaNegozioDialog(boolean flag) {		
+//		RicaricaTutto();
 		negoziodialog.setVisible(flag);	
 	}
 	public void VisibilitaHome(boolean flag) {
@@ -78,7 +88,7 @@ public class ControllerShop {
 	
 	public void VisibilitaNegozioGuest() {
 		login.setVisible(false);
-		this.NegozioDialog(true);
+		this.VisibilitaNegozioDialog(true);
 		homeframe.setbottonelogout();
 		homeframe.revalidate();
 		homeframe.repaint();
@@ -187,6 +197,22 @@ public class ControllerShop {
 		}catch (Exception e1) {return file;}
 	}								
 	
+	//Il metodo restituisce un ArrayList contenente tutte le foto dal Database di un articolo
+	public ArrayList<ImageIcon> PrelevaFoto(String codbarre) {
+		ArrayList<ImageIcon> FotoArticoli=new ArrayList<ImageIcon>();
+		try {
+			ResultSet rs1;
+			String qry = "SELECT Foto FROM FotoArticolo WHERE CodiceBarre = '"+codbarre+"'";
+			rs1 = dao.Select(qry);
+			while(rs1.next()) {
+				byte[] fotobyte = rs1.getBytes("Foto");
+				ImageIcon fotoimage = new ImageIcon(fotobyte);
+				FotoArticoli.add(fotoimage);
+			}	
+			return FotoArticoli;
+		} catch (Exception e) {return FotoArticoli;}
+	}
+	
 	//Dialog generica di errore
 	public void ErroreDialog(String messaggio, String titolo) {
 		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,JOptionPane.ERROR_MESSAGE);
@@ -201,7 +227,8 @@ public class ControllerShop {
 			ErroreDialog("Articolo non aggiunto correttamente.", "Errore");
 		}
 	}
-
+	
+	//Il metodo aggiunge gli articoli alla tabella magazzino 
 	public void AggiornaTabellaMagazzino(){
 		try {
 			String qry = "SELECT * FROM Articolo";
@@ -209,13 +236,34 @@ public class ControllerShop {
 			while(rs.next()) {
 				Double prezzo = new Double(rs.getString("Prezzo"));
 				Integer quantita = new Integer(rs.getString("Quantità")) ;
-				art = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
+				articolo = new Articolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
 						rs.getString("Nome"), rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita);
-
-				magazframe.AggiungiArticoloaTableMagazzino(art);
-				
+				magazframe.AggiungiArticoloaTableMagazzino(articolo);
 			}
 		} catch (SQLException e) {System.out.println(e);}
+	}
+	
+	//Il metodo popola un Array List di Articoli, comprese le foto associate presenti nel Database
+	public ArrayList<FotoExstendsArticolo> getArrayArticoli(){
+		try {
+			ListaArticoli = new ArrayList<FotoExstendsArticolo>();
+//			FotoArticoli.clear();
+			String qry = "SELECT * FROM Articolo";
+			rs = dao.Select(qry);
+			while(rs.next()) {
+				Double prezzo = new Double(rs.getString("Prezzo"));
+				Integer quantita = new Integer(rs.getString("Quantità")) ;
+				ArrayList<ImageIcon> Foto = PrelevaFoto(rs.getString("CodiceBarre"));
+//				if(PrelevaFoto(rs.getString("CodiceBarre")) != null) {
+				FotoExstendsArticolo articolocompleto = new FotoExstendsArticolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
+						rs.getString("Nome"), rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita, Foto);
+				ListaArticoli.add(articolocompleto);
+//				}
+//				else
+//						ErroreDialog("ggggg", "fffff");
+			}
+			return ListaArticoli;
+		} catch (Exception e) {return ListaArticoli;}
 	}
 
 	public void SvuotaTabellaMgazzino() {
@@ -259,15 +307,20 @@ public class ControllerShop {
 	}
 	
 	//Il metodo conta quanti articoli sono presenti nel Database per ogni Codice a Barre e restituisce il risultato in formato String
-	public String ContaArticoliInDatabase() {
+	public String ContaArticoliInDatabase(String genere) {
 		String numeroarticoli = null;
 		try {
-			String qry = "SELECT COUNT(CodiceBarre) AS NumeroArticoli FROM Articolo";
+			String qry = "SELECT COUNT(CodiceBarre) AS NumeroArticoli FROM Articolo WHERE Genere = '"+genere+"'";
 			rs = dao.Select(qry);
 			rs.next();
 			numeroarticoli = rs.getString("NumeroArticoli");
 			return numeroarticoli;
 		} catch (SQLException e) {return numeroarticoli;}
+	}
+	
+	public void setInfoArtDialog(FotoExstendsArticolo art) {
+		articolodialog = new InfoArticoloDialog(this, art);
+		articolodialog.setVisible(true);
 	}
 	
 	public void VisibilitaArticoloDialog(boolean flag) {
