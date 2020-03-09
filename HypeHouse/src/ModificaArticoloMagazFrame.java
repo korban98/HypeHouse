@@ -56,8 +56,8 @@ public class ModificaArticoloMagazFrame extends JDialog {
 		spinner.setBounds(273, 36, 54, 26);
 		getContentPane().add(spinner);
 		
-		JButton btnNewButton = new JButton("Conferma");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnconferma = new JButton("Conferma");
+		btnconferma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean modificaok = ctrl.ModificaQuantitaArticoloDatabase(spinner.getValue().toString(), codBarre);
 				if(modificaok==true) {
@@ -70,8 +70,8 @@ public class ModificaArticoloMagazFrame extends JDialog {
 				}
 			}
 		});
-		btnNewButton.setBounds(337, 38, 91, 23);
-		getContentPane().add(btnNewButton);
+		btnconferma.setBounds(337, 38, 91, 23);
+		getContentPane().add(btnconferma);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);

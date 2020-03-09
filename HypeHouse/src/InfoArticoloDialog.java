@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JScrollPane;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InfoArticoloDialog extends JDialog {
 
@@ -37,6 +40,8 @@ public class InfoArticoloDialog extends JDialog {
 	private JLabel quantita;
 	private JLabel prezzo;
 	private JLabel genere;
+	private SpinnerNumberModel modelSpinner;
+	private JSpinner spinner;
 	  
 	public InfoArticoloDialog(ControllerShop controller, FotoExstendsArticolo articolo) {
 		ctrl = controller;
@@ -62,7 +67,8 @@ public class InfoArticoloDialog extends JDialog {
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisibilitaHome(true);
 				ctrl.VisibilitaArticoloDialog(false);
-				ctrl.VisibilitaNegozioDialog(false);
+//				ctrl.VisibilitaNegozioDialog(false);
+				ctrl.negoziodialog.setVisible(false);
 			}
 		});
 		lblhome.setBounds(38, 118, 46, 45);
@@ -75,6 +81,7 @@ public class InfoArticoloDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ctrl.VisibilitaArticoloDialog(false);
+				ctrl.negoziodialog.setVisible(true);
 			}
 		});
 		lbltornaindietro.setBounds(106, 118, 46, 45);
@@ -85,7 +92,7 @@ public class InfoArticoloDialog extends JDialog {
 		JLabel lblcarrello = new JLabel("");
 		lblcarrello.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				ctrl.VisibilitaArticoloDialog(false);
+				ctrl.AggiornaTabellaCarrello();
 				ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
@@ -162,17 +169,35 @@ public class InfoArticoloDialog extends JDialog {
 		quantita.setBounds(133, 599, 77, 14);
 		contentPanel.add(quantita);
 		
-		JButton btnAggiungiAlCarrello = new JButton("Aggiungi al carrello");
-		btnAggiungiAlCarrello.setBounds(569, 565, 139, 23);
-		contentPanel.add(btnAggiungiAlCarrello);
-		
 		JLabel lblScegliQuantit = new JLabel("Scegli quantit\u00E0 :");
 		lblScegliQuantit.setBounds(552, 509, 94, 14);
 		contentPanel.add(lblScegliQuantit);
 		
-		JSpinner spinner = new JSpinner();
+		modelSpinner = new SpinnerNumberModel(0, 0, art.getQuantita(), 1);
+		spinner = new JSpinner(modelSpinner);
 		spinner.setBounds(656, 506, 69, 20);
 		contentPanel.add(spinner);
+		
+		JButton btnAggiungiAlCarrello = new JButton("Aggiungi al carrello");
+		btnAggiungiAlCarrello.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean PresenzaArticoloCart = ctrl.ControlloArticoloPresenteCarrello(art);
+				if (PresenzaArticoloCart == false) {
+					ctrl.AggiungiArticoloCarrello(articolo, spinner.getValue().toString());
+//					ctrl.ListaArticoli.get
+					SpinnerNumberModel modelSpinner1 = new SpinnerNumberModel(0, 0, articolo.getQuantita(), 1);
+					spinner.setModel(modelSpinner1);
+				}
+				else {
+					ctrl.AggiungiQuantitaArticoloCarrello(articolo, spinner.getValue().toString());
+					SpinnerNumberModel modelSpinner1 = new SpinnerNumberModel(0, 0, articolo.getQuantita(), 1);
+					spinner.setModel(modelSpinner1);
+				}
+			}
+		});
+		btnAggiungiAlCarrello.setBounds(569, 565, 139, 23);
+		contentPanel.add(btnAggiungiAlCarrello);
+		
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(400, 186, 470, 227);

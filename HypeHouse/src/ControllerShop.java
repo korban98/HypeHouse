@@ -24,6 +24,7 @@ public class ControllerShop {
 	private InfoArticoloDialog articolodialog;
 	public static ControllerShop Controller;
 	public ArrayList<FotoExstendsArticolo> ListaArticoli;
+	public ArrayList<Articolo> carrello;
 //	public ArrayList<ImageIcon> FotoArticoli;
 
 	public ControllerShop() {
@@ -35,6 +36,7 @@ public class ControllerShop {
 		homeframe.setVisible(true);
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		carrellodialog=new CarrelloDialog(this);
+		carrello = new ArrayList<Articolo>();
 //		articolodialog=new InfoArticoloDialog(this);
 //		ListaArticoli = new ArrayList<FotoExstendsArticolo>();
 //		FotoArticoli = new ArrayList<ImageIcon>();
@@ -58,10 +60,11 @@ public class ControllerShop {
 		addarticolodialog.setVisible(flag);
 	}
 	
-	public void VisibilitaNegozioDialog(boolean flag) {		
-//		RicaricaTutto();
+	public void VisibilitaNegozioDialog(boolean flag, String genere) {		
 		negoziodialog.setVisible(flag);	
+		negoziodialog.SetLabelSezione(genere);
 	}
+	
 	public void VisibilitaHome(boolean flag) {
 		homeframe.setVisible(flag);
 	}
@@ -88,21 +91,90 @@ public class ControllerShop {
 	
 	public void VisibilitaNegozioGuest() {
 		login.setVisible(false);
-		this.VisibilitaNegozioDialog(true);
+//		this.VisibilitaNegozioDialog(true);
+		negoziodialog.setVisible(true);
 		homeframe.setbottonelogout();
 		homeframe.revalidate();
 		homeframe.repaint();
 		
 	}
-	
-	public void RefreshMagazzino() {
-		magazframe.setVisible(false);
-		magazframe.setVisible(true);
-	}
+//	
+//	public void RefreshMagazzino() {
+//		magazframe.setVisible(false);
+//		magazframe.setVisible(true);
+//	}
 	
 	public void ChiudiMagazzino() {
 //		homeframe.setVisible(true);
 		magazframe.setVisible(false);
+	}
+	
+	//il metodo aggiunge all'ArrayList carrello un nuovo articolo con una data quantità
+	public void AggiungiArticoloCarrello(FotoExstendsArticolo art, String qnt) {
+		Integer quantita = new Integer(qnt);
+		if((quantita <= art.getQuantita()) && (art.getQuantita() != 0)) {
+				AddNuovoArticoloCarrello(art, quantita);
+//				AggiornaQuantitaArticoloDatabase(art, quantita);
+				setNuovaQuantita(art, quantita);
+		}
+		else
+			ErroreDialog("Quantità inserita non presente.", "Errore.");
+		}	
+	
+	//il metodo crea una nuova istanza di articolo viene settata la quantita e aggiunto all'ArrayList carrello
+	public void AddNuovoArticoloCarrello(FotoExstendsArticolo art, int qnt) {
+		Articolo tmp = new Articolo(null, null, null, null, null, null, null, qnt);
+		tmp.setCategoria(art.getCategoria());
+		tmp.setCodiceBarre(art.getCodiceBarre());
+		tmp.setColore(art.getColore());
+		tmp.setGenere(art.getGenere());
+		tmp.setNome(art.getNome());
+		tmp.setPrezzo(art.getPrezzo());
+		tmp.setTaglia(art.getTaglia());
+		tmp.setQuantita(qnt);
+		carrello.add(tmp);
+	}
+	
+	//il metodo modifica la quantità nel database dell'articolo aggiunto al carrello
+	public void AggiornaQuantitaArticoloDatabase(FotoExstendsArticolo art,  int qnt) {
+		try {
+			setNuovaQuantita(art, qnt);
+			String qry = "UPDATE Articolo SET Quantità = '"+art.getQuantita()+"' WHERE CodiceBarre = '"+art.getCodiceBarre()+"'";
+			dao.Update(qry);
+		} catch(Exception e) {System.out.println(e);}
+	}
+	
+	//il metodo modifica la quantità di un articolo in magazzino dopo averlo aggiunto al carrello
+	public void setNuovaQuantita(FotoExstendsArticolo art,  int qnt) {
+		int nuovaqnt = art.getQuantita()-qnt;
+//		for(FotoExstendsArticolo articolo : ListaArticoli)
+//			if(articolo.getCodiceBarre().equals(art.getCodiceBarre())) {
+//				articolo.setQuantita(nuovaqnt);
+		art.setQuantita(nuovaqnt);
+//			}
+	}
+	
+	//il metodo aggiunge la quantità richiesta al carrello di un articolo che è già stato aggiunto ad esso
+	public void AggiungiQuantitaArticoloCarrello(FotoExstendsArticolo art, String qnt) {
+		Integer quantita = new Integer(qnt);
+		if((quantita <= art.getQuantita()) && (art.getQuantita() != 0)) {
+			for(Articolo item : carrello)
+				if(item.getCodiceBarre().equals(art.getCodiceBarre())) {
+					int nuovaqnt = item.getQuantita()+quantita;
+					item.setQuantita(nuovaqnt);
+					setNuovaQuantita(art, quantita);
+				}
+			}
+	}
+	
+	//il metodo controlla la presenza dell'articolo selezionato nel carrello
+	public boolean ControlloArticoloPresenteCarrello(FotoExstendsArticolo art) {
+		boolean presente = false;
+		for(Articolo articolo : carrello) {
+			if(articolo.getCodiceBarre().equals(art.getCodiceBarre()))
+				presente = true;
+		}
+		return presente;
 	}
 	
 	//il metodo controlla se l'utente inserito è salvato nel database e ritorna il suo tipo
@@ -228,6 +300,13 @@ public class ControllerShop {
 		}
 	}
 	
+	public void AggiornaTabellaCarrello() {
+		carrellodialog.SvuotaTabellaCarrello();
+		for(Articolo art : carrello) {
+			carrellodialog.AggiungiArticoloaTableCarrello(art);
+		}
+	}
+	
 	//Il metodo aggiunge gli articoli alla tabella magazzino 
 	public void AggiornaTabellaMagazzino(){
 		try {
@@ -320,6 +399,7 @@ public class ControllerShop {
 	
 	public void setInfoArtDialog(FotoExstendsArticolo art) {
 		articolodialog = new InfoArticoloDialog(this, art);
+		negoziodialog.setVisible(false);
 		articolodialog.setVisible(true);
 	}
 	

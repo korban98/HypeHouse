@@ -43,11 +43,13 @@ public class NegozioDialog extends JFrame {
 	private JPanel panel;
 	private ArrayList<FotoExstendsArticolo> listaarticoli;
 	private ArrayList<FotoExstendsArticolo> articolipergenere;
+	private JLabel lblSezione;
 	
-	public NegozioDialog(ControllerShop controller, String genere) {
+	public NegozioDialog(ControllerShop controller, String genere, ArrayList<FotoExstendsArticolo> lista) {
 		ctrl=controller;
-		listaarticoli = new ArrayList<FotoExstendsArticolo>();
-		listaarticoli = ctrl.getArrayArticoli();
+//		listaarticoli = new ArrayList<FotoExstendsArticolo>();
+//		listaarticoli = ctrl.getArrayArticoli();
+		listaarticoli = lista;
 		articolipergenere = new ArrayList<FotoExstendsArticolo>();
 		
 		setTitle("Negozio");
@@ -71,7 +73,8 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisibilitaHome(true);
-				ctrl.VisibilitaNegozioDialog(false);
+//				ctrl.VisibilitaNegozioDialog(false);
+				ctrl.negoziodialog.setVisible(false);
 			}
 		});
 		LabelHome.setBounds(51, 129, 45, 50);
@@ -89,8 +92,8 @@ public class NegozioDialog extends JFrame {
 		labelcarrello.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.VisibilitaNegozioDialog(false);
-				 ctrl.VisualizzaCarrelloDialog(true);
+				ctrl.AggiornaTabellaCarrello();
+				ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
@@ -105,6 +108,11 @@ public class NegozioDialog extends JFrame {
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		scrollPane.setViewportView(panel);
+		
+		lblSezione = new JLabel("");
+		lblSezione.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSezione.setBounds(436, 137, 126, 42);
+		contentPanel.add(lblSezione);
     
 		//VINCOLI SUL LAYOUT GRIDBAG
 	    constraint = new GridBagConstraints();
@@ -164,5 +172,9 @@ public class NegozioDialog extends JFrame {
 				articolipergenere.add(art);
 		}
 		return articolipergenere;
+	}
+	
+	public void SetLabelSezione(String genere) {
+		lblSezione.setText(genere);
 	}
 }

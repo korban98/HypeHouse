@@ -22,9 +22,12 @@ public class HomePageFrame extends JFrame {
 	private JButton btnAccedi;
 	private JButton btnLogout;
 	private ControllerShop ctrl;
+	private ArrayList<FotoExstendsArticolo> listaarticoli;
 
 	public HomePageFrame(ControllerShop controller) {
 		ctrl=controller;
+		listaarticoli = new ArrayList<FotoExstendsArticolo>();
+		listaarticoli = ctrl.getArrayArticoli();
 		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 20, 886, 667);
@@ -41,8 +44,9 @@ public class HomePageFrame extends JFrame {
 		btnDonna.setIcon(new ImageIcon(imgdonna));
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrl.negoziodialog = new NegozioDialog(ctrl,"Donna");
-				ctrl.negoziodialog.setVisible(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl,"Donna", listaarticoli);
+//				ctrl.negoziodialog.setVisible(true);
+				ctrl.VisibilitaNegozioDialog(true, "Donna");
 				ctrl.VisibilitaHome(false);
 			}
 		});
@@ -54,8 +58,9 @@ public class HomePageFrame extends JFrame {
 		btnUomo.setIcon(new ImageIcon(imguomo));
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.negoziodialog = new NegozioDialog(ctrl, "Uomo");
-				ctrl.negoziodialog.setVisible(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl, "Uomo", listaarticoli);
+//				ctrl.negoziodialog.setVisible(true);
+				ctrl.VisibilitaNegozioDialog(true, "Uomo");
 				ctrl.VisibilitaHome(false);
 			}
 		});
@@ -67,8 +72,9 @@ public class HomePageFrame extends JFrame {
 		btnBambini.setIcon(new ImageIcon(imgbambini));
 		btnBambini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.negoziodialog = new NegozioDialog(ctrl, "Bambini");
-				ctrl.negoziodialog.setVisible(true);
+				ctrl.negoziodialog = new NegozioDialog(ctrl, "Bambini", listaarticoli);
+//				ctrl.negoziodialog.setVisible(true);
+				ctrl.VisibilitaNegozioDialog(true, "Bambini");
 				ctrl.VisibilitaHome(false);
 			}
 		});
@@ -80,6 +86,7 @@ public class HomePageFrame extends JFrame {
 		btnCarrello.setIcon(new ImageIcon(imgcarrello));
 		btnCarrello.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ctrl.AggiornaTabellaCarrello();
 				ctrl.VisualizzaCarrelloDialog(true);
 			}
 		});
