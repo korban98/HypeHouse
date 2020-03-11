@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
@@ -27,10 +29,12 @@ public class CarrelloDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private ControllerShop ctrl;
 	private JLabel labeltotalepagamento;
+	private JLabel lblMessaggio;
 
-	public CarrelloDialog(ControllerShop controller) {
+	public CarrelloDialog(ControllerShop controller, Utente user) {
 		ctrl=controller;
 		setTitle("Carrello");
+		contentPanel.setForeground(new Color(255, 0, 0));
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 880, 657);
 		setContentPane(contentPanel);
@@ -49,8 +53,13 @@ public class CarrelloDialog extends JDialog {
 		lblhome.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisualizzaCarrelloDialog(false);
-				ctrl.VisibilitaArticoloDialog(false);
-				ctrl.negoziodialog.setVisible(false);
+				//controlla se info articolo è aperta quindi chiudi stesso con negozio
+				if(ctrl.articolodialog != null) {
+					ctrl.VisibilitaArticoloDialog(false);
+				}
+				else if (ctrl.negoziodialog.isVisible() == true) {
+					ctrl.negoziodialog.setVisible(false);
+				}
 				ctrl.VisibilitaHome(true);
 			}
 		});
@@ -79,11 +88,11 @@ public class CarrelloDialog extends JDialog {
 			new Object[][] {
 			},
 			new String[] {
-				"", "Nome", "Colore", "Genere", "Taglia", "Prezzo", "Quantità"
+				"", "CodiceBare", "Nome", "Colore", "Genere", "Taglia", "Prezzo", "Quantità"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-					Boolean.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, Double.class, Integer.class
+					Boolean.class, String.class, String.class, String.class, String.class, String.class, Double.class, Integer.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -123,26 +132,56 @@ public class CarrelloDialog extends JDialog {
 		btnSvuotaCarrello.setBounds(190, 542, 153, 52);
 		contentPanel.add(btnSvuotaCarrello);
 		
-		JButton btnEliminaArticoloSelezionato = new JButton("Elimina articolo \r\n");
+		JButton btnEliminaArticoloSelezionato = new JButton("Rimuovi articoli \r\n");
 		btnEliminaArticoloSelezionato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int selezione = ControllaCheckSelezionate();
+				if(selezione != 0) {
+					lblMessaggio.setVisible(false);
+					RimuoviArticoliSelezionatiCarrello();
+					ctrl.AggiornaTabellaCarrello();
+				}
+				else
+					lblMessaggio.setVisible(true);
 			}
 		});
 		btnEliminaArticoloSelezionato.setBounds(393, 542, 127, 52);
 		contentPanel.add(btnEliminaArticoloSelezionato);
 		
-		JButton btnNewButton = new JButton("Completa ordine");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnComplOrdine = new JButton("Completa ordine");
+		btnComplOrdine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//crea ordine e rimuovi le quantità scelte dal database per ogni articolo
+				if (user != null) {
+					if(ctrl.articolodialog != null) {
+						ctrl.VisibilitaArticoloDialog(false);
+					}
+					else if (ctrl.negoziodialog != null) {
+						ctrl.negoziodialog.setVisible(false);
+					}
+					else if (ctrl.homeframe.isVisible() == true) {
+						ctrl.VisibilitaHome(false);
+					}
+					ctrl.carrellodialog.setVisible(false);
+					ctrl.completaordine.setVisible(true);
+				}
+				else
+					ctrl.VisibilitaLoginDialog(true);
 			}
 		});
-		btnNewButton.setBounds(567, 543, 127, 50);
-		contentPanel.add(btnNewButton);
+		btnComplOrdine.setBounds(567, 543, 127, 50);
+		contentPanel.add(btnComplOrdine);
+		
+		lblMessaggio = new JLabel("nessuna check selezionata");
+		lblMessaggio.setForeground(new Color(255, 0, 0));
+		lblMessaggio.setBounds(393, 603, 127, 14);
+		contentPanel.add(lblMessaggio);
+		lblMessaggio.setVisible(false);
 	}
 	
 	public void AggiungiArticoloaTableCarrello(Articolo art) {
 		DefaultTableModel dtm = (DefaultTableModel) this.table.getModel();
-		dtm.addRow(new Object[] {false, art.getNome(), art.getColore(), art.getGenere(), art.getTaglia(), art.getPrezzo(), art.getQuantita()});
+		dtm.addRow(new Object[] {false, art.getCodiceBarre(), art.getNome(), art.getColore(), art.getGenere(), art.getTaglia(), art.getPrezzo(), art.getQuantita()});
 	}
 	
 	public void SvuotaTabellaCarrello() {
@@ -150,7 +189,31 @@ public class CarrelloDialog extends JDialog {
 		dtm.setRowCount(0);
 	}
 	
+	private void RimuoviArticoliSelezionatiCarrello() {
+		DefaultTableModel dtm = (DefaultTableModel) this.table.getModel();
+		int j = 0;
+		for(int i=0; i<dtm.getRowCount(); i++) {
+			if((Boolean)dtm.getValueAt(i, 0)==true) {
+				ctrl.ReimpostaQuantita((String)dtm.getValueAt(i, 1), (Integer)dtm.getValueAt(i, 7));
+				ctrl.RimuoviArticoloCarrello(j);
+				j--;
+			}
+			j++;
+		}
+	}
+	
+	private int ControllaCheckSelezionate() {
+		int selezionati = 0;
+		DefaultTableModel dtm = (DefaultTableModel) this.table.getModel();
+		for(int i=0; i<dtm.getRowCount(); i++) {
+			if((Boolean)dtm.getValueAt(i, 0)==true)
+				selezionati++;
+		}
+		return selezionati;
+	}
+	
 	public void setTotaleCarrello () {
-		
+		Double tmp = ctrl.SommaTotaleCarrello();
+		labeltotalepagamento.setText(tmp.toString());
 	}
 }

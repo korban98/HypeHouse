@@ -28,7 +28,7 @@ public class InfoArticoloDialog extends JDialog {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private ControllerShop ctrl;
-	private FotoExstendsArticolo art;
+	public FotoExstendsArticolo art;
 	private GridBagConstraints constraint;
 	private ArrayList<ImageIcon> foto;
 	private JLabel lblImgPrincipale;
@@ -42,6 +42,7 @@ public class InfoArticoloDialog extends JDialog {
 	private JLabel genere;
 	private SpinnerNumberModel modelSpinner;
 	private JSpinner spinner;
+	private JLabel lblSelezionareUnaQuantit;
 	  
 	public InfoArticoloDialog(ControllerShop controller, FotoExstendsArticolo articolo) {
 		ctrl = controller;
@@ -67,7 +68,6 @@ public class InfoArticoloDialog extends JDialog {
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisibilitaHome(true);
 				ctrl.VisibilitaArticoloDialog(false);
-//				ctrl.VisibilitaNegozioDialog(false);
 				ctrl.negoziodialog.setVisible(false);
 			}
 		});
@@ -181,17 +181,26 @@ public class InfoArticoloDialog extends JDialog {
 		JButton btnAggiungiAlCarrello = new JButton("Aggiungi al carrello");
 		btnAggiungiAlCarrello.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Integer quantita = new Integer(spinner.getValue().toString());
 				boolean PresenzaArticoloCart = ctrl.ControlloArticoloPresenteCarrello(art);
 				if (PresenzaArticoloCart == false) {
-					ctrl.AggiungiArticoloCarrello(articolo, spinner.getValue().toString());
-//					ctrl.ListaArticoli.get
-					SpinnerNumberModel modelSpinner1 = new SpinnerNumberModel(0, 0, articolo.getQuantita(), 1);
-					spinner.setModel(modelSpinner1);
+					if(quantita != 0) {
+						lblSelezionareUnaQuantit.setVisible(false);
+						ctrl.AggiungiArticoloCarrello(articolo, spinner.getValue().toString());
+						SpinnerNumberModel modelSpinner1 = new SpinnerNumberModel(0, 0, articolo.getQuantita(), 1);
+						spinner.setModel(modelSpinner1);
+					}
+					else 
+						lblSelezionareUnaQuantit.setVisible(true);
 				}
 				else {
+					if(quantita != 0) {
 					ctrl.AggiungiQuantitaArticoloCarrello(articolo, spinner.getValue().toString());
 					SpinnerNumberModel modelSpinner1 = new SpinnerNumberModel(0, 0, articolo.getQuantita(), 1);
 					spinner.setModel(modelSpinner1);
+					}
+					else 
+						lblSelezionareUnaQuantit.setVisible(true);
 				}
 			}
 		});
@@ -234,6 +243,12 @@ public class InfoArticoloDialog extends JDialog {
 		labeloriz.setIcon(new ImageIcon(imglineeoriz));
 	    labeloriz.setBounds(425, 434, 429, 29);
 	    contentPanel.add(labeloriz);
+	    
+	    lblSelezionareUnaQuantit = new JLabel("Selezionare una quantit\u00E0 maggiore di zero.");
+	    lblSelezionareUnaQuantit.setForeground(new Color(255, 0, 0));
+	    lblSelezionareUnaQuantit.setBounds(534, 534, 263, 14);
+	    contentPanel.add(lblSelezionareUnaQuantit);
+	    lblSelezionareUnaQuantit.setVisible(false);
 	}
 	
 	private void setLayoutGrid() {
@@ -253,6 +268,11 @@ public class InfoArticoloDialog extends JDialog {
 			}
 		});
 	    panel.add(lblfoto, constraint);
+	}
+	
+	public void ModificaQuantitaSpinner(int quantita) {
+		SpinnerNumberModel modelSpinner2 = new SpinnerNumberModel(0, 0, quantita, 1);
+		spinner.setModel(modelSpinner2);
 	}
 	
 	private void setInfoLabel() {

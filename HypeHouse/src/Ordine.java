@@ -2,10 +2,12 @@ public class Ordine {
 	private String IdOrdine;
 	private double Totale;
 	private String Stato;
+	private Utente user;
 	private ControllerShop Controller;
 	
 	public Ordine(ControllerShop ctrl) {
-		this.Controller=ctrl;
+		
+		Controller=ctrl;
 	}
 	
 	
@@ -19,9 +21,7 @@ public class Ordine {
 	}
 
 	public void setStato(String stato) {
-		
-		
-	
+		Stato = stato;
 	}
 
 }

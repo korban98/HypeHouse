@@ -41,7 +41,7 @@ public class NegozioDialog extends JFrame {
 	private GridBagConstraints constraint;
 	private JScrollPane scrollPane;
 	private JPanel panel;
-	private ArrayList<FotoExstendsArticolo> listaarticoli;
+	public ArrayList<FotoExstendsArticolo> listaarticoli;
 	private ArrayList<FotoExstendsArticolo> articolipergenere;
 	private JLabel lblSezione;
 	

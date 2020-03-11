@@ -148,6 +148,7 @@ public class MagazzinoFrame extends JFrame {
 		return nome;
 	}
 	
+	//il metodo conta quante check box sono state selezionate
 	private int ControllaCheckSelezionate() {
 		int selezionati = 0;
 		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();

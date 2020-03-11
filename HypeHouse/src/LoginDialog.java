@@ -37,7 +37,7 @@ public class LoginDialog extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					ControlloCredenziali();
 					ctrl.VisibilitaLoginDialog(false);
-					ctrl.VisibilitaHome(false);
+//					ctrl.VisibilitaHome(false);
 				}
 			});
 			btnAccedi.setBounds(66, 229, 102, 23);
@@ -97,23 +97,37 @@ public class LoginDialog extends JDialog {
 		passwordField.setText("");
 	}
 	
-	private void EffettuaAccesso(String tipoutente, String username) {
+	private void EffettuaAccesso(String tipoutente, Utente user) {
 		if(tipoutente.equals("Admin")) {
 			ctrl.AggiornaTabellaMagazzino();
-			ctrl.VisibilitaMagazzinoAdmin(username);
+			ctrl.VisibilitaMagazzinoAdmin(user.getUsername());
+			ctrl.VisibilitaHome(false);
 		}
 		else if(tipoutente.equals("Guest")) {
-			ctrl.VisibilitaNegozioGuest();
+			if(ctrl.carrellodialog.isVisible() == true) {
+				ctrl.carrellodialog.setVisible(false);
+				ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
+				ctrl.AggiornaTabellaCarrello();
+				ctrl.carrellodialog.setVisible(true);
+			}
+			else {
+				ctrl.VisibilitaNegozioGuest();
+				ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
+				ctrl.carrellodialog.revalidate();
+				ctrl.carrellodialog.repaint();
+			}
 		}
 	}
 	
 	@SuppressWarnings("deprecation")
 	private void ControlloCredenziali() {
-		String tipoutenteregistrato = null;
+		Utente user = new Utente(null, null, null, null, null, null);
+//		String tipoutenteregistrato = null;
 		if((UsernameField.getText().length()>0)&&(passwordField.getText().length()>0)) {
-			tipoutenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
-			if(tipoutenteregistrato!=null) {
-				EffettuaAccesso(tipoutenteregistrato, UsernameField.getText());	
+//			tipoutenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
+			user = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
+			if(user.getTipoUtente()!=null) {
+				EffettuaAccesso(user.getTipoUtente(), user);	
 			}
 			else {
 				ctrl.ErroreDialog("Utente non registrato.", "Errore");

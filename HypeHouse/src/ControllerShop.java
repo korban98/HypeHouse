@@ -19,13 +19,14 @@ public class ControllerShop {
 	private RegistrazioneDialog registrazione;
 	public HomePageFrame homeframe;
 	private ResultSet rs;
-	private CarrelloDialog carrellodialog;
+	public CarrelloDialog carrellodialog;
 	public ModificaArticoloMagazFrame modificamagaz;
-	private InfoArticoloDialog articolodialog;
+	public InfoArticoloDialog articolodialog;
 	public static ControllerShop Controller;
 	public ArrayList<FotoExstendsArticolo> ListaArticoli;
 	public ArrayList<Articolo> carrello;
 //	public ArrayList<ImageIcon> FotoArticoli;
+	public CompletaOrdineDialog completaordine;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -35,9 +36,9 @@ public class ControllerShop {
 		magazframe = new MagazzinoFrame(this);	
 		homeframe.setVisible(true);
 		addarticolodialog = new AggiungiArticoloDialog(this);
-		carrellodialog=new CarrelloDialog(this);
+		carrellodialog=new CarrelloDialog(this, null);
 		carrello = new ArrayList<Articolo>();
-//		articolodialog=new InfoArticoloDialog(this);
+		completaordine = new CompletaOrdineDialog(this, null);
 //		ListaArticoli = new ArrayList<FotoExstendsArticolo>();
 //		FotoArticoli = new ArrayList<ImageIcon>();
 //		negoziodialog=new NegozioDialog(this);
@@ -92,11 +93,10 @@ public class ControllerShop {
 	public void VisibilitaNegozioGuest() {
 		login.setVisible(false);
 //		this.VisibilitaNegozioDialog(true);
-		negoziodialog.setVisible(true);
+//		negoziodialog.setVisible(true);
 		homeframe.setbottonelogout();
 		homeframe.revalidate();
 		homeframe.repaint();
-		
 	}
 //	
 //	public void RefreshMagazzino() {
@@ -129,7 +129,8 @@ public class ControllerShop {
 		tmp.setColore(art.getColore());
 		tmp.setGenere(art.getGenere());
 		tmp.setNome(art.getNome());
-		tmp.setPrezzo(art.getPrezzo());
+		tmp.setPrezzo(art.getPrezzo()*tmp.getQuantita());
+//		tmp.setPrezzo(art.getPrezzo());
 		tmp.setTaglia(art.getTaglia());
 		tmp.setQuantita(qnt);
 		carrello.add(tmp);
@@ -144,14 +145,13 @@ public class ControllerShop {
 		} catch(Exception e) {System.out.println(e);}
 	}
 	
-	//il metodo modifica la quantità di un articolo in magazzino dopo averlo aggiunto al carrello
+	//il metodo modifica la quantità logica di un articolo in magazzino dopo averlo aggiunto al carrello
 	public void setNuovaQuantita(FotoExstendsArticolo art,  int qnt) {
 		int nuovaqnt = art.getQuantita()-qnt;
-//		for(FotoExstendsArticolo articolo : ListaArticoli)
-//			if(articolo.getCodiceBarre().equals(art.getCodiceBarre())) {
-//				articolo.setQuantita(nuovaqnt);
 		art.setQuantita(nuovaqnt);
-//			}
+		for(FotoExstendsArticolo articolo : ListaArticoli)
+			if(articolo.equals(art))
+				articolo.setQuantita(nuovaqnt);
 	}
 	
 	//il metodo aggiunge la quantità richiesta al carrello di un articolo che è già stato aggiunto ad esso
@@ -162,6 +162,7 @@ public class ControllerShop {
 				if(item.getCodiceBarre().equals(art.getCodiceBarre())) {
 					int nuovaqnt = item.getQuantita()+quantita;
 					item.setQuantita(nuovaqnt);
+					item.setPrezzo(art.getPrezzo()*item.getQuantita());
 					setNuovaQuantita(art, quantita);
 				}
 			}
@@ -178,15 +179,26 @@ public class ControllerShop {
 	}
 	
 	//il metodo controlla se l'utente inserito è salvato nel database e ritorna il suo tipo
-	public String ControlloUtenteRegistrato(String username, String password) {
-		String tipoutente = null;
+//	public String ControlloUtenteRegistrato(String username, String password) {
+//		String tipoutente = null;
+//		try {
+//			String qry= "SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
+//			rs = dao.Select(qry);
+//			rs.next();
+//			tipoutente = rs.getString(1);
+//		}catch(Exception e) {System.out.println(e);}
+//		return tipoutente;
+//	}
+	
+	public Utente ControlloUtenteRegistrato(String username, String password) {
+		Utente user = new Utente(null, null, null, null, null, null);
 		try {
-			String qry= "SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
+			String qry= "SELECT * FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
 			rs = dao.Select(qry);
 			rs.next();
-			tipoutente = rs.getString(1);
+			user = new Utente(rs.getString("Username"), rs.getString("Password"), rs.getString("TipoUtente"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("Email"));
 		}catch(Exception e) {System.out.println(e);}
-		return tipoutente;
+		return user;
 	}
 	
 	//il metodo restituisce la quantità nel database dell'articolo precedentemente selezionato
@@ -304,6 +316,7 @@ public class ControllerShop {
 		carrellodialog.SvuotaTabellaCarrello();
 		for(Articolo art : carrello) {
 			carrellodialog.AggiungiArticoloaTableCarrello(art);
+		carrellodialog.setTotaleCarrello();
 		}
 	}
 	
@@ -367,14 +380,15 @@ public class ControllerShop {
 	//Registrazione nuovo utente se non è già registrato
 	public void AggiungiUtenteDatabase(String username, String password, String tipo, String nome, String cognome, String email) {
 		boolean success = false;
-		String utenteregistrato = ControlloUtenteRegistrato(username, password);
-		if(utenteregistrato == null) {
+		Utente utenteregistrato = ControlloUtenteRegistrato(username, password);
+		if(utenteregistrato.getTipoUtente() == null) {
 			String qry = "INSERT INTO Utente VALUES ('"+username+"','"+password+"','"+tipo+"','"+nome+"','"+cognome+"','"+email+"')";
 			success = dao.Update(qry);
 		}
 		ControlloUtenteAggiunto(success,tipo);
 	}
 	
+	//il metodo restituisce una dialog che ci conferma se l'utente è stato registrato o meno
 	private void ControlloUtenteAggiunto(boolean success, String tipo) {
 		if((success==true)) {
 			JOptionPane.showMessageDialog(new JFrame(), tipo+" registrato correttamente al Database.", "",
@@ -395,6 +409,29 @@ public class ControllerShop {
 			numeroarticoli = rs.getString("NumeroArticoli");
 			return numeroarticoli;
 		} catch (SQLException e) {return numeroarticoli;}
+	}
+	
+	//il metodo restituisce la somma totale dei prezzi degli articoli nel carrello
+	public double SommaTotaleCarrello() {
+		double tot=0;
+		for(Articolo art : carrello)
+				tot+=(art.getPrezzo());
+		return tot;
+	}
+	
+	//il metodo reimposta la quantità degli articoli nella ListaArticoli eliminati dal carrello
+	public void ReimpostaQuantita(String codbarre, int quantita) {
+		for(FotoExstendsArticolo art : ListaArticoli)
+			if(art.getCodiceBarre().equals(codbarre)) {
+				int qnt = art.getQuantita()+quantita;
+				art.setQuantita(qnt);
+				if(articolodialog.art.getCodiceBarre().equals(codbarre))
+					articolodialog.ModificaQuantitaSpinner(qnt);
+			}
+	}
+	
+	public void RimuoviArticoloCarrello(int i) {
+		carrello.remove(i);
 	}
 	
 	public void setInfoArtDialog(FotoExstendsArticolo art) {

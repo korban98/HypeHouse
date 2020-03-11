@@ -15,7 +15,7 @@ public class CompletaOrdineDialog extends JDialog {
 	private JPanel contentPanel;
 	private ControllerShop ctrl;
 
-	public CompletaOrdineDialog(ControllerShop controller) {
+	public CompletaOrdineDialog(ControllerShop controller, Utente user) {
 		ctrl=controller;
 		setTitle("Magazzino");
 		setBounds(100, 100, 858, 616);
