@@ -112,6 +112,7 @@ public class HomePageFrame extends JFrame {
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setbottoneaccedi();
+				ctrl.carrellodialog = new CarrelloDialog(ctrl, null);
 			}
 		});
 		btnLogout.setBounds(653, 108, 89, 29);

@@ -52,7 +52,8 @@ public class DAO {
 			  for(File cont : file) {
 		  			PreparedStatement pstmt = con.prepareStatement(qry); // lettura del file
 		  			FileInputStream input = new FileInputStream(cont); // set parametri file
-		  			pstmt.setBinaryStream(1, input); pstmt.executeUpdate();
+		  			pstmt.setBinaryStream(1, input); 
+		  			pstmt.executeUpdate();
 		  			flag=true;
 			  }
 			  return flag;

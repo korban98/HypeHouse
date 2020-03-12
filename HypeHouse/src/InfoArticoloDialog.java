@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -14,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Component;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -21,6 +24,7 @@ import javax.swing.JScrollPane;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class InfoArticoloDialog extends JDialog {
 
@@ -51,6 +55,7 @@ public class InfoArticoloDialog extends JDialog {
 		setBounds(100, 100, 886, 667);
 		contentPanel = new JPanel();
 		getContentPane().setBackground(Color.WHITE);
+		contentPanel.setBackground(new Color(255, 255, 255));
 		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
 		this.setResizable(false);
@@ -101,12 +106,16 @@ public class InfoArticoloDialog extends JDialog {
 		Image imgcarrello = new ImageIcon(this.getClass().getResource("/carrellobtn.png")).getImage();
 		lblcarrello.setIcon(new ImageIcon(imgcarrello));
 		
+		Border blackline = BorderFactory.createLineBorder(Color.black);
 		lblImgPrincipale = new JLabel("");
+		lblImgPrincipale.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImgPrincipale.setBackground(Color.WHITE);
 		lblImgPrincipale.setBounds(38, 186, 322, 227);
+		lblImgPrincipale.setBorder(blackline);
 		contentPanel.add(lblImgPrincipale);
 		
 		JLabel lblcodbarre = new JLabel("CodiceBarre");
-		lblcodbarre.setBounds(38, 474, 69, 14);
+		lblcodbarre.setBounds(38, 474, 94, 14);
 		contentPanel.add(lblcodbarre);
 		
 		JLabel lblgenere = new JLabel("Genere");
@@ -122,7 +131,7 @@ public class InfoArticoloDialog extends JDialog {
 		contentPanel.add(lblNome);
 		
 		codbarre = new JLabel("");
-		codbarre.setBounds(133, 474, 77, 14);
+		codbarre.setBounds(133, 474, 126, 14);
 		contentPanel.add(codbarre);
 		
 		genere = new JLabel("");
@@ -130,11 +139,11 @@ public class InfoArticoloDialog extends JDialog {
 		contentPanel.add(genere);
 		
 		nome = new JLabel("");
-		nome.setBounds(133, 424, 126, 14);
+		nome.setBounds(133, 424, 178, 14);
 		contentPanel.add(nome);
 		
 		categoria = new JLabel("");
-		categoria.setBounds(133, 549, 77, 14);
+		categoria.setBounds(133, 549, 126, 14);
 		contentPanel.add(categoria);
 		
 		JLabel lblcolore = new JLabel("Colore");
@@ -150,7 +159,7 @@ public class InfoArticoloDialog extends JDialog {
 		contentPanel.add(lblTaglia);
 		
 		taglia = new JLabel("");
-		taglia.setBounds(133, 524, 89, 14);
+		taglia.setBounds(133, 524, 108, 14);
 		contentPanel.add(taglia);
 		
 		JLabel lblprezzo = new JLabel("Prezzo");
@@ -158,11 +167,11 @@ public class InfoArticoloDialog extends JDialog {
 		contentPanel.add(lblprezzo);
 		
 		prezzo = new JLabel("");
-		prezzo.setBounds(133, 449, 46, 14);
+		prezzo.setBounds(133, 449, 89, 14);
 		contentPanel.add(prezzo);
 		
 		JLabel lblQuantit = new JLabel("Quantit\u00E0");
-		lblQuantit.setBounds(38, 599, 46, 14);
+		lblQuantit.setBounds(38, 599, 69, 14);
 		contentPanel.add(lblQuantit);
 		
 		quantita = new JLabel("");
@@ -284,7 +293,7 @@ public class InfoArticoloDialog extends JDialog {
 		Integer qnt = new Integer(art.getQuantita());
 		quantita.setText(qnt.toString());
 		Double price = new Double(art.getPrezzo());
-		prezzo.setText(price.toString());
+		prezzo.setText("€ "+price.toString());
 		genere.setText(art.getGenere());
 	}
 }

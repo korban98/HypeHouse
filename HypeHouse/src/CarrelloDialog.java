@@ -25,14 +25,16 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 
 public class CarrelloDialog extends JDialog {
-	private JTable table;
+	public JTable table;
 	private final JPanel contentPanel = new JPanel();
 	private ControllerShop ctrl;
 	private JLabel labeltotalepagamento;
 	private JLabel lblMessaggio;
+	private Utente utente;
 
 	public CarrelloDialog(ControllerShop controller, Utente user) {
 		ctrl=controller;
+		utente = user;
 		setTitle("Carrello");
 		contentPanel.setForeground(new Color(255, 0, 0));
 		getContentPane().setBackground(Color.WHITE);
@@ -114,7 +116,7 @@ public class CarrelloDialog extends JDialog {
 		labeltotalepagamento.setBounds(701, 479, 56, 16);
 		contentPanel.add(labeltotalepagamento);
 		
-		JButton btnSvuotaCarrello = new JButton("Svuota e\r\n torna alla Home");
+		JButton btnSvuotaCarrello = new JButton("Svuota e torna alla Home");
 		btnSvuotaCarrello.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSvuotaCarrello.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSvuotaCarrello.addActionListener(new ActionListener() {
@@ -153,17 +155,19 @@ public class CarrelloDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				//crea ordine e rimuovi le quantità scelte dal database per ogni articolo
 				if (user != null) {
-					if(ctrl.articolodialog != null) {
-						ctrl.VisibilitaArticoloDialog(false);
-					}
-					else if (ctrl.negoziodialog != null) {
-						ctrl.negoziodialog.setVisible(false);
-					}
-					else if (ctrl.homeframe.isVisible() == true) {
-						ctrl.VisibilitaHome(false);
-					}
-					ctrl.carrellodialog.setVisible(false);
-					ctrl.completaordine.setVisible(true);
+					ControlloProseguiOrdine();
+//					if(ctrl.articolodialog != null) {
+//						ctrl.VisibilitaArticoloDialog(false);
+//					}
+//					else if (ctrl.negoziodialog != null) {
+//						ctrl.negoziodialog.setVisible(false);
+//					}
+//					if (ctrl.homeframe.isVisible() == true) {
+//						ctrl.VisibilitaHome(false);
+//					}
+					
+//					ctrl.carrellodialog.setVisible(false);
+//					ctrl.completaordine.setVisible(true);
 				}
 				else
 					ctrl.VisibilitaLoginDialog(true);
@@ -200,6 +204,24 @@ public class CarrelloDialog extends JDialog {
 			}
 			j++;
 		}
+	}
+	
+	private void ControlloProseguiOrdine() {
+		Double tot = new Double(labeltotalepagamento.getText());
+		boolean presente = ctrl.ControlloPresenzaArticoliCarrello(utente, tot);
+		if (presente == true) {
+			if(ctrl.articolodialog != null) {
+				ctrl.VisibilitaArticoloDialog(false);
+			}
+			else if (ctrl.negoziodialog != null) {
+				ctrl.negoziodialog.setVisible(false);
+			}
+			if (ctrl.homeframe.isVisible() == true) {
+				ctrl.VisibilitaHome(false);
+			}
+		}
+		else
+			ctrl.ErroreDialog("Non ci sono articoli nel tuo carrello.", "Errore");
 	}
 	
 	private int ControllaCheckSelezionate() {

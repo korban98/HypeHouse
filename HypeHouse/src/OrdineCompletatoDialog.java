@@ -14,11 +14,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class OrdineCompletatoDialog extends JDialog {
-
+	
 	private final JPanel contentPanel = new JPanel();
-
+	private ControllerShop ctrl;
 
 	public OrdineCompletatoDialog(ControllerShop Controller) {
+		ctrl = Controller;
 		setBounds(100, 100, 494, 353);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
@@ -33,18 +34,10 @@ public class OrdineCompletatoDialog extends JDialog {
 		lblLogo.setBounds(151, 13, 170, 82);
 		contentPanel.add(lblLogo);
 		 
-		JLabel lblCongratulazioneIlTuo = new JLabel("Congratulazione il tuo ordine \u00E8 stato ricevuto");
+		JLabel lblCongratulazioneIlTuo = new JLabel("Congratulazioni, il tuo ordine \u00E8 stato effettuato con successo");
 		lblCongratulazioneIlTuo.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblCongratulazioneIlTuo.setBounds(88, 118, 295, 16);
+		lblCongratulazioneIlTuo.setBounds(45, 149, 419, 16);
 		contentPanel.add(lblCongratulazioneIlTuo);
-		
-		JLabel laleb1 = new JLabel("Codice ordine:");
-		laleb1.setBounds(141, 147, 83, 16);
-		contentPanel.add(laleb1);
-		
-		JLabel labelcodiceordine = new JLabel("");
-		labelcodiceordine.setBounds(227, 147, 56, 16);
-		contentPanel.add(labelcodiceordine);
 		
 		JLabel label = new JLabel("");
 		Image imgyes = new ImageIcon(this.getClass().getResource("/yes1.png")).getImage();
@@ -55,7 +48,13 @@ public class OrdineCompletatoDialog extends JDialog {
 		JButton btnTornaAllaHome = new JButton("Torna alla Home");
 		btnTornaAllaHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Controller.VisibilitaHome(true);;
+				ctrl.homeframe = new HomePageFrame(ctrl);
+				ctrl.VisibilitaHome(true);
+				ctrl.homeframe.setbottonelogout();
+				ctrl.completaordine.setVisible(false);
+				ctrl.ordinecompletatodialog.setVisible(false);
+				ctrl.SvuotaTabellaCarrello();
+				ctrl.AggiornaTabellaCarrello();
 			}
 		});
 		btnTornaAllaHome.setBounds(172, 227, 127, 25);

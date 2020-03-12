@@ -27,6 +27,7 @@ public class ControllerShop {
 	public ArrayList<Articolo> carrello;
 //	public ArrayList<ImageIcon> FotoArticoli;
 	public CompletaOrdineDialog completaordine;
+	public OrdineCompletatoDialog ordinecompletatodialog;
 
 	public ControllerShop() {
 		dao = new DAO(this);
@@ -38,7 +39,8 @@ public class ControllerShop {
 		addarticolodialog = new AggiungiArticoloDialog(this);
 		carrellodialog=new CarrelloDialog(this, null);
 		carrello = new ArrayList<Articolo>();
-		completaordine = new CompletaOrdineDialog(this, null);
+		completaordine = new CompletaOrdineDialog(this, null, 0);
+		ordinecompletatodialog = new OrdineCompletatoDialog(this);
 //		ListaArticoli = new ArrayList<FotoExstendsArticolo>();
 //		FotoArticoli = new ArrayList<ImageIcon>();
 //		negoziodialog=new NegozioDialog(this);
@@ -103,6 +105,21 @@ public class ControllerShop {
 //		magazframe.setVisible(false);
 //		magazframe.setVisible(true);
 //	}
+	
+	//il metodo controlla se vi sono articoli nel carrello
+	public boolean ControlloPresenzaArticoliCarrello(Utente user, double totale){
+		boolean presente = false;
+		int numeroart = carrello.size();
+		if(numeroart != 0) {
+			carrellodialog.setVisible(false);
+			completaordine = new CompletaOrdineDialog(this, user, totale);
+			completaordine.setVisible(true);
+			presente = true;
+		}
+		return presente;
+//		else
+//			ErroreDialog("Non sono presenti articoli nel carrello.", "Errore");
+	}
 	
 	public void ChiudiMagazzino() {
 //		homeframe.setVisible(true);
@@ -357,10 +374,40 @@ public class ControllerShop {
 			return ListaArticoli;
 		} catch (Exception e) {return ListaArticoli;}
 	}
-
+	
+	//il metodo richiamato alla conferma dell'ordine, controlla quali articoli ci sono nel carrello e ne riduce la quantità nel database
+	public void ConfermaOrdine() {
+		for(Articolo art : carrello) {
+			for(FotoExstendsArticolo articolo : ListaArticoli) {
+				if(art.getCodiceBarre().equals(articolo.getCodiceBarre())) {
+					Integer nuovaqnt = articolo.getQuantita();
+					ModificaQuantitaArticoloDatabase(nuovaqnt.toString() , articolo.getCodiceBarre());
+				}
+			}
+		}
+	}
+	
+	//il metodo salva l'ordine effettuato nel database
+	public boolean SalvaOrdine(Double totale, String username, String indirizzo, String cap, String citta) {
+		boolean confermato = false;
+		try {
+			String qry = "INSERT INTO ordine (Totale, Username, Indirizzo, CAP, Città) SELECT '"+totale.toString()+"' , u.Username, '"
+					+indirizzo+"', '"+cap+"', '"+citta+"' FROM utente AS u WHERE u.Username = '"+username+"'";
+			confermato = dao.Update(qry);
+			return confermato;
+		} catch (Exception e) {return confermato;}
+	}
+	
+	//il metodo svuota la tabella presente in MagazzinoFrame
 	public void SvuotaTabellaMgazzino() {
 		DefaultTableModel dtm = (DefaultTableModel) magazframe.tableMagazzino.getModel();
 		dtm.setRowCount(0);
+	}
+	
+	public void SvuotaTabellaCarrello() {
+//		DefaultTableModel dtm = (DefaultTableModel) carrellodialog.table.getModel();
+//		dtm.setRowCount(0);
+		carrello.clear();
 	}
 
 	public void ModificaArticoloMagazzino(String codbarre) {
