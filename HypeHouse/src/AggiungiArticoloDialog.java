@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 public class AggiungiArticoloDialog extends JDialog {
  
 	private final JPanel contentPanel = new JPanel();
-
 	private File[] file = null;
 	private JTextField CodiceField;
 	private JTextField GenereField;
@@ -26,6 +25,7 @@ public class AggiungiArticoloDialog extends JDialog {
 	private JTextField QuantitaField;
 	private ControllerShop ctrl;
 	
+	//COSTRUTTORE
 	public AggiungiArticoloDialog(ControllerShop controller) {
 		ctrl = controller;
 		setBounds(100, 100, 439, 605);
@@ -174,14 +174,16 @@ public class AggiungiArticoloDialog extends JDialog {
 		JButton btnSeleFoto = new JButton("Carica foto");
 		btnSeleFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				file = ctrl.instanziaFileChooser();
+				file = ctrl.istanziaFileChooser();
 			}
 		});
 		btnSeleFoto.setBounds(93, 410, 101, 25);
 		contentPanel.add(btnSeleFoto);
 
 	}
-
+	
+	//il metodo controlla che le field siano state riempite e che siano stati selezionati dei file attraverso il file chooser
+	//quindi viene aggiunto il nuovo articolo al Database e svuotate le field
 	private void ControlloCorrettezzaInserimento() {
 		if((CodiceField.getText().length()>0)&&(GenereField.getText().length()>0)&&
 				(CategoriaField.getText().length()>0)&&(NomeField.getText().length()>0)&&

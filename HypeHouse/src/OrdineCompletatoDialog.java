@@ -1,7 +1,5 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,6 +16,7 @@ public class OrdineCompletatoDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private ControllerShop ctrl;
 
+	//COSTRUTTORE
 	public OrdineCompletatoDialog(ControllerShop Controller) {
 		ctrl = Controller;
 		setBounds(100, 100, 494, 353);

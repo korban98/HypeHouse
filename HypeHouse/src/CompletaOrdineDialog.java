@@ -1,7 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,6 +36,7 @@ public class CompletaOrdineDialog extends JDialog {
 	private Utente utente;
 	private double tot;
 	
+	//COSTRUTTORE
 	public CompletaOrdineDialog(ControllerShop controller, Utente user, double totale) {
 		ctrl=controller;
 		utente = user;
@@ -230,6 +228,7 @@ public class CompletaOrdineDialog extends JDialog {
 	    contentPanel.add(lblSelezionaIlTuo);
 	}
 	
+	//il metodo rende visibile le field per il pagamento alla consegna
 	private void VisibilitaFieldConsegna() {
 		lblIndirizzo.setVisible(true);
 		textFieldIndirizzo.setVisible(true);
@@ -247,6 +246,7 @@ public class CompletaOrdineDialog extends JDialog {
 		textFieldCVC.setVisible(false);
 	}
 	
+	//il metodo rende visibile le field per il pagamento con carta
 	private void VisibilitaFieldPagaConCarta() {
 		lblIntestatarioCarta.setVisible(true);
 		textFieldIntestatario.setVisible(true);
@@ -258,6 +258,8 @@ public class CompletaOrdineDialog extends JDialog {
 		textFieldCVC.setVisible(true);
 	}
 	
+	//il metodo controlla se sono stati inseriti valori all'interno delle field per pagamento online
+	//quindi salva l'ordine nel database e lo conferma
 	private void ControlloInserimentoPerPagaOnline() {
 		if((textFieldIndirizzo.getText().length()>0) && (textFieldCitta.getText().length()>0) && (textFieldCAP.getText().length()>0)
 				&& (textFieldIntestatario.getText().length()>0) && (textFieldNumCarta.getText().length()>0) && 
@@ -273,6 +275,8 @@ public class CompletaOrdineDialog extends JDialog {
 		}
 	}
 	
+	//il metodo controlla se sono stati inseriti valori all'interno delle field per pagamento alla consegna
+	//quindi salva l'ordine nel database e lo conferma
 	private void ControlloInserimentoPerPagaAllaConsegna() {
 		if((textFieldIndirizzo.getText().length()>0) && (textFieldCitta.getText().length()>0) && (textFieldCAP.getText().length()>0)) {
 			boolean confermato = ctrl.SalvaOrdine(tot, utente.getUsername(), textFieldIndirizzo.getText(), textFieldCAP.getText(), textFieldCitta.getText());
@@ -286,6 +290,7 @@ public class CompletaOrdineDialog extends JDialog {
 		}
 	}
 	
+	//il metodo svuota le field
 	private void SvuotaField() {
 		textFieldIndirizzo.setText("");
 		textFieldCitta.setText("");

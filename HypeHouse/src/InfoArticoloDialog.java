@@ -1,23 +1,16 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.awt.Component;
-
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JScrollPane;
@@ -48,6 +41,7 @@ public class InfoArticoloDialog extends JDialog {
 	private JSpinner spinner;
 	private JLabel lblSelezionareUnaQuantit;
 	  
+	//COSTRUTTORE
 	public InfoArticoloDialog(ControllerShop controller, FotoExstendsArticolo articolo) {
 		ctrl = controller;
 		art = articolo;
@@ -260,6 +254,7 @@ public class InfoArticoloDialog extends JDialog {
 	    lblSelezionareUnaQuantit.setVisible(false);
 	}
 	
+	//il metodo scorre tutte le immagini dell'array e ne crea una label per ciascuna di esse
 	private void setLayoutGrid() {
 		foto = new ArrayList<ImageIcon>(art.getFotoArticolo());
 		for(ImageIcon img : foto) {
@@ -267,6 +262,7 @@ public class InfoArticoloDialog extends JDialog {
 		}
 	}
 	
+	//il metodo istanzia una label per l'immagine attuale
 	private void CreaLabelPerFoto(ImageIcon img) {
 		JLabel lblfoto = new JLabel();
 		lblfoto.setIcon(img);
@@ -279,11 +275,13 @@ public class InfoArticoloDialog extends JDialog {
 	    panel.add(lblfoto, constraint);
 	}
 	
+	//il metodo modifica la quantità massima selezionabile nello spinner dopo aver inserito un articolo nel carrello
 	public void ModificaQuantitaSpinner(int quantita) {
 		SpinnerNumberModel modelSpinner2 = new SpinnerNumberModel(0, 0, quantita, 1);
 		spinner.setModel(modelSpinner2);
 	}
 	
+	//il metodo setta nelle label di informazione i dettagli dell'articolo
 	private void setInfoLabel() {
 		nome.setText(art.getNome());
 		codbarre.setText(art.getCodiceBarre());

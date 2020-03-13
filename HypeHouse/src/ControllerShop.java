@@ -15,7 +15,6 @@ public class ControllerShop {
 	private AggiungiArticoloDialog addarticolodialog;
 	public NegozioDialog negoziodialog;
 	private Articolo articolo;
-//	private FotoExstendsArticolo articolocompleto;
 	private RegistrazioneDialog registrazione;
 	public HomePageFrame homeframe;
 	private ResultSet rs;
@@ -25,10 +24,10 @@ public class ControllerShop {
 	public static ControllerShop Controller;
 	public ArrayList<FotoExstendsArticolo> ListaArticoli;
 	public ArrayList<Articolo> carrello;
-//	public ArrayList<ImageIcon> FotoArticoli;
 	public CompletaOrdineDialog completaordine;
 	public OrdineCompletatoDialog ordinecompletatodialog;
-
+	
+	//COSTRUTTORE
 	public ControllerShop() {
 		dao = new DAO(this);
 		homeframe = new HomePageFrame(this);
@@ -41,70 +40,12 @@ public class ControllerShop {
 		carrello = new ArrayList<Articolo>();
 		completaordine = new CompletaOrdineDialog(this, null, 0);
 		ordinecompletatodialog = new OrdineCompletatoDialog(this);
-//		ListaArticoli = new ArrayList<FotoExstendsArticolo>();
-//		FotoArticoli = new ArrayList<ImageIcon>();
-//		negoziodialog=new NegozioDialog(this);
-//		System.out.println(ListaArticoli);
 	}
-
+	
+	//MAIN
 	public static void main(String[] args) {
 		Controller = new ControllerShop(); 
 	}
-
-	public void VisibilitaLoginDialog(boolean flag) {
-		login.setVisible(flag);
-	}
-	
-	public void RicaricaTutto() {
-		Controller = new ControllerShop();
-	}
-	
-	public void AggiungiArticoloDialog(boolean flag) {
-		addarticolodialog.setVisible(flag);
-	}
-	
-	public void VisibilitaNegozioDialog(boolean flag, String genere) {		
-		negoziodialog.setVisible(flag);	
-		negoziodialog.SetLabelSezione(genere);
-	}
-	
-	public void VisibilitaHome(boolean flag) {
-		homeframe.setVisible(flag);
-	}
-	
-	public void RicaricaMagazzinoFrame() {
-		magazframe.setVisible(false);
-		magazframe.setVisible(true);
-	}
-
-	public void VisualizzaCarrelloDialog(boolean flag) {
-		carrellodialog.setVisible(flag);
-	}
-
-	public void VisibilitaRegistrazioneDialog(boolean flag) {
-		registrazione.setVisible(flag);
-	}
-	
-	public void VisibilitaMagazzinoAdmin(String nomeadmin) {
-		homeframe.setVisible(false);
-		magazframe.SetLabelNomeAdmin(nomeadmin);
-		magazframe.setVisible(true);
-	    login.setVisible(false);
-	}
-	
-	public void VisibilitaNegozioGuest() {
-		login.setVisible(false);
-//		this.VisibilitaNegozioDialog(true);
-//		negoziodialog.setVisible(true);
-		homeframe.setbottonelogout();
-		homeframe.revalidate();
-		homeframe.repaint();
-	}
-//	
-//	public void RefreshMagazzino() {
-//		magazframe.setVisible(false);
-//		magazframe.setVisible(true);
-//	}
 	
 	//il metodo controlla se vi sono articoli nel carrello
 	public boolean ControlloPresenzaArticoliCarrello(Utente user, double totale){
@@ -117,13 +58,6 @@ public class ControllerShop {
 			presente = true;
 		}
 		return presente;
-//		else
-//			ErroreDialog("Non sono presenti articoli nel carrello.", "Errore");
-	}
-	
-	public void ChiudiMagazzino() {
-//		homeframe.setVisible(true);
-		magazframe.setVisible(false);
 	}
 	
 	//il metodo aggiunge all'ArrayList carrello un nuovo articolo con una data quantità
@@ -131,7 +65,6 @@ public class ControllerShop {
 		Integer quantita = new Integer(qnt);
 		if((quantita <= art.getQuantita()) && (art.getQuantita() != 0)) {
 				AddNuovoArticoloCarrello(art, quantita);
-//				AggiornaQuantitaArticoloDatabase(art, quantita);
 				setNuovaQuantita(art, quantita);
 		}
 		else
@@ -147,7 +80,6 @@ public class ControllerShop {
 		tmp.setGenere(art.getGenere());
 		tmp.setNome(art.getNome());
 		tmp.setPrezzo(art.getPrezzo()*tmp.getQuantita());
-//		tmp.setPrezzo(art.getPrezzo());
 		tmp.setTaglia(art.getTaglia());
 		tmp.setQuantita(qnt);
 		carrello.add(tmp);
@@ -195,18 +127,7 @@ public class ControllerShop {
 		return presente;
 	}
 	
-	//il metodo controlla se l'utente inserito è salvato nel database e ritorna il suo tipo
-//	public String ControlloUtenteRegistrato(String username, String password) {
-//		String tipoutente = null;
-//		try {
-//			String qry= "SELECT TipoUtente FROM Utente WHERE Username = '"+username+"' AND Password = '"+password+"'";
-//			rs = dao.Select(qry);
-//			rs.next();
-//			tipoutente = rs.getString(1);
-//		}catch(Exception e) {System.out.println(e);}
-//		return tipoutente;
-//	}
-	
+	//il metodo controlla se l'utente inserito è salvato nel database e ritorna l'utente stesso
 	public Utente ControlloUtenteRegistrato(String username, String password) {
 		Utente user = new Utente(null, null, null, null, null, null);
 		try {
@@ -290,7 +211,8 @@ public class ControllerShop {
 		return svuota;
 	}
 	
-	public File[] instanziaFileChooser() {
+	//Il metodo inizializza il File Chooser per il prelievo delle immagini degli articoli dalle cartelle del sistema
+	public File[] istanziaFileChooser() {
 		File[] file = null;
 		try{
 			file = dao.PrelevaFileImage();
@@ -319,6 +241,7 @@ public class ControllerShop {
 		JOptionPane.showMessageDialog(new JFrame(), messaggio, titolo,JOptionPane.ERROR_MESSAGE);
 	}
 	
+	//il metodo effettua un controllo se l'articolo è stato aggiunto al Database restituendo una dialog che ne da conferma
 	private void ControlloArticoloAggiunto(boolean success, boolean successfoto) {
 		if((success==true)&&(successfoto==true)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Articolo aggiunto correttamente al Database.", "",
@@ -329,6 +252,7 @@ public class ControllerShop {
 		}
 	}
 	
+	//il metodo svuota la tabella Carrello e la popola con ciascun articolo dell'ArrayList carrello
 	public void AggiornaTabellaCarrello() {
 		carrellodialog.SvuotaTabellaCarrello();
 		for(Articolo art : carrello) {
@@ -356,20 +280,15 @@ public class ControllerShop {
 	public ArrayList<FotoExstendsArticolo> getArrayArticoli(){
 		try {
 			ListaArticoli = new ArrayList<FotoExstendsArticolo>();
-//			FotoArticoli.clear();
 			String qry = "SELECT * FROM Articolo";
 			rs = dao.Select(qry);
 			while(rs.next()) {
 				Double prezzo = new Double(rs.getString("Prezzo"));
 				Integer quantita = new Integer(rs.getString("Quantità")) ;
 				ArrayList<ImageIcon> Foto = PrelevaFoto(rs.getString("CodiceBarre"));
-//				if(PrelevaFoto(rs.getString("CodiceBarre")) != null) {
 				FotoExstendsArticolo articolocompleto = new FotoExstendsArticolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
 						rs.getString("Nome"), rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita, Foto);
 				ListaArticoli.add(articolocompleto);
-//				}
-//				else
-//						ErroreDialog("ggggg", "fffff");
 			}
 			return ListaArticoli;
 		} catch (Exception e) {return ListaArticoli;}
@@ -404,17 +323,12 @@ public class ControllerShop {
 		dtm.setRowCount(0);
 	}
 	
+	//il metodo vuota l'ArrayList carrello
 	public void SvuotaTabellaCarrello() {
-//		DefaultTableModel dtm = (DefaultTableModel) carrellodialog.table.getModel();
-//		dtm.setRowCount(0);
 		carrello.clear();
 	}
-
-	public void ModificaArticoloMagazzino(String codbarre) {
-		modificamagaz = new ModificaArticoloMagazFrame(this,codbarre);
-		modificamagaz.setVisible(true);
-	}
-
+	
+	//il metodo rimuove l'articolo dal Database
 	public boolean RimuoviArticoloMagazzino(String codbarre) {
 		boolean eliminato = false;
 		try {
@@ -477,17 +391,74 @@ public class ControllerShop {
 			}
 	}
 	
+	//il metodo rimuove un elemento dall'ArrayList carrello attraverso il suo indice nella lista
 	public void RimuoviArticoloCarrello(int i) {
 		carrello.remove(i);
 	}
 	
+	//il metodo crea una nuova istanza di InfoArticoloDiaog per un determinato articolo
 	public void setInfoArtDialog(FotoExstendsArticolo art) {
 		articolodialog = new InfoArticoloDialog(this, art);
 		negoziodialog.setVisible(false);
 		articolodialog.setVisible(true);
 	}
 	
+	//il metodo crea una nuova istanza di ControllerShop
+	public void RicaricaTutto() {
+		Controller = new ControllerShop();
+	}
+	
+	//il metodo crea una nuova istanza per poter modificare l'articolo in magazzino
+	public void ModificaArticoloMagazzino(String codbarre) {
+		modificamagaz = new ModificaArticoloMagazFrame(this,codbarre);
+		modificamagaz.setVisible(true);
+	}
+	
+	//I seguenti metodi si occupano di gestire la visibilità dei frame
+	public void VisibilitaLoginDialog(boolean flag) {
+		login.setVisible(flag);
+	}
+	
 	public void VisibilitaArticoloDialog(boolean flag) {
 		articolodialog.setVisible(flag);	
+	}
+	
+	public void AggiungiArticoloDialog(boolean flag) {
+		addarticolodialog.setVisible(flag);
+	}
+	
+	public void VisibilitaNegozioDialog(boolean flag, String genere) {		
+		negoziodialog.setVisible(flag);	
+		negoziodialog.SetLabelSezione(genere);
+	}
+	
+	public void VisibilitaHome(boolean flag) {
+		homeframe.setVisible(flag);
+	}
+
+	public void VisualizzaCarrelloDialog(boolean flag) {
+		carrellodialog.setVisible(flag);
+	}
+
+	public void VisibilitaRegistrazioneDialog(boolean flag) {
+		registrazione.setVisible(flag);
+	}
+	
+	public void VisibilitaMagazzinoAdmin(String nomeadmin) {
+		homeframe.setVisible(false);
+		magazframe.SetLabelNomeAdmin(nomeadmin);
+		magazframe.setVisible(true);
+	    login.setVisible(false);
+	}
+	
+	public void VisibilitaNegozioGuest() {
+		login.setVisible(false);
+		homeframe.setbottonelogout();
+		homeframe.revalidate();
+		homeframe.repaint();
+	}
+	
+	public void ChiudiMagazzino() {
+		magazframe.setVisible(false);
 	}
 } 

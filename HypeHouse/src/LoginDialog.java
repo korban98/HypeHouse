@@ -1,28 +1,22 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
 public class LoginDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
-
 	private JTextField UsernameField;
 	private JPasswordField passwordField;
 	private ControllerShop ctrl;
-	private ResultSet rs;
 	
+	//COSTRUTTORE
 	public LoginDialog(ControllerShop Controller) {
 		ctrl=Controller;
 		setTitle("Log-in");
@@ -37,7 +31,6 @@ public class LoginDialog extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					ControlloCredenziali();
 					ctrl.VisibilitaLoginDialog(false);
-//					ctrl.VisibilitaHome(false);
 				}
 			});
 			btnAccedi.setBounds(66, 229, 102, 23);
@@ -92,39 +85,55 @@ public class LoginDialog extends JDialog {
 		contentPanel.add(lblLogoUser);
 	}
 	
+	//il metodo sviota le field username e password
 	private void SvuotaTextField() {
 		UsernameField.setText("");
 		passwordField.setText("");
 	}
 	
+	//il metodo controlla se l'utente è Admin o Guest
 	private void EffettuaAccesso(String tipoutente, Utente user) {
 		if(tipoutente.equals("Admin")) {
-			ctrl.AggiornaTabellaMagazzino();
-			ctrl.VisibilitaMagazzinoAdmin(user.getUsername());
-			ctrl.VisibilitaHome(false);
+			AccessoAdmin(user);
 		}
 		else if(tipoutente.equals("Guest")) {
-			if(ctrl.carrellodialog.isVisible() == true) {
-				ctrl.carrellodialog.setVisible(false);
-				ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
-				ctrl.AggiornaTabellaCarrello();
-				ctrl.carrellodialog.setVisible(true);
-			}
-			else {
-				ctrl.VisibilitaNegozioGuest();
-				ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
-				ctrl.carrellodialog.revalidate();
-				ctrl.carrellodialog.repaint();
-			}
+			AccessoGuest(user);
 		}
 	}
 	
+	//il metodo rende visibile i frame per l'accesso Admin
+	private void AccessoAdmin(Utente user) {
+		if(ctrl.carrellodialog.isVisible() == true) {
+			ctrl.VisibilitaArticoloDialog(false);
+			ctrl.carrellodialog.setVisible(false);
+			ctrl.negoziodialog.setVisible(false);
+		}
+		ctrl.AggiornaTabellaMagazzino();
+		ctrl.VisibilitaMagazzinoAdmin(user.getUsername());
+		ctrl.VisibilitaHome(false);
+	}
+	
+	//il metodo rende visibile i frame per l'accesso Guest
+	private void AccessoGuest(Utente user) {
+		if(ctrl.carrellodialog.isVisible() == true) {
+			ctrl.carrellodialog.setVisible(false);
+			ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
+			ctrl.AggiornaTabellaCarrello();
+			ctrl.carrellodialog.setVisible(true);
+		}
+		else {
+			ctrl.VisibilitaNegozioGuest();
+			ctrl.carrellodialog = new CarrelloDialog(ctrl, user);
+			ctrl.carrellodialog.revalidate();
+			ctrl.carrellodialog.repaint();
+		}
+	}
+	
+	//il metodo controlla che le credenziali inserite siano presenti nel database, quindi effettua l'accesso
 	@SuppressWarnings("deprecation")
 	private void ControlloCredenziali() {
 		Utente user = new Utente(null, null, null, null, null, null);
-//		String tipoutenteregistrato = null;
 		if((UsernameField.getText().length()>0)&&(passwordField.getText().length()>0)) {
-//			tipoutenteregistrato = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
 			user = ctrl.ControlloUtenteRegistrato(UsernameField.getText(), passwordField.getText());
 			if(user.getTipoUtente()!=null) {
 				EffettuaAccesso(user.getTipoUtente(), user);	

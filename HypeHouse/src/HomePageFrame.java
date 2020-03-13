@@ -1,5 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,11 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
-import javax.swing.JScrollPane;
 
 public class HomePageFrame extends JFrame {
 
@@ -24,6 +18,7 @@ public class HomePageFrame extends JFrame {
 	private ControllerShop ctrl;
 	private ArrayList<FotoExstendsArticolo> listaarticoli;
 
+	//COSTRUTTORE
 	public HomePageFrame(ControllerShop controller) {
 		ctrl=controller;
 		listaarticoli = new ArrayList<FotoExstendsArticolo>();
@@ -45,7 +40,6 @@ public class HomePageFrame extends JFrame {
 		btnDonna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctrl.negoziodialog = new NegozioDialog(ctrl,"Donna", listaarticoli);
-//				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaNegozioDialog(true, "Donna");
 				ctrl.VisibilitaHome(false);
 			}
@@ -59,7 +53,6 @@ public class HomePageFrame extends JFrame {
 		btnUomo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.negoziodialog = new NegozioDialog(ctrl, "Uomo", listaarticoli);
-//				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaNegozioDialog(true, "Uomo");
 				ctrl.VisibilitaHome(false);
 			}
@@ -73,7 +66,6 @@ public class HomePageFrame extends JFrame {
 		btnBambini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.negoziodialog = new NegozioDialog(ctrl, "Bambini", listaarticoli);
-//				ctrl.negoziodialog.setVisible(true);
 				ctrl.VisibilitaNegozioDialog(true, "Bambini");
 				ctrl.VisibilitaHome(false);
 			}
@@ -120,11 +112,13 @@ public class HomePageFrame extends JFrame {
 		btnLogout.setVisible(false);
 	}
 	
+	//il metodo setta visibile il bottone logout
 	public void setbottonelogout() {
 		btnLogout.setVisible(true);
 		btnAccedi.setVisible(false);
 	}
-		 
+		
+	//il metodo setta visibile il bottone login
 	public void setbottoneaccedi() {
 		btnLogout.setVisible(false);
 		btnAccedi.setVisible(true);

@@ -8,7 +8,7 @@ public class Articolo {
 	private Double Prezzo;
 	private int Quantita;
 	
-
+	//COSTRUTTORE
 	public Articolo(String codbarre, String genere, String cat, String nome, String colore, String tag,
 			Double prezzo, int qnt) {
 		setCodiceBarre(codbarre);
@@ -22,6 +22,7 @@ public class Articolo {
 
 	}
 	
+	//getter e setter
 	public String getCodiceBarre() {
 		return CodiceBarre;
 	}

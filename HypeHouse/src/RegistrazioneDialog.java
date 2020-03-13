@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,6 +22,7 @@ public class RegistrazioneDialog extends JDialog {
 	private ControllerShop ctrl;
 	private JTextField textCodiceAdmin;
 
+	//COSTRUTTORE
 	public RegistrazioneDialog(ControllerShop controller) {
 		ctrl = controller;
 		setBounds(100, 100, 464, 586);
@@ -130,6 +129,9 @@ public class RegistrazioneDialog extends JDialog {
 		
 	}
 	
+	//il metodo controlla che siano state compilate tutte le field, controlla se è stato inserito il codice Admin
+	//che viene fornito dal titolare per poter consentire la registrazione agli amministratori
+	//quindi registra il nuovo utente Admin o Guest
 	private void ControlloCorrettezzaInserimento() {
 		if((textUsername.getText().length()>0)&&(textPassword.getText().length()>0)&&(textNome.getText().length()>0)&&
 				(textCognome.getText().length()>0)&&(textEmail.getText().length()>0)){
@@ -150,6 +152,7 @@ public class RegistrazioneDialog extends JDialog {
 			ctrl.ErroreDialog("Riempire correttamente tutti i campi.", "Errore Inserimento");
 	}
 	
+	//il metodo svuota le field
 	private void SvuotaField() {
 		textUsername.setText("");
 		textPassword.setText("");

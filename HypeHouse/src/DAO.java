@@ -14,15 +14,16 @@ public class DAO {
 	private ResultSet rs;
 	private Statement stmt;
 	
+	//COSTRUTTORE
 	public DAO(ControllerShop Controller) {
 		try{  
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 			con = DriverManager.getConnection(  
-			"jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!");
-//			"jdbc:mysql://localhost:3306/mydb","root","!abc123!"    
+			"jdbc:mysql://den1.mysql1.gear.host:3306/hypehousedb","hypehousedb","!abc123!");   
 			}catch(Exception e){ System.out.println(e);} 
 	}
 	
+	//il metodo è usato per fare interrogazioni di modifica al Database 
 	public boolean Update(String qry) {
 		try {
 			stmt= con.createStatement();
@@ -31,6 +32,7 @@ public class DAO {
 		} catch (SQLException e) {return false;}
 	}
 	
+	//il metodo è usato per prelevare le immagini dal sistema e le salva in un array File[]
 	public File[] PrelevaFileImage() {
 		try {
 			File[] file=null;
@@ -45,6 +47,7 @@ public class DAO {
 			} catch (Exception e) {return null;}
 	}
 	
+	//il metodo è usato per inserire le immagini nel Database
 	public boolean InsertImmagineDatabase(File[] file, String qry) {
 		boolean flag = false;
 		try {
@@ -60,6 +63,7 @@ public class DAO {
 		  } catch (Exception e1) {return flag;}
 	}
 	
+	//il metodo è usato per fare interrogazioni di tipo select al Database
 	public ResultSet Select(String qry) {
 		try {
 			stmt= con.createStatement();

@@ -11,6 +11,7 @@ public class FotoExstendsArticolo extends Articolo {
 		setFotoArticolo(foto);
 	}
 
+	//getter e setter
 	public ArrayList<ImageIcon> getFotoArticolo() {
 		return this.FotoArticolo;
 	}

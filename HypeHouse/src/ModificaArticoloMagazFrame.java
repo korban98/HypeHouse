@@ -6,10 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Dimension;
 import javax.swing.JSeparator;
 
 public class ModificaArticoloMagazFrame extends JDialog {
@@ -17,6 +13,7 @@ public class ModificaArticoloMagazFrame extends JDialog {
 	private JSpinner spinner;
 	private String codBarre;
 
+	//COSTRUTTORE
 	public ModificaArticoloMagazFrame(ControllerShop controller, String CodiceBarre) {
 		ctrl = controller;
 		codBarre = CodiceBarre;

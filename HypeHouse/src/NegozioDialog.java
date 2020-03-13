@@ -1,42 +1,21 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Color;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Font;
-import javax.swing.JList;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.Box;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import java.awt.CardLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.ScrollPane;
 
 public class NegozioDialog extends JFrame {
 	
 	private JPanel contentPanel;
-	private JButton btnLogout;
 	private ControllerShop ctrl;
 	private GridBagConstraints constraint;
 	private JScrollPane scrollPane;
@@ -45,10 +24,9 @@ public class NegozioDialog extends JFrame {
 	private ArrayList<FotoExstendsArticolo> articolipergenere;
 	private JLabel lblSezione;
 	
+	//COSTRUTTORE
 	public NegozioDialog(ControllerShop controller, String genere, ArrayList<FotoExstendsArticolo> lista) {
 		ctrl=controller;
-//		listaarticoli = new ArrayList<FotoExstendsArticolo>();
-//		listaarticoli = ctrl.getArrayArticoli();
 		listaarticoli = lista;
 		articolipergenere = new ArrayList<FotoExstendsArticolo>();
 		
@@ -122,10 +100,9 @@ public class NegozioDialog extends JFrame {
 	    constraint.weightx = 1.0f;
 	    constraint.weighty = 1.0f;
 	    setLayoutGrid(genere);
-	    
-//	    scrollPane.setColumnHeaderView(panel);	
 	}
 	
+	//il metodo crea una label per ogni articolo per inserirvi la prima immagine di ognuno
 	private void CreaLabelPerArticolo(int j, int i) {
 		JLabel lblfoto = new JLabel();
 		lblfoto.setIcon(articolipergenere.get(i).getPrimaFotoArticolo());
@@ -133,8 +110,6 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.setInfoArtDialog(articolipergenere.get(i));
-//				InfoArticoloDialog infoarticolo = new InfoArticoloDialog(ctrl, articolipergenere.get(i));
-//				infoarticolo.setVisible(true);
 			}
 		});
 		JLabel lblnome = new JLabel(articolipergenere.get(i).getNome());
@@ -166,6 +141,7 @@ public class NegozioDialog extends JFrame {
 		}
 	}
 	
+	//il metodo popola un ArrayList di articoli dello stesso genere
 	private ArrayList<FotoExstendsArticolo> getArrayArticoliPerGenere(String genere) {
 		for(FotoExstendsArticolo art : listaarticoli) {
 			if(art.getGenere().equals(genere))
@@ -174,6 +150,7 @@ public class NegozioDialog extends JFrame {
 		return articolipergenere;
 	}
 	
+	//il metodo setta la label della sezione genere
 	public void SetLabelSezione(String genere) {
 		lblSezione.setText(genere);
 	}

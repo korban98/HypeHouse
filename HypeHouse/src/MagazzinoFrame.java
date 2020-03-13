@@ -1,7 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,18 +11,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
 import java.awt.Color;
 
 public class MagazzinoFrame extends JFrame {
 
-	
 	private JPanel contentPane;
 	public JTable tableMagazzino;
 	private JLabel lblNomeAdmin;
 	private JLabel lblErroreSelezione;
 	private ControllerShop ctrl;
 	
+	//COSTRUTTORE
 	public MagazzinoFrame(ControllerShop controller) {
 		ctrl=controller;
 		setTitle("Magazzino");
@@ -138,6 +134,7 @@ public class MagazzinoFrame extends JFrame {
 		contentPane.add(lblErroreSelezione);
 	}
 	
+	//il metodo restituisce il nome dell'articolo da modificare
 	private String ArticoloDaModificare() {
 		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
 		String nome=null;
@@ -159,11 +156,13 @@ public class MagazzinoFrame extends JFrame {
 		return selezionati;
 	}
 	
+	//il metodo aggiunge una riga contenente un nuovo articolo alla tabella magazzino
 	public void AggiungiArticoloaTableMagazzino(Articolo a) {
 		DefaultTableModel dtm = (DefaultTableModel) this.tableMagazzino.getModel();
 		dtm.addRow(new Object[] {false, a.getCodiceBarre(), a.getGenere(), a.getCategoria(), a.getNome(), a.getColore(), a.getTaglia(), a.getPrezzo(), a.getQuantita()});
 	}
 	
+	//il metodo setta il nome dell' amministratore che ha effettuato l'accesso nell'apposita label
 	public void SetLabelNomeAdmin(String nomeadmin) {
 		lblNomeAdmin.setText(nomeadmin);
 	}

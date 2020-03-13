@@ -6,6 +6,7 @@ public class Utente {
 	private String Cognome;
 	private String Email;
 	
+	//COSTRUTTORE
 	public Utente(String username,String pswd,String tipo,String nome,String cognome ,String email) {
 		this.setUsername(username);
 		this.setPassword(pswd);
@@ -15,11 +16,7 @@ public class Utente {
 		this.setEmail(email);
 	}
 	
-	
-	
-	
 	//getter and setter
-
 	public String getUsername() {
 		return Username;
 	}

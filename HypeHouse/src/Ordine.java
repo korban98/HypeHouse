@@ -7,6 +7,7 @@ public class Ordine {
 	private String CAP;
 	private String citta;
 	
+	//COSTRUTTORE
 	public Ordine(String idordine, double totale, String stato, String username, String indirizzo, String cap, String citta) {
 		setIdOrdine(idordine);
 		setTotale(totale);
