@@ -20,15 +20,15 @@ public class NegozioDialog extends JFrame {
 	private GridBagConstraints constraint;
 	private JScrollPane scrollPane;
 	private JPanel panel;
-	public ArrayList<FotoExstendsArticolo> listaarticoli;
-	private ArrayList<FotoExstendsArticolo> articolipergenere;
+	public ArrayList<FotoExtendsArticolo> listaarticoli;
+	private ArrayList<FotoExtendsArticolo> articolipergenere;
 	private JLabel lblSezione;
 	
 	//COSTRUTTORE
-	public NegozioDialog(ControllerShop controller, String genere, ArrayList<FotoExstendsArticolo> lista) {
+	public NegozioDialog(ControllerShop controller, String genere, ArrayList<FotoExtendsArticolo> lista) {
 		ctrl=controller;
 		listaarticoli = lista;
-		articolipergenere = new ArrayList<FotoExstendsArticolo>();
+		articolipergenere = new ArrayList<FotoExtendsArticolo>();
 		
 		setTitle("Negozio");
 		setBounds(100, 10, 886, 650);
@@ -51,7 +51,6 @@ public class NegozioDialog extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ctrl.VisibilitaHome(true);
-//				ctrl.VisibilitaNegozioDialog(false);
 				ctrl.negoziodialog.setVisible(false);
 			}
 		});
@@ -142,8 +141,8 @@ public class NegozioDialog extends JFrame {
 	}
 	
 	//il metodo popola un ArrayList di articoli dello stesso genere
-	private ArrayList<FotoExstendsArticolo> getArrayArticoliPerGenere(String genere) {
-		for(FotoExstendsArticolo art : listaarticoli) {
+	private ArrayList<FotoExtendsArticolo> getArrayArticoliPerGenere(String genere) {
+		for(FotoExtendsArticolo art : listaarticoli) {
 			if(art.getGenere().equals(genere))
 				articolipergenere.add(art);
 		}

@@ -22,7 +22,7 @@ public class ControllerShop {
 	public ModificaArticoloMagazFrame modificamagaz;
 	public InfoArticoloDialog articolodialog;
 	public static ControllerShop Controller;
-	public ArrayList<FotoExstendsArticolo> ListaArticoli;
+	public ArrayList<FotoExtendsArticolo> ListaArticoli;
 	public ArrayList<Articolo> carrello;
 	public CompletaOrdineDialog completaordine;
 	public OrdineCompletatoDialog ordinecompletatodialog;
@@ -61,7 +61,7 @@ public class ControllerShop {
 	}
 	
 	//il metodo aggiunge all'ArrayList carrello un nuovo articolo con una data quantità
-	public void AggiungiArticoloCarrello(FotoExstendsArticolo art, String qnt) {
+	public void AggiungiArticoloCarrello(FotoExtendsArticolo art, String qnt) {
 		Integer quantita = new Integer(qnt);
 		if((quantita <= art.getQuantita()) && (art.getQuantita() != 0)) {
 				AddNuovoArticoloCarrello(art, quantita);
@@ -72,7 +72,7 @@ public class ControllerShop {
 		}	
 	
 	//il metodo crea una nuova istanza di articolo viene settata la quantita e aggiunto all'ArrayList carrello
-	public void AddNuovoArticoloCarrello(FotoExstendsArticolo art, int qnt) {
+	public void AddNuovoArticoloCarrello(FotoExtendsArticolo art, int qnt) {
 		Articolo tmp = new Articolo(null, null, null, null, null, null, null, qnt);
 		tmp.setCategoria(art.getCategoria());
 		tmp.setCodiceBarre(art.getCodiceBarre());
@@ -86,7 +86,7 @@ public class ControllerShop {
 	}
 	
 	//il metodo modifica la quantità nel database dell'articolo aggiunto al carrello
-	public void AggiornaQuantitaArticoloDatabase(FotoExstendsArticolo art,  int qnt) {
+	public void AggiornaQuantitaArticoloDatabase(FotoExtendsArticolo art,  int qnt) {
 		try {
 			setNuovaQuantita(art, qnt);
 			String qry = "UPDATE Articolo SET Quantità = '"+art.getQuantita()+"' WHERE CodiceBarre = '"+art.getCodiceBarre()+"'";
@@ -95,16 +95,16 @@ public class ControllerShop {
 	}
 	
 	//il metodo modifica la quantità logica di un articolo in magazzino dopo averlo aggiunto al carrello
-	public void setNuovaQuantita(FotoExstendsArticolo art,  int qnt) {
+	public void setNuovaQuantita(FotoExtendsArticolo art,  int qnt) {
 		int nuovaqnt = art.getQuantita()-qnt;
 		art.setQuantita(nuovaqnt);
-		for(FotoExstendsArticolo articolo : ListaArticoli)
+		for(FotoExtendsArticolo articolo : ListaArticoli)
 			if(articolo.equals(art))
 				articolo.setQuantita(nuovaqnt);
 	}
 	
 	//il metodo aggiunge la quantità richiesta al carrello di un articolo che è già stato aggiunto ad esso
-	public void AggiungiQuantitaArticoloCarrello(FotoExstendsArticolo art, String qnt) {
+	public void AggiungiQuantitaArticoloCarrello(FotoExtendsArticolo art, String qnt) {
 		Integer quantita = new Integer(qnt);
 		if((quantita <= art.getQuantita()) && (art.getQuantita() != 0)) {
 			for(Articolo item : carrello)
@@ -118,7 +118,7 @@ public class ControllerShop {
 	}
 	
 	//il metodo controlla la presenza dell'articolo selezionato nel carrello
-	public boolean ControlloArticoloPresenteCarrello(FotoExstendsArticolo art) {
+	public boolean ControlloArticoloPresenteCarrello(FotoExtendsArticolo art) {
 		boolean presente = false;
 		for(Articolo articolo : carrello) {
 			if(articolo.getCodiceBarre().equals(art.getCodiceBarre()))
@@ -277,16 +277,16 @@ public class ControllerShop {
 	}
 	
 	//Il metodo popola un Array List di Articoli, comprese le foto associate presenti nel Database
-	public ArrayList<FotoExstendsArticolo> getArrayArticoli(){
+	public ArrayList<FotoExtendsArticolo> getArrayArticoli(){
 		try {
-			ListaArticoli = new ArrayList<FotoExstendsArticolo>();
+			ListaArticoli = new ArrayList<FotoExtendsArticolo>();
 			String qry = "SELECT * FROM Articolo";
 			rs = dao.Select(qry);
 			while(rs.next()) {
 				Double prezzo = new Double(rs.getString("Prezzo"));
 				Integer quantita = new Integer(rs.getString("Quantità")) ;
 				ArrayList<ImageIcon> Foto = PrelevaFoto(rs.getString("CodiceBarre"));
-				FotoExstendsArticolo articolocompleto = new FotoExstendsArticolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
+				FotoExtendsArticolo articolocompleto = new FotoExtendsArticolo(rs.getString("CodiceBarre"), rs.getString("Genere"), rs.getString("Categoria"), 
 						rs.getString("Nome"), rs.getString("Colore"), rs.getString("Taglia"), prezzo, quantita, Foto);
 				ListaArticoli.add(articolocompleto);
 			}
@@ -297,7 +297,7 @@ public class ControllerShop {
 	//il metodo richiamato alla conferma dell'ordine, controlla quali articoli ci sono nel carrello e ne riduce la quantità nel database
 	public void ConfermaOrdine() {
 		for(Articolo art : carrello) {
-			for(FotoExstendsArticolo articolo : ListaArticoli) {
+			for(FotoExtendsArticolo articolo : ListaArticoli) {
 				if(art.getCodiceBarre().equals(articolo.getCodiceBarre())) {
 					Integer nuovaqnt = articolo.getQuantita();
 					ModificaQuantitaArticoloDatabase(nuovaqnt.toString() , articolo.getCodiceBarre());
@@ -382,7 +382,7 @@ public class ControllerShop {
 	
 	//il metodo reimposta la quantità degli articoli nella ListaArticoli eliminati dal carrello
 	public void ReimpostaQuantita(String codbarre, int quantita) {
-		for(FotoExstendsArticolo art : ListaArticoli)
+		for(FotoExtendsArticolo art : ListaArticoli)
 			if(art.getCodiceBarre().equals(codbarre)) {
 				int qnt = art.getQuantita()+quantita;
 				art.setQuantita(qnt);
@@ -397,7 +397,7 @@ public class ControllerShop {
 	}
 	
 	//il metodo crea una nuova istanza di InfoArticoloDiaog per un determinato articolo
-	public void setInfoArtDialog(FotoExstendsArticolo art) {
+	public void setInfoArtDialog(FotoExtendsArticolo art) {
 		articolodialog = new InfoArticoloDialog(this, art);
 		negoziodialog.setVisible(false);
 		articolodialog.setVisible(true);

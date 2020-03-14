@@ -16,12 +16,12 @@ public class HomePageFrame extends JFrame {
 	private JButton btnAccedi;
 	private JButton btnLogout;
 	private ControllerShop ctrl;
-	private ArrayList<FotoExstendsArticolo> listaarticoli;
+	private ArrayList<FotoExtendsArticolo> listaarticoli;
 
 	//COSTRUTTORE
 	public HomePageFrame(ControllerShop controller) {
 		ctrl=controller;
-		listaarticoli = new ArrayList<FotoExstendsArticolo>();
+		listaarticoli = new ArrayList<FotoExtendsArticolo>();
 		listaarticoli = ctrl.getArrayArticoli();
 		setTitle("Home Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -25,7 +25,7 @@ public class InfoArticoloDialog extends JDialog {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private ControllerShop ctrl;
-	public FotoExstendsArticolo art;
+	public FotoExtendsArticolo art;
 	private GridBagConstraints constraint;
 	private ArrayList<ImageIcon> foto;
 	private JLabel lblImgPrincipale;
@@ -42,7 +42,7 @@ public class InfoArticoloDialog extends JDialog {
 	private JLabel lblSelezionareUnaQuantit;
 	  
 	//COSTRUTTORE
-	public InfoArticoloDialog(ControllerShop controller, FotoExstendsArticolo articolo) {
+	public InfoArticoloDialog(ControllerShop controller, FotoExtendsArticolo articolo) {
 		ctrl = controller;
 		art = articolo;
 		setTitle("Descrizione articolo");
