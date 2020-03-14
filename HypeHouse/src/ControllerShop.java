@@ -12,7 +12,7 @@ public class ControllerShop {
 	private DAO dao;
 	private MagazzinoFrame magazframe;
 	private LoginDialog login;
-	private AggiungiArticoloDialog addarticolodialog;
+	public AggiungiArticoloDialog addarticolodialog;
 	public NegozioDialog negoziodialog;
 	private Articolo articolo;
 	private RegistrazioneDialog registrazione;

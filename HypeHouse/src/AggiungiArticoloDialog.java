@@ -54,6 +54,7 @@ public class AggiungiArticoloDialog extends JDialog {
 					ctrl.SvuotaTabellaMgazzino();
 					ctrl.AggiornaTabellaMagazzino();
 					ctrl.AggiungiArticoloDialog(false);
+					ctrl.addarticolodialog = new AggiungiArticoloDialog(ctrl);
 				}
 			});
 			cancelButton.setBounds(267, 486, 101, 46);
